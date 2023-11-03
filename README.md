@@ -20,6 +20,27 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Firebase Setup
+
+1. Navigate to [Firebase Console](https://firebase.google.com/ "Firebase") and sign in.
+2. Click on **Add Project** and enter project name as CS554-Unigrow. Click on **Continue**.
+3. On the next screen you can choose if you want to enable analytics for your project.
+4. Click on **Create project** .
+5. Next, you need to create a web app. On your project homepage click on the web icon to create your web app:
+   ![Select Web](https://www.freecodecamp.org/news/content/images/2023/02/Screenshot-2023-02-15-at-5.40.33-PM.png "Create a firebase Web App.")
+6. Give your web app a name and click **Register app**.
+7. Copy the configuration file we are going to need it later. Click next until you are done.
+8. Create a `.env` file in the root directory of your Next.js project and add your Firebase configuration files (the ones you copied earlier). It should look like this:
+   ```
+   NEXT_PUBLIC_FIREBASE_API_KEY=api-key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=auth-domain
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=project-id
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=storage-bucket
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=sender-id
+   NEXT_PUBLIC_FIREBASE_APP_ID=app-id
+   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=analytic-id
+   ```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
