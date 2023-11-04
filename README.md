@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+to seed the project's mongodb do the following
+hit the api route post request using the special md5 key from env files NEXT_API_SEED_SECRET generated using https://www.md5hashgenerator.com/
+
 First, run the development server:
 
 ```bash
