@@ -1,12 +1,10 @@
 import { getCourseById } from "../data";
-interface CourseDetailProps {
-  params: Record<string, string>;
-} 
-const CourseDetail = async ({ params }: CourseDetailProps) => {
+
+// fix this shit 
+const CourseDetail1 = async ({ params }) => {
   const { id } = params;
 
   const course = await getCourseById(id);
-
   return (
     <div>
       <div className="px-4 sm:px-0">
@@ -115,4 +113,9 @@ const CourseDetail = async ({ params }: CourseDetailProps) => {
   );
 };
 
+
+const CourseDetail = async () => {
+  return (<div>test</div>)
+
+}
 export default CourseDetail;
