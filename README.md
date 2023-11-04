@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+to seed the project's mongodb do the following
+hit the api route http://localhost:3000/api/mongo/
+
 First, run the development server:
 
 ```bash
