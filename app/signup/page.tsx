@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { google_sign_in, create_plain_user } from "./data";
 // interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const Signup = ({ className, ...props }) => {
+const Signup = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -40,7 +40,7 @@ const Signup = ({ className, ...props }) => {
   }
 
   return (
-    <div className={cn("grid gap-10", className)} {...props}>
+    <div className={cn("grid gap-10")} >
       <h1 className="text-center">Create an account</h1>
       <h3 className="text-center">
         Enter a .edu email password below to create your account
