@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const Courses = async () => {
-  const data = await getAllCourses();
+  const data = await getAllCourses(true);
 
   return (
     <div className="">

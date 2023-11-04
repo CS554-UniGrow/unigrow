@@ -25,9 +25,13 @@ async function seed() {
   }
 }
 
-export async function GET(request: NextRequest, response: NextResponse) {
-  // get request parameters from NextRequest
-  console.log(request);
-  const courses = await seed();
-  return NextResponse.json({ message: courses });
+export async function POST(request: NextRequest, response: NextResponse) {
+  const apiKey = request.headers.get("x-api-key");
+  if (apiKey == process.env.NEXT_API_SEED_SECRET) {
+    const courses = await seed();
+    console.log("Seeding data...");
+    return NextResponse.json({ message: courses });
+  } else {
+    return NextResponse.json({ message: "Invalid API key" });
+  }
 }
