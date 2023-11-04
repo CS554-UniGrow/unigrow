@@ -1,6 +1,8 @@
 import { getCourseById } from "../data";
-
-const CourseDetail = async ({ params }) => {
+interface CourseDetailProps {
+  params: Record<string, string>;
+} 
+const CourseDetail = async ({ params }: CourseDetailProps) => {
   const { id } = params;
 
   const course = await getCourseById(id);
