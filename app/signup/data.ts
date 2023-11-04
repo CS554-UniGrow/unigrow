@@ -13,7 +13,7 @@ import {
 const auth = getAuth(app);
 
 //create user with plain email and password
-export const create_plain_user = async (email, password) => {
+export const create_plain_user = async (email: string, password: string) => {
   try {
     if (!email.endsWith("stevens.edu")) {
       throw "Must use a Stevens college ID only";
@@ -28,18 +28,17 @@ export const create_plain_user = async (email, password) => {
   }
 };
 // plain email and password login
-export const loginEmailPassword = async (email, password) => {
+export const loginEmailPassword = async (email: string, password: string) => {
   try {
     const user_credentials = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
+    console.log(user_credentials);
   } catch (e) {
     console.log(e);
   }
-
-  console.log(user_credentials);
 };
 
 //Logout function
