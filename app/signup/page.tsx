@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { google_sign_in, create_plain_user } from "./data";
-// interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { SyntheticEvent } from "react";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -24,13 +24,7 @@ const Signup = () => {
     }, 3000);
   }
 
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
 
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
 
   function handleSignup() {
     if (!isLoading) {
@@ -38,6 +32,18 @@ const Signup = () => {
       create_plain_user(email, password);
     }
   }
+
+  function handleEmailChange(e: SyntheticEvent) {
+    setEmail((e.target as HTMLInputElement).value);
+  }
+
+  function handlePasswordChange(e: SyntheticEvent) {
+    setPassword((e.target as HTMLInputElement).value);
+  }
+
+  
+
+  
 
   return (
     <div className={cn("grid gap-10")} >
