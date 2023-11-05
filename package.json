@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --check --ignore-path .gitignore .",
-    "format:fix": "prettier --write --ignore-path .gitignore .",
+    "format": "prettier --eol=lf --check --ignore-path .gitignore .",
+    "format:fix": "prettier --eol=lf --write --ignore-path .gitignore .",
     "lint": "next lint ",
     "lintfix": "next lint --fix",
     "seed": "node -e \"import('./scripts/seed.js').then(seed => seed.seed());\""
