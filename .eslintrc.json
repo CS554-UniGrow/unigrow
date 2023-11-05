@@ -1,18 +1,10 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next", "prettier"],
   "rules": {
     // override default options
-    "comma-dangle": [
-      "error"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "no-cond-assign": [
-      "error",
-      "always"
-    ],
+    "comma-dangle": ["error"],
+    "indent": ["error", 2],
+    "no-cond-assign": ["error", "always"],
     // disable now, but enable in the future
     "one-var": "off", // ["error", "never"]
     // disable

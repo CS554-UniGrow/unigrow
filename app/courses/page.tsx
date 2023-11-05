@@ -20,7 +20,7 @@ const Courses = async () => {
         <span className="text-2xl">Courses in CS</span>
       </div>
       <div className="grid grid-cols-4 py-4">
-        {data?.map((course:any) => (
+        {data?.map((course: any) => (
           <Card key={course?.id}>
             <CardHeader>
               <Link href={`/courses/${course?.id}`}>
