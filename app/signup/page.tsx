@@ -14,6 +14,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [currentUser, setCurrentUser] = React.useState([]);
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -23,8 +24,6 @@ const Signup = () => {
       setIsLoading(false);
     }, 3000);
   }
-
-
 
   function handleSignup() {
     if (!isLoading) {
@@ -41,12 +40,14 @@ const Signup = () => {
     setPassword((e.target as HTMLInputElement).value);
   }
 
-  
+  async function handleGoogleSignup() {
+    const result = await google_sign_in();
 
-  
+    setCurrentUser(result);
+  }
 
   return (
-    <div className={cn("grid gap-10")} >
+    <div className={cn("grid gap-10")}>
       <h1 className="text-center">Create an account</h1>
       <h3 className="text-center">
         Enter a .edu email password below to create your account
@@ -102,7 +103,7 @@ const Signup = () => {
         </div>
       </div>
       <Button
-        onClick={google_sign_in}
+        onClick={handleGoogleSignup}
         variant="outline"
         type="button"
         disabled={isLoading}
