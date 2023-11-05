@@ -9,12 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { google_sign_in, create_plain_user } from "./data";
 import { SyntheticEvent } from "react";
+import { UserContext } from "@/components/userComponent";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [currentUser, setCurrentUser] = React.useState([]);
+  const { currentUser, setCurrentUser } = React.useContext(UserContext);
+  const [redirectUser, setRedirectUser] = React.useState(false);
+
+  const router = useRouter();
 
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -44,7 +49,20 @@ const Signup = () => {
     const result = await google_sign_in();
 
     setCurrentUser(result);
+
+    if (result) {
+      setRedirectUser(true);
+    }
   }
+  console.log(currentUser);
+  React.useEffect(() => {
+    // Redirect to '/questions' after setCurrentUser updates the user
+    if (redirectUser) {
+      router.push("/questions");
+    } else {
+      router.push("/signup");
+    }
+  }, [redirectUser, currentUser, router]);
 
   return (
     <div className={cn("grid gap-10")}>

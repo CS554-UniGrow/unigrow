@@ -1,5 +1,8 @@
 import fs from "fs";
-import { dbConnection, closeConnection } from "../../../config/mongo/mongoConnection";
+import {
+  dbConnection,
+  closeConnection
+} from "../../../config/mongo/mongoConnection";
 import { courses as courseCollection } from "../../../config/mongo/mongoCollections";
 import { NextRequest, NextResponse } from "next/server";
 
