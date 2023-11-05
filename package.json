@@ -9,7 +9,7 @@
     "format": "prettier --end-of-line lf --check --ignore-path .gitignore .",
     "format:fix": "prettier --end-of-line lf --write --ignore-path .gitignore .",
     "lint": "next lint ",
-    "lintfix": "next lint --fix",
+    "lint:fix": "next lint --fix",
     "seed": "node -e \"import('./scripts/seed.js').then(seed => seed.seed());\""
   },
   "dependencies": {

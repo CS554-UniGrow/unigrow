@@ -19,7 +19,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
             <Nav />
-            <div className="flex-1 mt-16 p-10">{children}</div>
+            <div className="mt-16 flex-1 p-10">{children}</div>
           </div>
         </ThemeProvider>
       </body>
