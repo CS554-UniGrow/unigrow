@@ -1,4 +1,3 @@
-import { getAllCourses } from "./data";
 import {
   Card,
   CardContent,
@@ -9,9 +8,12 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { departmentList } from "@/lib/constants";
 
 const Courses = async () => {
-  const data = await getAllCourses(true);
+  // const data = await getAllCourses(true);
+
+  return <div> Hello</div>;
 
   return (
     <div className="">
@@ -19,8 +21,8 @@ const Courses = async () => {
         <h3 className="text-5xl">All Courses</h3>
         <span className="text-2xl">Courses in CS</span>
       </div>
-      <div className="grid grid-cols-4 py-4">
-        {data?.map((course: any) => (
+      <div className="grid grid-cols-4 gap-8 py-4">
+        {departmentList?.map((department: any) => (
           <Card key={course?.id}>
             <CardHeader>
               <Link href={`/courses/${course?.id}`}>

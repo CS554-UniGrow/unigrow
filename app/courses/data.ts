@@ -1,7 +1,7 @@
 import { db } from "@/firebase";
 
 import { doc, collection, getDoc, getDocs } from "firebase/firestore";
-import { courses as courseColleciton } from "../api/mongo/mongoCollections";
+import { courses as courseColleciton } from "../../config/mongo/mongoCollections";
 import { ObjectId } from "mongodb";
 
 export const getAllCourses = async (isMongo: boolean) => {
