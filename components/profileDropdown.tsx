@@ -1,5 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { UserContext } from "./userComponent";
+import { useContext } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,12 +15,13 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 
 export default function ProfileDropdown() {
+  const { currentUser } = useContext(UserContext);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarImage src={currentUser?.user.photoURL} alt="@shadcn" />
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
         </Button>
@@ -26,9 +29,11 @@ export default function ProfileDropdown() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="flex justify-between font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Dhruv V</p>
+            <p className="text-sm font-medium leading-none">
+              {currentUser?.user.displayName}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
-              dvaghela@stevens.edu
+              {currentUser?.user.email}
             </p>
           </div>
           <ThemeToggle />
