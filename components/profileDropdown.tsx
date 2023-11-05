@@ -27,7 +27,7 @@ export default function ProfileDropdown() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal flex justify-between">
+        <DropdownMenuLabel className="flex justify-between font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
               {currentUser?.user.displayName}

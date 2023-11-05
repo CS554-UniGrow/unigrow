@@ -17,7 +17,7 @@ import ProfileDropdown from "@/components/profileDropdown";
 
 export default function Nav() {
   return (
-    <NavigationMenu className="px-8 flex fixed top-0 w-full border-b-2 border-b- py-2 items-center justify-between">
+    <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 px-8 py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/dashboard" legacyBehavior passHref>
