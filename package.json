@@ -13,6 +13,7 @@
     "seed": "node -e \"import('./scripts/seed.js').then(seed => seed.seed());\""
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
@@ -29,12 +30,14 @@
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.0.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^9.0.6",
     "autoprefixer": "^10.4.16",
     "eslint-config-next": "14.0.1",
     "eslint-config-prettier": "^9.0.0",

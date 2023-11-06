@@ -16,37 +16,25 @@ import {
 import ProfileDropdown from "@/components/profileDropdown";
 
 export default function Nav() {
+  const navLinks = [
+    { title: "Dashboard", path: "/dashboard" },
+    { title: "Courses", path: "/courses" },
+    { title: "People", path: "/people" },
+    { title: "Resources", path: "/resources" }
+  ];
+
   return (
-    <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 px-8 py-2">
+    <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link href="/dashboard" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Dashboard
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/courses" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Courses
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/people" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              People
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/resources" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Resources
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        {navLinks.map((link) => (
+          <NavigationMenuItem key={link.title}>
+            <Link href={link.path} legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                {link.title}
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        ))}{" "}
       </NavigationMenuList>
       <NavigationMenuList>
         <NavigationMenuItem>
