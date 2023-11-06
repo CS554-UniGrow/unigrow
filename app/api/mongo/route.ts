@@ -1,9 +1,6 @@
 import fs from "fs";
-import {
-  dbConnection,
-  closeConnection
-} from "../../../config/mongo/mongoConnection";
-import { courses as courseCollection } from "../../../config/mongo/mongoCollections";
+import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection";
+import { courses as courseCollection } from "@/config/mongo/mongoCollections";
 import { NextRequest, NextResponse } from "next/server";
 
 const rawData = fs.readFileSync("./scripts/course_data_extracted.json", "utf8");
