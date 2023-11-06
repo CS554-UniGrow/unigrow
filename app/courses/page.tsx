@@ -33,7 +33,7 @@ const Departments = async () => {
             </CardHeader>
             <CardContent></CardContent>
             <CardFooter>
-              <Link href={`/courses/${department?.course_code}`}>
+              <Link href={`/courses/${department?.course_code.toLowerCase()}`}>
                 <Button className="text-sm">
                   View Courses in {department?.course_code}
                 </Button>

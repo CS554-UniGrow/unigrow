@@ -16,9 +16,9 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
   const courses: Course[] = await getCourseByDepartment(code);
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl">
       <h1 className="text-3xl">
-        All courses under Department of {departmentMapper[code]}
+        All courses under Department of {departmentMapper[code.toUpperCase()]}
       </h1>
       {courses.map((course) => (
         <Accordion type="single" key={course._id} collapsible>
