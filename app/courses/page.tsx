@@ -30,18 +30,8 @@ const Departments = async () => {
                   {department.department}
                 </CardTitle>
               </Link>
-              {/* <CardDescription className="text-lg">
-                {course.course_code}
-              </CardDescription> */}
             </CardHeader>
-            <CardContent>
-              {/* <p>
-                Professor: <span>{course.professor}</span>
-              </p>
-              <p>
-                Email: <span>{course.professor_email}</span>
-              </p> */}
-            </CardContent>
+            <CardContent></CardContent>
             <CardFooter>
               <Link href={`/courses/${department?.course_code}`}>
                 <Button className="text-sm">

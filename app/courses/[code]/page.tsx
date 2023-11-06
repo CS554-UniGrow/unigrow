@@ -32,7 +32,12 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                       Professor Name
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      {course?.course_professors}
+                      {course?.course_professors.map((professor) => (
+                        <span className="mr-4" key={professor}>
+                          {professor}
+                        </span>
+                      ))}{" "}
+                      {course?.course_professors.length === 0 && <span>-</span>}
                     </dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -40,7 +45,7 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                       Description
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      {course?.course_description}
+                      {course?.course_description || <span>-</span>}
                     </dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -59,6 +64,7 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                           {prereq}
                         </span>
                       ))}{" "}
+                      {course?.course_prereqs.length === 0 && <span>-</span>}
                     </dd>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
