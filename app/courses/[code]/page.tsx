@@ -95,7 +95,14 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                       Students Enrolled
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      Dhruv Vaghela, Yuvaraj Nagi, Sanjeet Jain, Yash Baleri
+                      {course?.currently_enrolled.map((enrolled) => (
+                        <span className="mr-4" key={enrolled}>
+                          {enrolled}
+                        </span>
+                      ))}{" "}
+                      {course?.currently_enrolled.length === 0 && (
+                        <span>-</span>
+                      )}
                     </dd>
                   </div>
 
