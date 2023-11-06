@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  getUserProfile,
+  getUserProfileDetails,
   getUsersCourseDetails
 } from "@/data/canvas_extractor/canvas_api_extractor";
 

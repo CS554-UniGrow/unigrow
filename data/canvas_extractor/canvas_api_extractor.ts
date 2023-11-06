@@ -4,7 +4,7 @@ import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
 import { courseList, semesters } from "@/lib/constants";
 let domain = "https://sit.instructure.com/api/v1/";
 
-async function getUserProfile(apiKey: string) {
+async function getUserProfileDetails(apiKey: string) {
   let url = domain + "users/self/profile";
   // use UserProfile type with the axios call
   let response = {} as UserProfile;
@@ -77,4 +77,4 @@ async function getUsersCourseDetails(apiKey: string) {
   return response;
 }
 
-export { getUserProfile, getUsersCourseDetails };
+export { getUserProfileDetails, getUsersCourseDetails };
