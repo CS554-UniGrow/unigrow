@@ -10,40 +10,32 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { departmentList } from "@/lib/constants";
 
-const Courses = async () => {
-  // const data = await getAllCourses(true);
-
-  return <div> Hello</div>;
-
+const Departments = async () => {
   return (
     <div className="">
       <div className="header flex flex-col gap-8">
-        <h3 className="text-5xl">All Courses</h3>
-        <span className="text-2xl">Courses in CS</span>
+        <h3 className="text-4xl">
+          All Departments under Stevens Institute of Technology
+        </h3>
       </div>
-      <div className="grid grid-cols-4 gap-8 py-4">
+      <div className="grid grid-cols-1 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {departmentList?.map((department: any) => (
-          <Card key={course?.id}>
+          <Card
+            key={department.course_code}
+            className="flex flex-col justify-center"
+          >
             <CardHeader>
-              <Link href={`/courses/${course?.id}`}>
-                <CardTitle className="text-2xl">{course.course_name}</CardTitle>
+              <Link href={`/courses/${department?.course_code?.toLowerCase()}`}>
+                <CardTitle className="text-2xl">
+                  {department.department}
+                </CardTitle>
               </Link>
-              <CardDescription className="text-lg">
-                {course.course_code}
-              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>
-                Professor: <span>{course.professor}</span>
-              </p>
-              <p>
-                Email: <span>{course.professor_email}</span>
-              </p>
-            </CardContent>
+            <CardContent></CardContent>
             <CardFooter>
-              <Link href={`/courses/${course?.id}`}>
-                <Button variant={"ghost"} className="text-sm">
-                  Learn More
+              <Link href={`/courses/${department?.course_code}`}>
+                <Button className="text-sm">
+                  View Courses in {department?.course_code}
                 </Button>
               </Link>
             </CardFooter>
@@ -54,4 +46,4 @@ const Courses = async () => {
   );
 };
 
-export default Courses;
+export default Departments;
