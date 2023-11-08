@@ -1,0 +1,20 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "rules": {
+    "array-type": false,
+    "curly": false,
+    "interface-name": false,
+    "max-classes-per-file": false,
+    "member-access": false,
+    "no-empty": false,
+    "no-shadowed-variable": false,
+    "no-var-requires": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": {
+      "severity": "error",
+      "options": { "grouped-imports": true }
+    },
+    "prefer-const": false,
+    "variable-name": false
+  }
+}
