@@ -1,3 +1,5 @@
+import { Department } from "@/lib/types";
+
 export const departmentMapper: { [code: string]: string } = {
   AAI: "Applied Artificial Intelligence",
   ACC: "Accounting",

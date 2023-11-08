@@ -73,7 +73,7 @@ export type CourseApiReturn = {
   workflow_state: string;
   restrict_enrollments_to_course_dates: boolean;
 };
-type Department = {
+export type Department = {
   course_code: string;
   department: string;
 };
