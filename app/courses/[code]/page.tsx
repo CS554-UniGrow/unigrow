@@ -33,8 +33,8 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                       {course?.course_professors.map((professor) => (
-                        <span className="mr-4" key={professor}>
-                          {professor}
+                        <span className="mr-4" key={professor.display_name}>
+                          {professor.display_name}
                         </span>
                       ))}{" "}
                       {course?.course_professors.length === 0 && <span>-</span>}
@@ -117,7 +117,7 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
                               <span className="truncate font-medium">
-                                {`${course.course_code}_Syllabus.pdf`}
+                                {`${course.course_syllabus}`}
                               </span>
                               <span className="flex-shrink-0 text-gray-400">
                                 2.4mb
@@ -126,7 +126,7 @@ const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
                           </div>
                           <div className="ml-4 flex-shrink-0">
                             <a
-                              href="#"
+                              href={`${course.course_syllabus}`}
                               className="flex font-medium hover:text-indigo-500"
                             >
                               <svg

@@ -88,7 +88,7 @@ export type Course = {
   course_code: string;
   course_level: string;
   course_rating: number;
-  course_professors: string[];
+  course_professors: [{ display_name: string; avatar_image_url: string }] | [];
   course_syllabus: string;
   currently_enrolled: string[];
   previous_enrolled: string[];
