@@ -1,4 +1,6 @@
+
 {
+  "cacheDirectories": [".next/cache"],
   "name": "unigrow",
   "version": "0.1.0",
   "private": true,

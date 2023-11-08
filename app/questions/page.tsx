@@ -49,4 +49,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 //   );
 // }
 
-// export default Questions;
+function Questions() {
+  return <div className="grid gap-5"></div>;
+}
+
+export default Questions;
