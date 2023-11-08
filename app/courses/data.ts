@@ -1,4 +1,5 @@
 import { db } from "@/firebase";
+import { logger } from "@/lib/logger";
 
 import { doc, collection, getDoc, getDocs } from "firebase/firestore";
 import { courses as courseColleciton } from "@/config/mongo/mongoCollections";
@@ -30,7 +31,7 @@ export const getCourseById = async (id: string, isMongo: boolean = true) => {
     if (docSnap.exists()) {
       return { id: docSnap.id, ...docSnap.data() };
     } else {
-      console.log(`No such document with id ${id}!`);
+      logger.error(`No such document with id ${id}!`);
       return null;
     }
   }

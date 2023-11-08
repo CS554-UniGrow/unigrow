@@ -1,7 +1,10 @@
-import axios from "axios";
+import { logger } from "@/lib/logger";
+
+import axios, { AxiosError } from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
 import { courseList, semesters } from "@/lib/constants";
+import { courses } from "@/config/mongo/mongoCollections";
 let domain = "https://sit.instructure.com/api/v1/";
 
 async function getUserProfileDetails(apiKey: string) {
@@ -19,7 +22,7 @@ async function getUserProfileDetails(apiKey: string) {
       return { ...response.data };
     })
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
     });
   // map the response to the UserProfile type
   response = {
@@ -34,6 +37,86 @@ async function getUserProfileDetails(apiKey: string) {
   };
 
   return response;
+}
+
+async function updateCourseCollection(updatedCourseDetails: any) {
+  let coursesCollection = await courses();
+  await updatedCourseDetails.forEach(async (course: any) => {
+    let courseInMongo = await coursesCollection.findOne({
+      course_code: course.course_code
+    });
+    let teacherInDB = courseInMongo.course_professors.find(
+      (teacher: any) =>
+        teacher.display_name === course.course_professors[0].display_name
+    );
+    if (teacherInDB === undefined) {
+      await coursesCollection.updateOne(
+        { course_code: course.course_code },
+        { $push: { course_professors: course.course_professors[0] } }
+      );
+    }
+  });
+}
+async function extractSyllabusFromStudentCourseDetails(
+  apiKey: string,
+  updatedCoursesToExtractSyllabus: any
+) {
+  for (const course of updatedCoursesToExtractSyllabus) {
+    let url = domain + "courses/" + course.course_id + "/modules";
+    let response = await axios.get(url, {
+      method: "get",
+      headers: {
+        Authorization: "Bearer " + apiKey
+      }
+    });
+
+    if (response.data.length === 0) {
+      continue;
+    }
+
+    let syllabusDoc = "";
+    let moduleIds = response.data.map((module: any) => module.id);
+
+    for (const moduleId of moduleIds) {
+      let url =
+        domain +
+        "courses/" +
+        course.course_id +
+        "/modules/" +
+        moduleId +
+        "/items";
+      let moduleItems = await axios.get(url, {
+        method: "get",
+        headers: {
+          Authorization: "Bearer " + apiKey
+        }
+      });
+
+      let content_ids = moduleItems.data
+        .map((item: any) => item.content_id) // Map to get content_ids
+        .filter((content_id: any) => content_id !== undefined); // Filter out undefined values
+
+      for (const content_id of content_ids) {
+        let url = domain + "files/" + content_id;
+        let response = await axios.get(url, {
+          method: "get",
+          headers: {
+            Authorization: "Bearer " + apiKey
+          }
+        });
+
+        if (response.data.filename.toLowerCase().includes("syllabus")) {
+          syllabusDoc = response.data.url;
+          let coursesCollection = await courses();
+          let result = await coursesCollection.updateOne(
+            { course_code: course.course_code },
+            { $set: { course_syllabus: syllabusDoc } }
+          );
+          logger.info(result);
+        }
+      }
+    }
+  }
 }
 
 async function getUsersCourseDetails(apiKey: string) {
@@ -63,17 +146,37 @@ async function getUsersCourseDetails(apiKey: string) {
           teacher_avatar: course.teachers[0].avatar_image_url
         };
         return {
+          course_id: course.id,
           course_code: course_code_first,
           course_title: course_name,
           course_professors: [teacher]
         };
       });
+      // remove nulls from result
+      result = result.filter((course: any) => course !== null);
       return result;
     })
 
     .catch((error) => {
-      console.log(error);
+      logger.error(error);
     });
+  try {
+    await extractSyllabusFromStudentCourseDetails(apiKey, response);
+  } catch (error: any) {
+    logger.error(
+      error.code,
+      ":",
+      error.message,
+      "for the url ",
+      error.config.url
+    );
+  }
+  try {
+    await updateCourseCollection(response);
+  } catch (error) {
+    // TODO something with error
+    logger.error(error);
+  }
   return response;
 }
 
