@@ -46,15 +46,17 @@ const Signup = () => {
   }
 
   async function handleGoogleSignup() {
-    const result = await google_sign_in();
+    try {
+      const result = await google_sign_in();
+      setCurrentUser(result);
 
-    setCurrentUser(result);
-
-    if (result) {
-      setRedirectUser(true);
+      if (result) {
+        setRedirectUser(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
-  console.log(currentUser);
   React.useEffect(() => {
     // Redirect to '/questions' after setCurrentUser updates the user
     if (redirectUser) {

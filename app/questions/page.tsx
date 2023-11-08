@@ -6,12 +6,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { writeUserData } from "./data";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   console.log(currentUser?.user);
   const user_data_string = currentUser?.user;
 
+  function handle_submit(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Retrieve form input values
+    const major = event.target.elements.major.value;
+    const joiningTerm = event.target.elements.joiningTerm.value;
+    const graduationDate = event.target.elements.graduationDate.value;
+    const isAlumni = event.target.elements.alumni.checked;
+    const canvasToken = event.target.elements.canvasToken.value;
+
+    console.log(canvasToken);
+    // Example: Additional fields you want to include
+    // const additionalField = "Additional Data";
+
+    // Use the Firebase write function to store the form data
+    writeUserData(
+      currentUser?.user?.uid, // Use the user ID from the context
+      currentUser?.user?.displayName, // Use the user's display name from context
+      currentUser?.user?.email,
+      major,
+      joiningTerm,
+      graduationDate,
+      canvasToken
+    );
+  }
   return (
     <div className="grid gap-5">
       <h1>Hey there! {user_data_string?.displayName}</h1>
@@ -19,31 +45,47 @@ function Questions() {
         Get started on our platform by answering a few simple questions
       </h2>
 
-      <form>
+      <form onSubmit={handle_submit}>
         <ol>
           <li>
             <Label>Major:</Label>
-            <Input type="text" placeholder="Eg: CS/MIS/AI"></Input>
+            <Input
+              type="text"
+              id="major"
+              name="major"
+              placeholder="Eg: CS/MIS/AI"
+            ></Input>
           </li>
           <li>
             <Label>Enter your Joining Term:</Label>
-            <Input type="text" placeholder="Eg: Fall 23 "></Input>
+            <Input
+              type="text"
+              id="joiningTerm"
+              name="joiningTerm"
+              placeholder="Eg: Fall 23 "
+            ></Input>
           </li>
           <li>
             <Label>Expected Graduation</Label>
-            <Input type="date"></Input>
+            <Input
+              type="date"
+              id="graduationDate"
+              name="graduationDate"
+            ></Input>
           </li>
 
           <li>
             <Label>Are you an alumni </Label>
-            <Checkbox />
+            <Checkbox id="alumni" name="alumni" />
           </li>
 
           <li>
             <Label>Canvas Token</Label>
-            <Input type="text"></Input>
+            <Input type="text" id="canvasToken" name="canvasToken"></Input>
           </li>
         </ol>
+
+        <button type="submit">Submit Data</button>
       </form>
     </div>
   );
