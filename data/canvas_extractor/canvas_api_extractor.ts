@@ -164,11 +164,7 @@ async function getUsersCourseDetails(apiKey: string) {
     await extractSyllabusFromStudentCourseDetails(apiKey, response);
   } catch (error: any) {
     logger.error(
-      error.code,
-      ":",
-      error.message,
-      "for the url ",
-      error.config.url
+      error.code + ":" + error.message + "for the url " + error.config.url
     );
   }
   try {

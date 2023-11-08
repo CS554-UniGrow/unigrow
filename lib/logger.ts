@@ -1,7 +1,8 @@
-import pino from "pino";
+import { pino } from "pino";
 import pretty from "pino-pretty";
+pino.stdTimeFunctions.isoTime = () => `,"time":"${new Date().toISOString()}"`;
 const logger = pino(
-  {},
+  { timestamp: pino.stdTimeFunctions.isoTime },
   pino.multistream([pretty(), pino.destination("./logs/logfile.log")])
 );
 export { logger };
