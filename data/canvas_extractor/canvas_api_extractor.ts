@@ -159,8 +159,8 @@ async function extractSyllabusFromStudentCourseDetails(
 async function getUsersCourseDetails(apiKey: string) {
   try {
     let url = domain + "courses/?include[]=teachers&include[]=term";
-    let response = {} as Course;
-    response = await axios.get(url, {
+
+    let response = await axios.get(url, {
       method: "get",
       headers: {
         Authorization: "Bearer " + apiKey
