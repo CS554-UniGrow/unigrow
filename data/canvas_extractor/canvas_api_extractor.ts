@@ -136,7 +136,13 @@ async function extractSyllabusFromStudentCourseDetails(
                 { course_code: course.course_code },
                 { $set: { course_syllabus: directoryPath + fileName } }
               );
-              logger.info(updateResult);
+              logger.info(
+                "Syllabus updated successfully for " +
+                  course.course_code +
+                  " and the syllabus is stored at " +
+                  directoryPath +
+                  fileName
+              );
             }
           } catch (error) {
             logger.error("Axios Error: " + error + " for the url " + url);
@@ -150,60 +156,59 @@ async function extractSyllabusFromStudentCourseDetails(
 }
 
 async function getUsersCourseDetails(apiKey: string) {
-  let url = domain + "courses/?include[]=teachers&include[]=term";
-  let response = {} as Course;
-  response = await axios
-    .get(url, {
+  try {
+    let url = domain + "courses/?include[]=teachers&include[]=term";
+    let response = {} as Course;
+    response = await axios.get(url, {
       method: "get",
       headers: {
         Authorization: "Bearer " + apiKey
       }
-    })
-    .then((response) => {
-      let result = response.data.map((course: CourseApiReturn) => {
-        const regex = /[A-Z]{2,4}\s\d{3}/g;
-        let course_code = course.name.match(regex);
-        if (course_code === null || typeof course_code[0] !== "string") {
-          return null;
-        }
-        let course_code_first: string = course_code[0];
-        let course_name = courseList[course_code_first];
-        if (course_name === undefined) {
-          return null;
-        }
-        let teacher = {
-          display_name: course.teachers[0].display_name,
-          teacher_avatar: course.teachers[0].avatar_image_url
-        };
-        return {
-          course_id: course.id,
-          course_code: course_code_first,
-          course_title: course_name,
-          course_professors: [teacher]
-        };
-      });
-      // remove nulls from result
-      result = result.filter((course: any) => course !== null);
-      return result;
-    })
-
-    .catch((error) => {
-      logger.error(error);
     });
-  try {
-    await extractSyllabusFromStudentCourseDetails(apiKey, response);
-  } catch (error: any) {
-    logger.error(
-      error.code + ":" + error.message + "for the url " + error.config.url
-    );
-  }
-  try {
-    await updateCourseCollection(response);
+    let result = response.data.map((course: CourseApiReturn) => {
+      const regex = /[A-Z]{2,4}\s\d{3}/g;
+      let course_code = course.name.match(regex);
+      if (course_code === null || typeof course_code[0] !== "string") {
+        return null;
+      }
+      let course_code_first: string = course_code[0];
+      let course_name = courseList[course_code_first];
+      if (course_name === undefined) {
+        return null;
+      }
+      let teacher = {
+        display_name: course.teachers[0].display_name,
+        teacher_avatar: course.teachers[0].avatar_image_url
+      };
+      return {
+        course_id: course.id,
+        course_code: course_code_first,
+        course_title: course_name,
+        course_professors: [teacher]
+      };
+    });
+    // remove nulls from result
+    result = result.filter((course: any) => course !== null);
+
+    try {
+      await extractSyllabusFromStudentCourseDetails(apiKey, result);
+      logger.info("Syllabus extracted successfully");
+    } catch (error: any) {
+      logger.error(
+        error.code + ":" + error.message + "for the url " + error.config.url
+      );
+    }
+    try {
+      await updateCourseCollection(result);
+      logger.info("Courses updated successfully");
+    } catch (error) {
+      // TODO something with error
+      logger.error(error);
+    }
+    return result;
   } catch (error) {
-    // TODO something with error
     logger.error(error);
   }
-  return response;
 }
 
 export { getUserProfileDetails, getUsersCourseDetails };
