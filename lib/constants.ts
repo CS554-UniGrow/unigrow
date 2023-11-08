@@ -70,7 +70,10 @@ export const departmentMapper: { [code: string]: string } = {
   TG: "Technogenesis",
   TM: "Telecommunications Management"
 };
-
+type Department = {
+  course_code: string;
+  department: string;
+};
 export const departmentList: Department[] = [
   { course_code: "AAI", department: "Applied Artificial Intelligence" },
   { course_code: "ACC", department: "Accounting" },
@@ -150,10 +153,10 @@ export const departmentList: Department[] = [
   { course_code: "TM", department: "Telecommunications Management" }
 ];
 
-type courseList = {
+type courseListType = {
   [string: string]: string;
 };
-export const courseList: courseList = {
+export const courseList: courseListType = {
   "AAI 551": "Engineering Programming: Python",
   "AAI 627": "Data Acquisition, Modeling and Analysis: Big Data Analytics",
   "AAI 628": "Data Acquisition, Modeling and Analysis: Deep Learning",
