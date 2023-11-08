@@ -1,43 +1,4 @@
-{"level":30,"time":1699424375294,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424375755,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":30,"time":1699424375997,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
-{"level":30,"time":1699424379156,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424379156,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
-{"level":30,"time":1699424398290,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424398291,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":50,"time":1699424398291,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424398291,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424398291,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424404575,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424404575,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":50,"time":1699424404576,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424404576,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424404576,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424405520,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424405521,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":50,"time":1699424405521,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424405521,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424405521,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424406166,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424406166,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":50,"time":1699424406166,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424406166,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424406166,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424406750,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424406750,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":50,"time":1699424406750,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424406750,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424406750,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Error seeding data:MongoNotConnectedError: Client must be connected before running operations"}
-{"level":30,"time":1699424410555,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424410941,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":30,"time":1699424411333,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
-{"level":30,"time":1699424415430,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Database connection closed."}
-{"level":30,"time":1699424415430,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
-{"level":30,"time":1699424455710,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699424456129,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":30,"time":1699424456503,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
-{"level":30,"time":1699424460789,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
-{"level":30,"time":1699425088869,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":1699425089356,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":30,"time":1699425089704,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
-{"level":30,"time":1699425093279,"pid":832,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
+{"level":30,"time":"2023-11-08T06:41:42.759Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
+{"level":30,"time":"2023-11-08T06:41:42.760Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
+{"level":30,"time":"2023-11-08T06:41:43.117Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
+{"level":30,"time":"2023-11-08T06:41:47.226Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
