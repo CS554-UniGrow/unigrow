@@ -1,4 +1,0 @@
-{"level":30,"time":"2023-11-08T06:41:42.759Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Seeding data..."}
-{"level":30,"time":"2023-11-08T06:41:42.760Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Connected to the database."}
-{"level":30,"time":"2023-11-08T06:41:43.117Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Collection cleared."}
-{"level":30,"time":"2023-11-08T06:41:47.226Z","pid":21732,"hostname":"DESKTOP-FR7DBER","msg":"Data seeded successfully."}
