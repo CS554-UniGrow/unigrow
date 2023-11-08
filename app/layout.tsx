@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
-import { UserContextProvider } from "@/components/userComponent";
+// import { UserContextProvider } from "@/components/userComponent";
 
 export const metadata: Metadata = {
   title: "Unigrow",
@@ -17,14 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <UserContextProvider>
-          <ThemeProvider attribute="class" disableTransitionOnChange>
-            <div className="flex min-h-screen flex-col">
-              <Nav />
-              <div className="mt-16 flex-1 p-10">{children}</div>
-            </div>
-          </ThemeProvider>
-        </UserContextProvider>
+        {/* <UserContextProvider> */}
+        <ThemeProvider attribute="class" disableTransitionOnChange>
+          <div className="flex min-h-screen flex-col">
+            <Nav />
+            <div className="mt-16 flex-1 p-10">{children}</div>
+          </div>
+        </ThemeProvider>
+        {/* </UserContextProvider> */}
       </body>
     </html>
   );
