@@ -1,7 +1,7 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
-import { courseListType, semesters } from "@/lib/constants";
+import { courseList, semesters } from "@/lib/constants";
 let domain = "https://sit.instructure.com/api/v1/";
 
 async function getUserProfileDetails(apiKey: string) {
