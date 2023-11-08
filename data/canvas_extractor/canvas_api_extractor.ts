@@ -109,6 +109,7 @@ async function extractSyllabusFromStudentCourseDetails(
             });
 
             if (response.data.filename.toLowerCase().includes("syllabus")) {
+              // TODO CHANGE TO STORE SYLLABUS IN some sort of storage
               //download the syllabus from the url and store it in the database
               let fileStreamResult = await axios.get(response.data.url, {
                 responseType: "stream"
