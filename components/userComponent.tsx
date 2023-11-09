@@ -20,11 +20,11 @@ export const UserContext = createContext<UserContextType>(initialState);
 export const UserContextProvider = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useState();
 
-//   //Note: how can i implement here to provide context.provoder with users value without making the APi call from within here
+  //   //Note: how can i implement here to provide context.provoder with users value without making the APi call from within here
 
-//   return (
-//     <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-//       {children}
-//     </UserContext.Provider>
-//   );
-// };
+  return (
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
