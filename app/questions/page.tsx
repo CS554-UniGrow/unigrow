@@ -1,16 +1,16 @@
 "use client";
 
-import { useContext } from "react";
-import { UserContext } from "@/components/userComponent";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { UserContext } from "@/components/userComponent";
+import { useContext } from "react";
 
 function Questions() {
-  // const { currentUser, setCurrentUser } = useContext(UserContext);
-  // console.log(currentUser?.user);
-  // const user_data_string = currentUser?.user;
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  console.log(currentUser?.user);
+  const user_data_string = currentUser?.user;
 
   return (
     <div className="grid gap-5">
