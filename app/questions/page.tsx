@@ -13,7 +13,7 @@ function Questions() {
   console.log(currentUser?.user);
   const user_data_string = currentUser?.user;
 
-  function handle_submit(event) {
+  async function handle_submit(event) {
     event.preventDefault(); // Prevent default form submission
 
     // Retrieve form input values
@@ -24,19 +24,23 @@ function Questions() {
     const canvasToken = event.target.elements.canvasToken.value;
 
     console.log(canvasToken);
-    // Example: Additional fields you want to include
-    // const additionalField = "Additional Data";
 
-    // Use the Firebase write function to store the form data
-    writeUserData(
-      currentUser?.user?.uid, // Use the user ID from the context
-      currentUser?.user?.displayName, // Use the user's display name from context
-      currentUser?.user?.email,
-      major,
-      joiningTerm,
-      graduationDate,
-      canvasToken
-    );
+    try {
+      await writeUserData(
+        currentUser?.user?.uid, // Use the user ID from the context
+        currentUser?.user?.displayName, // Use the user's display name from context
+        currentUser?.user?.email,
+        major,
+        joiningTerm,
+        graduationDate,
+        canvasToken,
+        currentUser?.user?.phoneNumber,
+        currentUser?.user?.photoURL,
+        currentUser?.user?.metadata?.creationTime
+      );
+    } catch (e) {
+      console.log(e);
+    }
   }
   return (
     <div className="grid gap-5">
@@ -85,7 +89,9 @@ function Questions() {
           </li>
         </ol>
 
-        <button type="submit">Submit Data</button>
+        <Button type="submit" className="my-10">
+          Submit Data
+        </Button>
       </form>
     </div>
   );

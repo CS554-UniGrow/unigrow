@@ -7,7 +7,10 @@ export function writeUserData(
   major,
   joiningTerm,
   graduationDate,
-  canvasToken
+  canvasToken,
+  phone_number,
+  photo_url,
+  creation_time
 ) {
   const db = getDatabase();
   set(ref(db, `users/${userId}`), {
@@ -16,7 +19,10 @@ export function writeUserData(
     major: major,
     joiningTerm: joiningTerm,
     graduationDate: graduationDate,
-    canvasToken: canvasToken
+    canvasToken: canvasToken,
+    phone_number: phone_number,
+    photo_url: photo_url,
+    creation_time: creation_time
   })
     .then(() => {
       console.log("Data successfully written!");
@@ -30,6 +36,6 @@ export function writeUserData(
 
 export function check_date() {}
 
-export function check_canvas_token() {}
+export function check_canvas_token(canvas_token) {}
 
 // firebase db functions
