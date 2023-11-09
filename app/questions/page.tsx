@@ -13,7 +13,7 @@ function Questions() {
   console.log(currentUser?.user);
   const user_data_string = currentUser?.user;
 
-  async function handle_submit(event) {
+  async function handle_submit(event: any) {
     event.preventDefault(); // Prevent default form submission
 
     // Retrieve form input values
@@ -23,21 +23,19 @@ function Questions() {
     const isAlumni = event.target.elements.alumni.checked;
     const canvasToken = event.target.elements.canvasToken.value;
 
-    console.log(canvasToken);
-
     try {
-      await writeUserData(
-        currentUser?.user?.uid, // Use the user ID from the context
-        currentUser?.user?.displayName, // Use the user's display name from context
-        currentUser?.user?.email,
-        major,
-        joiningTerm,
-        graduationDate,
-        canvasToken,
-        currentUser?.user?.phoneNumber,
-        currentUser?.user?.photoURL,
-        currentUser?.user?.metadata?.creationTime
-      );
+      await writeUserData({
+        userId: currentUser?.user?.uid, // Use the user ID from the context
+        name: currentUser?.user?.displayName, // Use the user's display name from context
+        email: currentUser?.user?.email,
+        major: major,
+        joiningTerm: joiningTerm,
+        graduationDate: graduationDate,
+        canvasToken: canvasToken,
+        phone_number: currentUser?.user?.phoneNumber,
+        photo_url: currentUser?.user?.photoURL,
+        creation_time: currentUser?.user?.metadata?.creationTime
+      });
     } catch (e) {
       console.log(e);
     }

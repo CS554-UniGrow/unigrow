@@ -96,3 +96,16 @@ export type Course = {
   department_code: string;
   department: string;
 };
+
+export type User = {
+  userId: string;
+  name: string;
+  email: string;
+  major: string;
+  joiningTerm: string;
+  graduationDate: string;
+  canvasToken: string;
+  phone_number: string;
+  photo_url: string;
+  creation_time: string;
+};
