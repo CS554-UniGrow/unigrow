@@ -98,8 +98,8 @@ export type Course = {
 };
 
 export type User = {
-  userId: string;
   name: string;
+  userId: string;
   email: string;
   major: string;
   joiningTerm: string;
