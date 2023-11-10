@@ -52,7 +52,7 @@ function Questions() {
   }
   return (
     <div className="grid gap-5">
-      <h1>Hey there! {user_data_string?.displayName}</h1>
+      <h1>Hey there! {currentUser.username}</h1>
       <h2 className="my-10">
         Get started on our platform by answering a few simple questions
       </h2>
