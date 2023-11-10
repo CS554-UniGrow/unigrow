@@ -47,6 +47,7 @@
     "autoprefixer": "^10.4.16",
     "eslint-config-next": "14.0.1",
     "eslint-config-prettier": "^9.0.0",
+    "pino-logflare": "^0.4.2",
     "pino-pretty": "^10.2.3",
     "postcss": "^8.4.31",
     "prettier": "^3.0.3",

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor";
-import { logger } from "@/lib/logger";
+import logger from "@/lib/logger";
 export async function POST(req: Request) {
   try {
     const { canvasToken } = await req.json();
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "User not found" });
     }
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return NextResponse.json({ error: "Internal Server Error" });
   }
 }

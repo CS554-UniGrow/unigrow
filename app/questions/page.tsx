@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
+import logger from "@/lib/logger";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -52,7 +53,7 @@ function Questions() {
         }
       }
     } catch (e) {
-      console.log(e);
+      logger.error(e);
     }
   }
   return (

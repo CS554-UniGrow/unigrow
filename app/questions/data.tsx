@@ -1,14 +1,15 @@
 import { getDatabase, ref, set } from "firebase/database";
 import { User } from "@/lib/types";
+import logger from "@/lib/logger";
 
 export function writeUserData(user_data: User) {
   const db = getDatabase();
   set(ref(db, `users/${user_data.userId}`), user_data)
     .then(() => {
-      console.log("Data successfully written!");
+      logger.info("Data successfully written!");
     })
     .catch((error) => {
-      console.error("Error writing data:", error);
+      logger.error("Error writing data:", error);
     });
 }
 

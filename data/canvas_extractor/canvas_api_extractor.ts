@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import logger from "@/lib/logger";
 import fs from "fs";
 import axios, { AxiosError } from "axios";
 import { v4 as uuidv4 } from "uuid";

@@ -17,7 +17,6 @@ const DepertmentCourses = async ({
   const { code } = params;
   const { level } = params;
   const courses: Course[] = await getCourseByDepartment(code, level);
-  console.log(courses);
   return (
     <div className="mx-auto max-w-4xl">
       <h1 className="text-3xl">

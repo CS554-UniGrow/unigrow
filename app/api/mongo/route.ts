@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import logger from "@/lib/logger";
 import fs from "fs";
 import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection";
 import { courses as courseCollection } from "@/config/mongo/mongoCollections";

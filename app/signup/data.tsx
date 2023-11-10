@@ -9,6 +9,7 @@ import {
   onAuthStateChanged,
   signOut
 } from "firebase/auth";
+import logger from "@/lib/logger";
 
 const auth = getAuth(app);
 
@@ -24,7 +25,7 @@ export const create_plain_user = async (email: string, password: string) => {
       password
     );
   } catch (e) {
-    console.log(e);
+    logger.error(e);
   }
 };
 // plain email and password login
@@ -35,9 +36,9 @@ export const loginEmailPassword = async (email: string, password: string) => {
       email,
       password
     );
-    console.log(user_credentials);
+    logger.info(user_credentials);
   } catch (e) {
-    console.log(e);
+    logger.error(e);
   }
 };
 
@@ -65,7 +66,7 @@ export const google_sign_in = async () => {
       return data;
     }
   } catch (error) {
-    console.error("Error signing in with Google:", error);
+    logger.error("Error signing in with Google:", error);
     throw error;
   }
 };

@@ -11,6 +11,7 @@ import { google_sign_in, create_plain_user } from "./data";
 import { SyntheticEvent } from "react";
 import { UserContext } from "@/components/userComponent";
 import { useRouter } from "next/navigation";
+import logger from "@/lib/logger";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -58,7 +59,7 @@ const Signup = () => {
         metadata: result?.user.metadata
       };
 
-      console.log(required_result);
+      logger.info(required_result);
 
       setCurrentUser(required_result);
 
@@ -66,7 +67,7 @@ const Signup = () => {
         setRedirectUser(true);
       }
     } catch (e) {
-      console.log(e);
+      logger.error(e);
     }
   }
   React.useEffect(() => {

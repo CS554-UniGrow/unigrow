@@ -1,15 +1,31 @@
-import { pino } from "pino";
-import pretty from "pino-pretty";
-import fs from "fs";
-// ./logs/logfile.log check if exists else create
-if (!fs.existsSync("./logs" || process.env.LOG_DIR))
-  fs.mkdir("./logs", { recursive: true }, (err) => {});
-pino.stdTimeFunctions.isoTime = () => `,"time":"${new Date().toISOString()}"`;
+import pino from "pino";
+import { logflarePinoVercel } from "pino-logflare";
+
+// create pino-logflare console stream for serverless functions and send function for browser logs
+// Browser logs are going to: https://logflare.app/sources/13989
+// Vercel log drain was setup to send logs here: https://logflare.app/sources/13830
+
+const { stream, send } = logflarePinoVercel({
+  apiKey: "eA_3wro12LpZ",
+  sourceToken: "eb1d841a-e0e4-4d23-af61-84465c808157"
+});
+
+// create pino logger
 const logger = pino(
-  { timestamp: pino.stdTimeFunctions.isoTime, mkdir: true },
-  pino.multistream([
-    pretty(),
-    pino.destination(("./logs/" || process.env.LOG_DIR) + "logfile.log")
-  ])
+  {
+    browser: {
+      transmit: {
+        level: "info",
+        send: send
+      }
+    },
+    level: "debug",
+    base: {
+      env: process.env.NODE_ENV,
+      revision: process.env.VERCEL_GITHUB_COMMIT_SHA
+    }
+  },
+  stream
 );
-export { logger };
+
+export default logger;

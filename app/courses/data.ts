@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { logger } from "@/lib/logger";
+import logger from "@/lib/logger";
 
 import { doc, collection, getDoc, getDocs } from "firebase/firestore";
 import { courses as courseColleciton } from "@/config/mongo/mongoCollections";
