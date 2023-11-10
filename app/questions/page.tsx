@@ -43,7 +43,6 @@ function Questions() {
           });
           router.push("/dashboard");
         } else {
-          console.log("Error, enter valid canvas token ");
         }
       }
     } catch (e) {
