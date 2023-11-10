@@ -3,7 +3,6 @@ import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extrac
 
 export async function GET(req: Request) {
   try {
-    console.log(req.url.split("?")[1]);
     const token = req.url.split("?")[1];
     const userId = token.split("canvas=")[1];
 
