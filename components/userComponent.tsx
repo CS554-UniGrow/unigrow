@@ -1,4 +1,5 @@
 "use client";
+import { User } from "@/lib/types";
 import React, { createContext, useState, useContext } from "react";
 
 type UserContextType = {
@@ -7,7 +8,7 @@ type UserContextType = {
 };
 
 const initialState = {
-  currentUser: null,
+  currentUser: {} as User,
   setCurrentUser: () => {}
 };
 
