@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { writeUserData } from "./data";
+import { useRouter } from "next/navigation";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  console.log(currentUser?.user);
+  const router = useRouter();
+
   const user_data_string = currentUser?.user;
 
   async function handle_submit(event: any) {
@@ -20,22 +22,35 @@ function Questions() {
     const major = event.target.elements.major.value;
     const joiningTerm = event.target.elements.joiningTerm.value;
     const graduationDate = event.target.elements.graduationDate.value;
-    const isAlumni = event.target.elements.alumni.checked;
     const canvasToken = event.target.elements.canvasToken.value;
 
     try {
       await writeUserData({
-        userId: currentUser?.user?.uid, // Use the user ID from the context
-        name: currentUser?.user?.displayName, // Use the user's display name from context
-        email: currentUser?.user?.email,
+        userId: currentUser?.uid, // Use the user ID from the context
+        name: currentUser?.username, // Use the user's display name from context
+        email: currentUser?.email,
         major: major,
         joiningTerm: joiningTerm,
         graduationDate: graduationDate,
         canvasToken: canvasToken,
-        phone_number: currentUser?.user?.phoneNumber,
-        photo_url: currentUser?.user?.photoURL,
-        creation_time: currentUser?.user?.metadata?.creationTime
+        phone_number: currentUser?.phone,
+        photo_url: currentUser?.profile_pic,
+        metadata: currentUser?.metadata
       });
+
+      try {
+        const response = await fetch(`/api/questions?canvas=${canvasToken}`);
+        if (response) {
+          const data = await response.json();
+          if (data.primary_email === currentUser?.email) {
+            router.push("/dashboard");
+          } else {
+            console.log("Error, enter valid canvas token ");
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
     } catch (e) {
       console.log(e);
     }

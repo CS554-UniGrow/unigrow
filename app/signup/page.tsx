@@ -48,7 +48,17 @@ const Signup = () => {
   async function handleGoogleSignup() {
     try {
       const result = await google_sign_in();
-      setCurrentUser(result);
+      const required_result = {
+        username: result?.user.providerData[0].displayName,
+        email: result?.user.providerData[0].email,
+        phone: result?.user.providerData[0].phoneNumber,
+        profile_pic: result?.user.providerData[0].photoURL,
+        uid: result?.user.uid,
+        isVerified: result?.user.emailVerified,
+        metadata: result?.user.metadata
+      };
+
+      setCurrentUser(required_result);
 
       if (result) {
         setRedirectUser(true);

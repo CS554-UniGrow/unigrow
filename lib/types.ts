@@ -107,5 +107,5 @@ export type User = {
   canvasToken: string;
   phone_number: string;
   photo_url: string;
-  creation_time: string;
+  metadata: object;
 };
