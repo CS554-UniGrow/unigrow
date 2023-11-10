@@ -25,7 +25,12 @@ function Questions() {
     const canvasToken = event.target.elements.canvasToken.value;
 
     try {
-      const response = await fetch(`/api/questions?canvas=${canvasToken}`);
+      const response = await fetch(`/api/questions`, {
+        method: "POST",
+        body: JSON.stringify({
+          canvasToken: canvasToken
+        })
+      });
       if (response) {
         const data = await response.json();
         if (data.primary_email === currentUser?.email) {
