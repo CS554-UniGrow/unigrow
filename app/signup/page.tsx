@@ -58,6 +58,8 @@ const Signup = () => {
         metadata: result?.user.metadata
       };
 
+      console.log(required_result);
+
       setCurrentUser(required_result);
 
       if (result) {

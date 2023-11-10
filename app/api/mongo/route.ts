@@ -14,8 +14,8 @@ async function seed() {
     const courses = await courseCollection();
     await courses.deleteMany({}); // Use deleteMany instead of dropDatabase
     logger.info("Collection cleared.");
-
     await courses.insertMany(seedData);
+    return "Data seeded successfully.";
   } catch (error) {
     let message = "Error seeding data:" + error;
     logger.error(message);
@@ -25,7 +25,6 @@ async function seed() {
   //   await closeConnection();
   //   logger.info("Database connection closed.");
   // }
-  return "Data seeded successfully.";
 }
 
 export async function POST(request: NextRequest, response: NextResponse) {

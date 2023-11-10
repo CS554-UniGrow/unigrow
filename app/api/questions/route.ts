@@ -12,7 +12,6 @@ export async function GET(req: Request) {
     }
 
     const data = await getUserProfileDetails(userId);
-    console.log(data);
 
     if (data) {
       return NextResponse.json(data);

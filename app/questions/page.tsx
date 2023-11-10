@@ -25,31 +25,26 @@ function Questions() {
     const canvasToken = event.target.elements.canvasToken.value;
 
     try {
-      await writeUserData({
-        userId: currentUser?.uid, // Use the user ID from the context
-        name: currentUser?.username, // Use the user's display name from context
-        email: currentUser?.email,
-        major: major,
-        joiningTerm: joiningTerm,
-        graduationDate: graduationDate,
-        canvasToken: canvasToken,
-        phone_number: currentUser?.phone,
-        photo_url: currentUser?.profile_pic,
-        metadata: currentUser?.metadata
-      });
-
-      try {
-        const response = await fetch(`/api/questions?canvas=${canvasToken}`);
-        if (response) {
-          const data = await response.json();
-          if (data.primary_email === currentUser?.email) {
-            router.push("/dashboard");
-          } else {
-            console.log("Error, enter valid canvas token ");
-          }
+      const response = await fetch(`/api/questions?canvas=${canvasToken}`);
+      if (response) {
+        const data = await response.json();
+        if (data.primary_email === currentUser?.email) {
+          await writeUserData({
+            userId: currentUser?.uid, // Use the user ID from the context
+            name: currentUser?.username, // Use the user's display name from context
+            email: currentUser?.email,
+            major: major,
+            joiningTerm: joiningTerm,
+            graduationDate: graduationDate,
+            canvasToken: canvasToken,
+            phone_number: currentUser?.phone,
+            photo_url: data.avatar_url,
+            metadata: currentUser?.metadata
+          });
+          router.push("/dashboard");
+        } else {
+          console.log("Error, enter valid canvas token ");
         }
-      } catch (e) {
-        console.log(e);
       }
     } catch (e) {
       console.log(e);
