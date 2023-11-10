@@ -212,4 +212,11 @@ async function getUsersCourseDetails(apiKey: string) {
   }
 }
 
-export { getUserProfileDetails, getUsersCourseDetails };
+function getRegisteredCourseDetails_mongo() {
+  return [];
+}
+export {
+  getUserProfileDetails,
+  getUsersCourseDetails,
+  getRegisteredCourseDetails_mongo
+};

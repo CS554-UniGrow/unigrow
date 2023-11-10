@@ -59,8 +59,13 @@ export const monitor_login_state = async () => {
 
 export const google_sign_in = async () => {
   const provider = new GoogleAuthProvider();
-  const data = await signInWithPopup(auth, provider);
-  if (data) {
-    return data;
+  try {
+    const data = await signInWithPopup(auth, provider);
+    if (data) {
+      return data;
+    }
+  } catch (error) {
+    console.error("Error signing in with Google:", error);
+    throw error;
   }
 };

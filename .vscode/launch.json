@@ -11,6 +11,14 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       }
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/yuvaraj/Desktop/final_project_cs_554/unigrow/app/api/questions/questions",
+      "program": "/Users/yuvaraj/Desktop/final_project_cs_554/unigrow/app/api/questions/questions/build/Debug/outDebug"
     }
   ]
 }
