@@ -46,15 +46,29 @@ const Signup = () => {
   }
 
   async function handleGoogleSignup() {
-    const result = await google_sign_in();
+    try {
+      const result = await google_sign_in();
+      const required_result = {
+        username: result?.user.providerData[0].displayName,
+        email: result?.user.providerData[0].email,
+        phone: result?.user.providerData[0].phoneNumber,
+        profile_pic: result?.user.providerData[0].photoURL,
+        uid: result?.user.uid,
+        isVerified: result?.user.emailVerified,
+        metadata: result?.user.metadata
+      };
 
-    setCurrentUser(result);
+      console.log(required_result);
 
-    if (result) {
-      setRedirectUser(true);
+      setCurrentUser(required_result);
+
+      if (result) {
+        setRedirectUser(true);
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
-  console.log(currentUser);
   React.useEffect(() => {
     // Redirect to '/questions' after setCurrentUser updates the user
     if (redirectUser) {
