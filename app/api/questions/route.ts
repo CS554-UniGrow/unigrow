@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor";
-
+import { logger } from "@/lib/logger";
 export async function GET(req: Request) {
   try {
     const token = req.url.split("?")[1];
@@ -19,6 +19,7 @@ export async function GET(req: Request) {
     }
   } catch (e) {
     console.error(e);
+    logger.error(e);
     return NextResponse.json({ error: "Internal Server Error" });
   }
 }
