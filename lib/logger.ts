@@ -6,8 +6,8 @@ import { logflarePinoVercel } from "pino-logflare";
 // Vercel log drain was setup to send logs here: https://logflare.app/sources/13830
 
 const { stream, send } = logflarePinoVercel({
-  apiKey: "eA_3wro12LpZ",
-  sourceToken: "eb1d841a-e0e4-4d23-af61-84465c808157"
+  apiKey: process.env.LOG_FLARE_API_KEY!,
+  sourceToken: process.env.LOG_FLARE_SOURCE_TOKEN!
 });
 
 // create pino logger
