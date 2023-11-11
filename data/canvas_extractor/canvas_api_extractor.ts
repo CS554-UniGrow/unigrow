@@ -199,34 +199,52 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
     result = result.filter((course: any) => course !== null);
 
     //TODO REFACTOR TO orchestrate it better
-    try {
-      extractSyllabusFromStudentCourseDetails(apiKey, result).then(() => {
-        logger.info("Syllabus extracted successfully");
-      });
-    } catch (error: any) {
-      logger.error(
-        error.code + ":" + error.message + "for the url " + error.config.url
-      );
-    }
-    try {
-      updateCourseCollection(result, uid).then(() => {
-        logger.info("Courses updated successfully");
-      });
-    } catch (error) {
-      // TODO something with error
-      logger.error(error);
-    }
+    // try {
+    //   extractSyllabusFromStudentCourseDetails(apiKey, result).then(() => {
+    //     logger.info("Syllabus extracted successfully");
+    //   });
+    // } catch (error: any) {
+    //   logger.error(
+    //     error.code + ":" + error.message + "for the url " + error.config.url
+    //   );
+    // }
+    // try {
+    //   updateCourseCollection(result, uid).then(() => {
+    //     logger.info("Courses updated successfully");
+    //   });
+    // } catch (error) {
+    //   // TODO something with error
+    //   logger.error(error);
+    // }
+
+    processStudentCourseDetails(apiKey, result, uid);
     return result;
   } catch (error) {
     logger.error(error);
   }
 }
 
-function getRegisteredCourseDetails_mongo() {
-  return [];
+async function processStudentCourseDetails(
+  apiKey: string,
+  result: any,
+  uid: string
+) {
+  try {
+    await extractSyllabusFromStudentCourseDetails(apiKey, result);
+    logger.info("Syllabus extracted successfully");
+  } catch (error: any) {
+    logger.error(
+      `${error.code}:${error.message} for the url ${error.config.url}`
+    );
+  }
+
+  try {
+    await updateCourseCollection(result, uid);
+    logger.info("Courses updated successfully");
+  } catch (error) {
+    // TODO something with error
+    logger.error(error);
+  }
 }
-export {
-  getUserProfileDetails,
-  getUsersCourseDetails,
-  getRegisteredCourseDetails_mongo
-};
+
+export { getUserProfileDetails, getUsersCourseDetails };
