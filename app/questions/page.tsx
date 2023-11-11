@@ -30,7 +30,8 @@ function Questions() {
       const response = await fetch(`/api/questions`, {
         method: "POST",
         body: JSON.stringify({
-          canvasToken_hashed: canvasToken_hashed
+          canvasToken_hashed: canvasToken_hashed,
+          uid: currentUser?.uid
         })
       });
       if (response) {
