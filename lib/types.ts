@@ -8,6 +8,7 @@ export type UserProfile = {
   bio: string;
   primary_email: string;
   login_id: string;
+  courses: string[];
 };
 
 export type CourseApiReturn = {
@@ -108,4 +109,5 @@ export type User = {
   phone_number: string;
   photo_url: string;
   metadata: object;
+  courses: string[];
 };

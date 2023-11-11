@@ -9,7 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 // utils/encryption.ts
 
 const algorithm = "aes-256-cbc";
-const key = Buffer.from(process.env.HASHING_KEY!); // Replace with your own secret key
+const hashKey = process.env.NEXT_PUBLIC_HASHING_KEY!;
+const key = Buffer.from(hashKey); // Replace with your own secret key
 const iv = randomBytes(16);
 
 export const encrypt = (text: string): string => {

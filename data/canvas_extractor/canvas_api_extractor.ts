@@ -1,3 +1,4 @@
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import logger from "@/lib/logger";
 import fs from "fs";
 import axios, { AxiosError } from "axios";
@@ -7,6 +8,7 @@ import { courseList, semesters } from "@/lib/constants";
 import { courses } from "@/config/mongo/mongoCollections";
 import path from "path";
 import { decrypt } from "@/lib/utils";
+import { storage } from "@/firebase";
 let domain = "https://sit.instructure.com/api/v1/";
 
 async function getUserProfileDetails(apiKey_hashed: string) {
@@ -27,6 +29,7 @@ async function getUserProfileDetails(apiKey_hashed: string) {
     .catch((error) => {
       logger.error(error);
     });
+  const data = await getUsersCourseDetails(apiKey);
   // map the response to the UserProfile type
   response = {
     _id: uuidv4(),
@@ -36,7 +39,10 @@ async function getUserProfileDetails(apiKey_hashed: string) {
     avatar_url: response.avatar_url,
     bio: response.bio,
     primary_email: response.primary_email,
-    login_id: response.login_id
+    login_id: response.login_id,
+    courses: data.map((course: any) => {
+      return course.course_code;
+    })
   };
 
   return response;
@@ -114,41 +120,31 @@ async function extractSyllabusFromStudentCourseDetails(
               // TODO CHANGE TO STORE SYLLABUS IN some sort of storage
               //download the syllabus from the url and store it in the database
               let fileStreamResult = await axios.get(response.data.url, {
-                responseType: "stream"
+                responseType: "arraybuffer"
               });
-              let directoryPath = "./public/data/syllabus/";
+              // let directoryPath = "./public/data/syllabus/";
               let fileName = course.course_code.replace(" ", "_") + ".pdf";
-              if (!fs.existsSync(directoryPath)) {
-                fs.mkdirSync(directoryPath, { recursive: true });
-              }
+              const fileRef = ref(storage, `syllabus/${fileName}`);
+              // 'file' comes from the Blob or File API
+              const file = fileStreamResult.data;
+              const upload = await uploadBytes(fileRef, file);
+              logger.info("Uploaded a blob or file!");
 
-              // Combine the directory path and file name to create the full file path
-              const localFilePath = path.join(directoryPath, fileName);
-
-              // Create a write stream to store the syllabus on the server's file system
-              const writeStream = fs.createWriteStream(localFilePath);
-              fileStreamResult.data.pipe(writeStream);
-
-              // Wait for the file to be fully written
-              await new Promise((resolve) => {
-                writeStream.on("finish", resolve);
-              });
-
-              let coursesCollection = await courses();
-              let updateResult = await coursesCollection.updateOne(
-                { course_code: course.course_code },
-                { $set: { course_syllabus: directoryPath + fileName } }
-              );
-              logger.info(
-                "Syllabus updated successfully for " +
-                  course.course_code +
-                  " and the syllabus is stored at " +
-                  directoryPath +
-                  fileName
-              );
+              // let coursesCollection = await courses();
+              // let updateResult = await coursesCollection.updateOne(
+              //   { course_code: course.course_code },
+              //   { $set: { course_syllabus: directoryPath + fileName } }
+              // );
+              // logger.info(
+              //   "Syllabus updated successfully for " +
+              //     course.course_code +
+              //     " and the syllabus is stored at " +
+              //     directoryPath +
+              //     fileName
+              // );
             }
           } catch (error) {
-            logger.error("Axios Error: " + error + " for the url " + url);
+            logger.error(" Error: " + error + " for the url " + url);
           }
         }
       } catch (error) {
@@ -193,6 +189,7 @@ async function getUsersCourseDetails(apiKey: string) {
     // remove nulls from result
     result = result.filter((course: any) => course !== null);
 
+    //TODO REFACTOR TO orchestrate it better
     try {
       await extractSyllabusFromStudentCourseDetails(apiKey, result);
       logger.info("Syllabus extracted successfully");
