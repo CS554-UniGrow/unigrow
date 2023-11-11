@@ -119,15 +119,17 @@ async function extractSyllabusFromStudentCourseDetails(
             });
 
             if (response.data.filename.toLowerCase().includes("syllabus")) {
-              // TODO CHANGE TO STORE SYLLABUS IN some sort of storage
+              // TODO CHANGE logic to store updated files only
               //download the syllabus from the url and store it in the database
               let fileStreamResult = await axios.get(response.data.url, {
                 responseType: "arraybuffer"
               });
               // let directoryPath = "./public/data/syllabus/";
               let fileName =
-                (course.course_code + course.term_taken_in).replace(" ", "_") +
-                ".pdf";
+                (course.course_code + " " + course.term_taken_in).replace(
+                  " ",
+                  "_"
+                ) + ".pdf";
               const fileRef = ref(storage, `syllabus/${fileName}`);
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
