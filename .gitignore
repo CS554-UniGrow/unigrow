@@ -40,3 +40,4 @@ logs/
 public/data/
 
 .vercel
+envloader.sh
