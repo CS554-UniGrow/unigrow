@@ -125,7 +125,9 @@ async function extractSyllabusFromStudentCourseDetails(
                 responseType: "arraybuffer"
               });
               // let directoryPath = "./public/data/syllabus/";
-              let fileName = course.course_code.replace(" ", "_") + ".pdf";
+              let fileName =
+                (course.course_code + course.term_taken_in).replace(" ", "_") +
+                ".pdf";
               const fileRef = ref(storage, `syllabus/${fileName}`);
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
