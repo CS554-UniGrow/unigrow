@@ -1,4 +1,4 @@
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import logger from "@/lib/logger";
 import fs from "fs";
 import axios, { AxiosError } from "axios";
@@ -8,6 +8,7 @@ import { courses } from "@/config/mongo/mongoCollections";
 import path from "path";
 import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
+import { metadata } from "@/app/layout";
 let domain = "https://sit.instructure.com/api/v1/";
 
 async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
@@ -128,21 +129,23 @@ async function extractSyllabusFromStudentCourseDetails(
               const fileRef = ref(storage, `syllabus/${fileName}`);
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
-              const upload = await uploadBytes(fileRef, file);
+              const upload = await uploadBytes(fileRef, file, {
+                contentType: "application/pdf"
+              });
+              const download_url = await getDownloadURL(upload.ref);
               logger.info("Uploaded a blob or file!");
 
-              // let coursesCollection = await courses();
-              // let updateResult = await coursesCollection.updateOne(
-              //   { course_code: course.course_code },
-              //   { $set: { course_syllabus: directoryPath + fileName } }
-              // );
-              // logger.info(
-              //   "Syllabus updated successfully for " +
-              //     course.course_code +
-              //     " and the syllabus is stored at " +
-              //     directoryPath +
-              //     fileName
-              // );
+              let coursesCollection = await courses();
+              let updateResult = await coursesCollection.updateOne(
+                { course_code: course.course_code },
+                { $set: { course_syllabus: download_url } }
+              );
+              logger.info(
+                "Syllabus updated successfully for " +
+                  course.course_code +
+                  " and the syllabus is stored at " +
+                  download_url
+              );
             }
           } catch (error) {
             logger.error(" Error: " + error + " for the url " + url);
