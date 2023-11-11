@@ -63,7 +63,7 @@ function Questions() {
       <h2 className="my-10">
         Get started on our platform by answering a few simple questions
       </h2>
-
+      {/* TODO add spinner to disable form when handle submit is running] */}
       <form onSubmit={handle_submit}>
         <ol>
           <li>

@@ -8,6 +8,7 @@ export type UserProfile = {
   bio: string;
   primary_email: string;
   login_id: string;
+  courses: string[];
 };
 
 export type CourseApiReturn = {
