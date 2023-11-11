@@ -6,9 +6,11 @@ import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
 import { courseList, semesters } from "@/lib/constants";
 import { courses } from "@/config/mongo/mongoCollections";
 import path from "path";
+import { decrypt } from "@/lib/utils";
 let domain = "https://sit.instructure.com/api/v1/";
 
-async function getUserProfileDetails(apiKey: string) {
+async function getUserProfileDetails(apiKey_hashed: string) {
+  const apiKey = decrypt(apiKey_hashed);
   let url = domain + "users/self/profile";
   // use UserProfile type with the axios call
   let response = {} as UserProfile;
