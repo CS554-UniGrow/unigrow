@@ -109,4 +109,5 @@ export type User = {
   phone_number: string;
   photo_url: string;
   metadata: object;
+  courses: string[];
 };

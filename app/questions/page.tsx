@@ -46,7 +46,8 @@ function Questions() {
             canvasToken_hashed: canvasToken_hashed,
             phone_number: currentUser?.phone,
             photo_url: data.avatar_url,
-            metadata: currentUser?.metadata
+            metadata: currentUser?.metadata,
+            courses: data.courses
           });
           router.push("/dashboard");
         } else {
