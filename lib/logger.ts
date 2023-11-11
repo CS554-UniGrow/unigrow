@@ -24,5 +24,5 @@ if (process.env.VERCEL === "1") {
 } else {
   logger = pino({ timestamp: pino.stdTimeFunctions.isoTime, mkdir: true });
 }
-
+//asdas
 export default logger;
