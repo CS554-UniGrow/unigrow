@@ -28,18 +28,19 @@
     "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "crypto": "^1.0.1",
     "firebase": "^10.5.2",
     "mongodb": "^6.2.0",
     "next": "14.0.1",
     "next-themes": "^0.2.1",
     "pino": "^8.16.1",
+    "pino-logflare": "^0.4.2",
+    "pino-pretty": "^10.2.3",
     "react": "^18",
     "react-dom": "^18",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^9.0.1",
-    "pino-logflare": "^0.4.2",
-    "pino-pretty": "^10.2.3"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

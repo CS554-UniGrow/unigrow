@@ -31,12 +31,12 @@ const Signup = () => {
     }, 3000);
   }
 
-  function handleSignup() {
+  async function handleSignup() {
     if (!isLoading) {
       setIsLoading(true);
-      const created_user = create_plain_user(email, password);
+      const created_user = await create_plain_user(email, password);
       if (created_user) {
-        setCurrentUser(created_user);
+        setCurrentUser(created_user.user);
         setRedirectUser(true);
       }
     }

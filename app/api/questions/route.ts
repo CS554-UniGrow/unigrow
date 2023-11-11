@@ -3,14 +3,14 @@ import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extrac
 import logger from "@/lib/logger";
 export async function POST(req: Request) {
   try {
-    const { canvasToken } = await req.json();
+    const { canvasToken_hashed } = await req.json();
 
-    if (!canvasToken) {
+    if (!canvasToken_hashed) {
       return NextResponse.json({ error: "User ID is required" });
     }
-    logger.info(canvasToken);
+    logger.info(canvasToken_hashed);
 
-    const data = await getUserProfileDetails(canvasToken);
+    const data = await getUserProfileDetails(canvasToken_hashed);
 
     if (data) {
       return NextResponse.json(data);

@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
+import { encrypt } from "@/lib/utils";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -23,13 +24,13 @@ function Questions() {
     const major = event.target.elements.major.value;
     const joiningTerm = event.target.elements.joiningTerm.value;
     const graduationDate = event.target.elements.graduationDate.value;
-    const canvasToken = event.target.elements.canvasToken.value;
+    const canvasToken_hashed = encrypt(event.target.elements.canvasToken.value);
 
     try {
       const response = await fetch(`/api/questions`, {
         method: "POST",
         body: JSON.stringify({
-          canvasToken: canvasToken
+          canvasToken_hashed: canvasToken_hashed
         })
       });
       if (response) {
@@ -42,7 +43,7 @@ function Questions() {
             major: major,
             joiningTerm: joiningTerm,
             graduationDate: graduationDate,
-            canvasToken: canvasToken,
+            canvasToken_hashed: canvasToken_hashed,
             phone_number: currentUser?.phone,
             photo_url: data.avatar_url,
             metadata: currentUser?.metadata

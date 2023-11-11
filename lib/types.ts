@@ -104,7 +104,7 @@ export type User = {
   major: string;
   joiningTerm: string;
   graduationDate: string;
-  canvasToken: string;
+  canvasToken_hashed: string;
   phone_number: string;
   photo_url: string;
   metadata: object;
