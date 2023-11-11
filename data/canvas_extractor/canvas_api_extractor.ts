@@ -200,16 +200,18 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
 
     //TODO REFACTOR TO orchestrate it better
     try {
-      await extractSyllabusFromStudentCourseDetails(apiKey, result);
-      logger.info("Syllabus extracted successfully");
+      extractSyllabusFromStudentCourseDetails(apiKey, result).then(() => {
+        logger.info("Syllabus extracted successfully");
+      });
     } catch (error: any) {
       logger.error(
         error.code + ":" + error.message + "for the url " + error.config.url
       );
     }
     try {
-      await updateCourseCollection(result, uid);
-      logger.info("Courses updated successfully");
+      updateCourseCollection(result, uid).then(() => {
+        logger.info("Courses updated successfully");
+      });
     } catch (error) {
       // TODO something with error
       logger.error(error);
