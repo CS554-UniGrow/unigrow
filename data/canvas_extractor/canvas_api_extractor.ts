@@ -2,7 +2,6 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import logger from "@/lib/logger";
 import fs from "fs";
 import axios, { AxiosError } from "axios";
-import { v4 as uuidv4 } from "uuid";
 import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
 import { courseList, semesters } from "@/lib/constants";
 import { courses } from "@/config/mongo/mongoCollections";
@@ -11,7 +10,7 @@ import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
 let domain = "https://sit.instructure.com/api/v1/";
 
-async function getUserProfileDetails(apiKey_hashed: string) {
+async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
   const apiKey = decrypt(apiKey_hashed);
   let url = domain + "users/self/profile";
   // use UserProfile type with the axios call
@@ -29,10 +28,10 @@ async function getUserProfileDetails(apiKey_hashed: string) {
     .catch((error) => {
       logger.error(error);
     });
-  const data = await getUsersCourseDetails(apiKey);
+  const data = await getUsersCourseDetails(apiKey, uid);
   // map the response to the UserProfile type
   response = {
-    _id: uuidv4(),
+    _id: uid,
     id: response.id,
     name: response.name,
     sortable_name: response.sortable_name,
@@ -48,7 +47,7 @@ async function getUserProfileDetails(apiKey_hashed: string) {
   return response;
 }
 
-async function updateCourseCollection(updatedCourseDetails: any) {
+async function updateCourseCollection(updatedCourseDetails: any, uid: string) {
   let coursesCollection = await courses();
   await updatedCourseDetails.forEach(async (course: any) => {
     let courseInMongo = await coursesCollection.findOne({
@@ -64,6 +63,8 @@ async function updateCourseCollection(updatedCourseDetails: any) {
         { $push: { course_professors: course.course_professors[0] } }
       );
     }
+    // TODO DHRUV based on term_taken_in add uid to the currently_enrolled array or the previous_enrolled array
+    // { $push: { currently_enrolled: uid } }
   });
 }
 async function extractSyllabusFromStudentCourseDetails(
@@ -154,7 +155,7 @@ async function extractSyllabusFromStudentCourseDetails(
   }
 }
 
-async function getUsersCourseDetails(apiKey: string) {
+async function getUsersCourseDetails(apiKey: string, uid: string) {
   try {
     let url = domain + "courses/?include[]=teachers&include[]=term";
 
@@ -180,6 +181,7 @@ async function getUsersCourseDetails(apiKey: string) {
         teacher_avatar: course.teachers[0].avatar_image_url
       };
       return {
+        term_taken_in: course.term.name,
         course_id: course.id,
         course_code: course_code_first,
         course_title: course_name,
@@ -199,7 +201,7 @@ async function getUsersCourseDetails(apiKey: string) {
       );
     }
     try {
-      await updateCourseCollection(result);
+      await updateCourseCollection(result, uid);
       logger.info("Courses updated successfully");
     } catch (error) {
       // TODO something with error
