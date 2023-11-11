@@ -41,7 +41,7 @@ async function getUserProfileDetails(apiKey_hashed: string) {
     primary_email: response.primary_email,
     login_id: response.login_id,
     courses: data.map((course: any) => {
-      return course.course_id;
+      return course.course_code;
     })
   };
 
@@ -124,7 +124,6 @@ async function extractSyllabusFromStudentCourseDetails(
               });
               // let directoryPath = "./public/data/syllabus/";
               let fileName = course.course_code.replace(" ", "_") + ".pdf";
-              const storageRef = storage;
               const fileRef = ref(storage, `syllabus/${fileName}`);
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
