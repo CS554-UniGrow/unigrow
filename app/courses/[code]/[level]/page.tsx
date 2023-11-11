@@ -26,7 +26,9 @@ const DepertmentCourses = async ({
       {courses.map((course) => (
         <Accordion type="single" key={course._id} collapsible>
           <AccordionItem value="item-1">
-            <AccordionTrigger>{course.course_title}</AccordionTrigger>
+            <AccordionTrigger>
+              {course.course_code} - {course.course_title}
+            </AccordionTrigger>
             <AccordionContent>
               <div className="mt-6 rounded-lg border-2 border-gray-100 p-2 dark:border-slate-600">
                 <dl className="divide-y divide-gray-100 dark:divide-slate-700">
@@ -120,16 +122,17 @@ const DepertmentCourses = async ({
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
                               <span className="truncate font-medium">
-                                {`${course.course_syllabus}`}
+                                Syllabus
                               </span>
                               <span className="flex-shrink-0 text-gray-400">
-                                2.4mb
+                                {/* TODO add file size */}
                               </span>
                             </div>
                           </div>
                           <div className="ml-4 flex-shrink-0">
                             <a
                               href={`${course.course_syllabus}`}
+                              target="_blank"
                               className="flex font-medium hover:text-indigo-500"
                             >
                               <svg
