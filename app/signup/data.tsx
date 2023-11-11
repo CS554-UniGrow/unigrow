@@ -24,6 +24,9 @@ export const create_plain_user = async (email: string, password: string) => {
       email,
       password
     );
+    if (created_user) {
+      return created_user;
+    }
   } catch (e) {
     logger.error(e);
   }
@@ -37,6 +40,9 @@ export const loginEmailPassword = async (email: string, password: string) => {
       password
     );
     logger.info(user_credentials);
+    if (user_credentials) {
+      return user_credentials;
+    }
   } catch (e) {
     logger.error(e);
   }

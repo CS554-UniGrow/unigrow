@@ -34,7 +34,11 @@ const Signup = () => {
   function handleSignup() {
     if (!isLoading) {
       setIsLoading(true);
-      create_plain_user(email, password);
+      const created_user = create_plain_user(email, password);
+      if (created_user) {
+        setCurrentUser(created_user);
+        setRedirectUser(true);
+      }
     }
   }
 
@@ -49,21 +53,22 @@ const Signup = () => {
   async function handleGoogleSignup() {
     try {
       const result = await google_sign_in();
-      const required_result = {
-        username: result?.user.providerData[0].displayName,
-        email: result?.user.providerData[0].email,
-        phone: result?.user.providerData[0].phoneNumber,
-        profile_pic: result?.user.providerData[0].photoURL,
-        uid: result?.user.uid,
-        isVerified: result?.user.emailVerified,
-        metadata: result?.user.metadata
-      };
-
-      logger.info(required_result);
-
-      setCurrentUser(required_result);
 
       if (result) {
+        const required_result = {
+          username: result?.user.providerData[0].displayName,
+          email: result?.user.providerData[0].email,
+          phone: result?.user.providerData[0].phoneNumber,
+          profile_pic: result?.user.providerData[0].photoURL,
+          uid: result?.user.uid,
+          isVerified: result?.user.emailVerified,
+          metadata: result?.user.metadata
+        };
+
+        logger.info(required_result);
+
+        setCurrentUser(required_result);
+
         setRedirectUser(true);
       }
     } catch (e) {
