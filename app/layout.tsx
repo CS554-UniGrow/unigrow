@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
-import { UserContextProvider } from "@/components/userComponent";
+import { UserContextProvider } from "@/components/userContext";
 
 export const metadata: Metadata = {
   title: "Unigrow",

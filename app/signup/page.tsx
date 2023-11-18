@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { google_sign_in, create_plain_user } from "./data";
 import { SyntheticEvent } from "react";
-import { UserContext } from "@/components/userComponent";
+import { UserContext } from "@/components/userContext";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { UserContext } from "@/components/userComponent";
+import { UserContext } from "@/components/userContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

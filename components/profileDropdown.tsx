@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { UserContext } from "./userComponent";
+import { UserContext } from "./userContext";
 import { useContext } from "react";
 import {
   DropdownMenu,

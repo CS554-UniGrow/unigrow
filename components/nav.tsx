@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { UserContext } from "./userComponent";
+import { UserContext } from "./userContext";
 
 import {
   NavigationMenu,
