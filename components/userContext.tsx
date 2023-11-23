@@ -1,15 +1,19 @@
 "use client";
-import { User } from "@/lib/types";
-import React, { createContext, useState, useContext } from "react";
+import { User, UserWithAuth } from "@/lib/types";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { app } from "@/firebase";
 
 type UserContextType = {
   currentUser: any;
-  setCurrentUser: (user: any) => void;
+  login: () => void;
+  register: () => void;
+  signout: () => void;
 };
 
 const initialState = {
-  currentUser: {} as User,
-  setCurrentUser: () => {}
+  currentUser: { isAuthenticated: false } as UserWithAuth
 };
 
 type Props = {
@@ -18,10 +22,33 @@ type Props = {
 
 export const UserContext = createContext<UserContextType>(initialState);
 
-export const UserContextProvider = ({ children }: Props) => {
-  const [currentUser, setCurrentUser] = useState();
+export const useUserState = () => {
+  return useContext(UserContext);
+};
 
-  //Note: how can i implement here to provide context.provoder with users value without making the APi call from within here
+export const UserContextProvider = ({ children }: Props) => {
+  const [currentUser, setCurrentUser] = useState<UserWithAuth>();
+  let router = useRouter();
+  const auth = getAuth(app);
+
+  const isAuthenticated = currentUser?.isAuthenticated;
+  const pathName = usePathname();
+  const openPath = ["/", "/signup"];
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user: any) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        setCurrentUser(user);
+      } else if (!openPath.includes(pathName)) {
+        // User is signed out
+        // ...
+        router.replace("/signup");
+      }
+      return () => unsubscribe();
+    });
+  }, [pathName]);
 
   return (
     <UserContext.Provider value={{ currentUser, setCurrentUser }}>

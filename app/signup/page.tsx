@@ -7,7 +7,7 @@ import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { google_sign_in, create_plain_user } from "./data";
+import { googleSignIn, createPlainUser } from "./data";
 import { SyntheticEvent } from "react";
 import { UserContext } from "@/components/userContext";
 import { useRouter } from "next/navigation";
@@ -34,8 +34,9 @@ const Signup = () => {
   async function handleSignup() {
     if (!isLoading) {
       setIsLoading(true);
-      const created_user = await create_plain_user(email, password);
+      const created_user = await createPlainUser(email, password);
       if (created_user) {
+        console.log("setting the created user in sign up");
         setCurrentUser(created_user.user);
         setRedirectUser(true);
       }
@@ -52,7 +53,7 @@ const Signup = () => {
 
   async function handleGoogleSignup() {
     try {
-      const result = await google_sign_in();
+      const result = await googleSignIn();
 
       if (result) {
         const required_result = {
@@ -62,11 +63,12 @@ const Signup = () => {
           profile_pic: result?.user.providerData[0].photoURL,
           uid: result?.user.uid,
           isVerified: result?.user.emailVerified,
-          metadata: result?.user.metadata
+          metadata: result?.user.metadata,
+          isAuthenticated: true
         };
 
         logger.info(required_result);
-
+        console.log("setting the created user in sign up");
         setCurrentUser(required_result);
 
         setRedirectUser(true);
@@ -85,7 +87,11 @@ const Signup = () => {
   }, [redirectUser, currentUser, router]);
 
   return (
-    <div className={cn("grid gap-10")}>
+    <div
+      className={cn(
+        "border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl"
+      )}
+    >
       <h1 className="text-center">Create an account</h1>
       <h3 className="text-center">
         Enter a .edu email password below to create your account

@@ -14,7 +14,7 @@ import logger from "@/lib/logger";
 const auth = getAuth(app);
 
 //create user with plain email and password
-export const create_plain_user = async (email: string, password: string) => {
+export const createPlainUser = async (email: string, password: string) => {
   try {
     if (!email.endsWith("stevens.edu")) {
       throw "Must use a Stevens college ID only";
@@ -53,18 +53,7 @@ export const logout = async () => {
   await signOut(auth);
 };
 
-//monitor user state(whether he is logged in or not)
-export const monitor_login_state = async () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      redirect("/dashboard");
-    } else {
-      redirect("/login");
-    }
-  });
-};
-
-export const google_sign_in = async () => {
+export const googleSignIn = async () => {
   const provider = new GoogleAuthProvider();
   try {
     const data = await signInWithPopup(auth, provider);

@@ -111,3 +111,8 @@ export type User = {
   metadata: object;
   courses: string[];
 };
+
+export type UserWithAuth = User & {
+  isAuthenticated: boolean;
+  lastSignedIn: string;
+}
