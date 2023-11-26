@@ -10,10 +10,15 @@ type UserContextType = {
   login: () => void;
   register: () => void;
   signout: () => void;
+  setCurrentUser: (user: any) => void;
 };
 
 const initialState = {
-  currentUser: { isAuthenticated: false } as UserWithAuth
+  currentUser: { isAuthenticated: false } as UserWithAuth,
+  login: () => {},
+  register: () => {},
+  signout: () => {},
+  setCurrentUser: (user: any) => {}
 };
 
 type Props = {
@@ -51,7 +56,15 @@ export const UserContextProvider = ({ children }: Props) => {
   }, [pathName]);
 
   return (
-    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+    <UserContext.Provider
+      value={{
+        currentUser,
+        setCurrentUser,
+        login: () => {},
+        register: () => {},
+        signout: () => {}
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

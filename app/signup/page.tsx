@@ -25,10 +25,6 @@ const Signup = () => {
   async function onSubmit(event: React.SyntheticEvent) {
     event.preventDefault();
     setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
   }
 
   async function handleSignup() {
