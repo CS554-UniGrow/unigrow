@@ -41,6 +41,6 @@ export const fetchUserDetails = (result: any) => {
     uid: result?.user?.uid,
     isVerified: result?.user?.emailVerified,
     metadata: result?.user?.metadata,
-    isAuthenticated: Object.keys(result).length > 0 ? true : false
+    isAuthenticated: Object.keys(result).length > 1 ? true : false
   }
 };
