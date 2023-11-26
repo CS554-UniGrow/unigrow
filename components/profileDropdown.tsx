@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "./theme-toggle";
 import { useRouter } from "next/navigation";
+import { logout } from "@/app/signup/data";
 
 export default function ProfileDropdown() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -22,8 +23,8 @@ export default function ProfileDropdown() {
 
   const handleLogOut = () => {
     setCurrentUser({ isAuthenticated: false });
-
-    router.push("/signup");
+    logout();
+    router.replace("/signup");
   };
 
   return (
@@ -61,7 +62,7 @@ export default function ProfileDropdown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleLogOut}>
+        <DropdownMenuItem onClick={() => handleLogOut()}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

@@ -31,3 +31,16 @@ export const decrypt = (text: string): string => {
   decrypted += decipher.final("utf-8");
   return decrypted;
 };
+
+export const fetchUserDetails = (result: any) => {
+  return {
+    username: result?.user?.providerData[0]?.displayName,
+    email: result?.user?.providerData[0]?.email,
+    phone: result?.user?.providerData[0]?.phoneNumber,
+    profile_pic: result?.user?.providerData[0]?.photoURL,
+    uid: result?.user?.uid,
+    isVerified: result?.user?.emailVerified,
+    metadata: result?.user?.metadata,
+    isAuthenticated: Object.keys(result).length > 0 ? true : false
+  }
+};

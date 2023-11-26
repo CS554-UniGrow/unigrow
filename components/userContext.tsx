@@ -4,6 +4,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { app } from "@/firebase";
+import { fetchUserDetails } from "@/lib/utils";
 
 type UserContextType = {
   currentUser: any;
@@ -45,11 +46,13 @@ export const UserContextProvider = ({ children }: Props) => {
       if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/auth.user
-        setCurrentUser(user);
+        const userDetails = fetchUserDetails(user) as unknown as UserWithAuth;
+        setCurrentUser({ ...userDetails, isAuthenticated: true });
       } else if (!openPath.includes(pathName)) {
-        // User is signed out
-        // ...
+        // When user is not signed in, and the path is not open path, redirect to signup
         router.replace("/signup");
+      } else {
+        setCurrentUser({ isAuthenticated: false } as UserWithAuth);
       }
       return () => unsubscribe();
     });

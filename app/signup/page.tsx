@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-
-import { cn } from "@/lib/utils";
 import { Icons } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,11 +81,7 @@ const Signup = () => {
   }, [redirectUser, currentUser, router]);
 
   return (
-    <div
-      className={cn(
-        "border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl"
-      )}
-    >
+    <div className="border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl">
       <h1 className="text-center">Create an account</h1>
       <h3 className="text-center">
         Enter a .edu email password below to create your account
