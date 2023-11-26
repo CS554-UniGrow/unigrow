@@ -36,7 +36,7 @@ const Signup = () => {
       setIsLoading(true);
       const created_user = await createPlainUser(email, password);
       if (created_user) {
-        console.log("setting the created user in sign up");
+        logger.info("setting the created user in sign up");
         setCurrentUser(created_user.user);
         setRedirectUser(true);
       }
@@ -68,7 +68,7 @@ const Signup = () => {
         };
 
         logger.info(required_result);
-        console.log("setting the created user in sign up");
+        logger.info("setting the created user in sign up");
         setCurrentUser(required_result);
 
         setRedirectUser(true);
