@@ -22,7 +22,13 @@ if (process.env.VERCEL === "1") {
     stream
   );
 } else {
-  logger = pino({ timestamp: pino.stdTimeFunctions.isoTime, mkdir: true });
+  logger = pino(
+    {
+      timestamp: pino.stdTimeFunctions.isoTime
+    }
+    // uncomment to log to a file
+    //pino.destination("./logs/log.txt")
+  );
 }
 
 export default logger;
