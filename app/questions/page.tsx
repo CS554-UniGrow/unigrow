@@ -23,7 +23,6 @@ function Questions() {
     // Retrieve form input values
     const major = event.target.elements.major.value;
     const joiningTerm = event.target.elements.joiningTerm.value;
-    const graduationDate = event.target.elements.graduationDate.value;
     const canvasToken_hashed = encrypt(event.target.elements.canvasToken.value);
 
     try {
@@ -43,7 +42,7 @@ function Questions() {
             email: currentUser?.email,
             major: major,
             joiningTerm: joiningTerm,
-            graduationDate: graduationDate,
+            graduationDate: "NA",
             canvasToken_hashed: canvasToken_hashed,
             phone_number: currentUser?.phone,
             photo_url: data.avatar_url,
@@ -79,25 +78,15 @@ function Questions() {
           </li>
           <li>
             <Label>Enter your Joining Term:</Label>
-            <Input
-              type="text"
-              id="joiningTerm"
-              name="joiningTerm"
-              placeholder="Eg: Fall 23 "
-            ></Input>
-          </li>
-          <li>
-            <Label>Expected Graduation</Label>
-            <Input
-              type="date"
-              id="graduationDate"
-              name="graduationDate"
-            ></Input>
-          </li>
-
-          <li>
-            <Label>Are you an alumni </Label>
-            <Checkbox id="alumni" name="alumni" />
+            <select id="joiningTerm" name="joiningTerm" required>
+              <option value="Alumni">Alumni</option>
+              <option value="Fall 21">Fall 21</option>
+              <option value="Spring 22">Spring 22</option>
+              <option value="Fall 22">Fall 22</option>
+              <option value="Spring 23">Spring 23</option>
+              <option value="Fall 23">Fall 23</option>
+              <option value="Spring 24">Spring 24</option>
+            </select>
           </li>
 
           <li>
