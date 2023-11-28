@@ -10,6 +10,8 @@ import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
 import { encrypt } from "@/lib/utils";
+import { courseList } from '@/lib/constants';
+
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -69,12 +71,11 @@ function Questions() {
         <ol>
           <li>
             <Label>Major:</Label>
-            <Input
-              type="text"
-              id="major"
-              name="major"
-              placeholder="Eg: CS/MIS/AI"
-            ></Input>
+            <select id="major" name="major" required>
+              {Object.entries(courseList).map(([code, name]) => (
+              <option key={code} value={code}>{name}</option>
+              ))}
+            </select>
           </li>
           <li>
             <Label>Enter your Joining Term:</Label>
