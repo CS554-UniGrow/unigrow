@@ -10,7 +10,7 @@ import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
 import { encrypt } from "@/lib/utils";
-import { courseList } from '@/lib/constants';
+import { departmentList } from '@/lib/constants';
 
 
 function Questions() {
@@ -72,8 +72,8 @@ function Questions() {
           <li>
             <Label>Major:</Label>
             <select id="major" name="major" required>
-              {Object.entries(courseList).map(([code, name]) => (
-              <option key={code} value={code}>{name}</option>
+              {departmentList.map(({ course_code, department }) => (
+              <option key={course_code} value={course_code}>{department}</option>
               ))}
             </select>
           </li>
