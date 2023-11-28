@@ -15,8 +15,19 @@ export function writeUserData(user_data: User) {
 
 // validation functions
 
-export function check_date() {}
+// export function check_date() {}
 
-//export function check_canvas_token(canvas_token) {}
+// export async function validateCanvasToken(canvasToken: string): Promise<boolean> {
+//   try {
+//     const response = await fetch('CANVAS_API_ENDPOINT', {
+//       headers: { 'Authorization': `Bearer ${canvasToken}` }
+//     });
+//     return response.ok; // Returns true if status code is 200-299
+//   } catch (error) {
+//     logger.error("Error validating Canvas token:", error);
+//     return false;
+//   }
+// }
+
 
 // firebase db functions
