@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import logger from "@/lib/logger";
 import { getCourseByCode } from "@/app/courses/data";
 
-export async function GET(request: NextRequest, { params }) {
+export async function GET(
+  request: NextRequest,
+  params: { course_code: string }
+) {
   try {
     const course_code = params?.course_code;
     const data = await getCourseByCode(course_code);
