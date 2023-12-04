@@ -10,8 +10,7 @@ import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
 import { encrypt } from "@/lib/utils";
-import { departmentList } from '@/lib/constants';
-
+import { departmentList } from "@/lib/constants";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -73,7 +72,9 @@ function Questions() {
             <Label>Major:</Label>
             <select id="major" name="major" required>
               {departmentList.map(({ course_code, department }) => (
-              <option key={course_code} value={course_code}>{department}</option>
+                <option key={course_code} value={course_code}>
+                  {department}
+                </option>
               ))}
             </select>
           </li>
@@ -91,15 +92,40 @@ function Questions() {
           </li>
           <li>
             <Label>Canvas Token Instructions:</Label>
-            <p>Generate your Canvas access token. Accessing the Canvas API requires a token, which you can think of as your username and password squished into one long random string. Do not share your token with anyone else!</p>
+            <p>
+              Generate your Canvas access token. Accessing the Canvas API
+              requires a token, which you can think of as your username and
+              password squished into one long random string. Do not share your
+              token with anyone else!
+            </p>
             <p>
               <strong>Steps to generate your token:</strong>
             </p>
             <ul>
-              <li>Log into Canvas at <a href="https://sit.instructure.com/" target="_blank" rel="noopener noreferrer">https://sit.instructure.com/</a>. Click 'Account' in the left menu, and then click 'Settings'.</li>
-              <li>Scroll to 'Approved Integration' and click '+ New Access Token'.</li>
-              <li>Fill in the 'Purpose' field. For added security, set an expiry date for your token.</li>
-              <li>Click 'Generate Token'. Now copy your freshly generated token and save it somewhere secure.</li>
+              <li>
+                Log into Canvas at{" "}
+                <a
+                  href="https://sit.instructure.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  https://sit.instructure.com/
+                </a>
+                . Click &apos;Account&apos; in the left menu, and then click
+                &apos;Settings&apos;.
+              </li>
+              <li>
+                Scroll to &apos;Approved Integration&apos; and click &apos;New
+                Access Token&apos;.
+              </li>
+              <li>
+                Fill in the &apos;Purpose&apos; field. For added security, set
+                an expiry date for your token.
+              </li>
+              <li>
+                Click &apos;Generate Token&apos;. Now copy your freshly
+                generated token and save it somewhere secure.
+              </li>
             </ul>
           </li>
           <li>
