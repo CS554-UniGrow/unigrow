@@ -15,6 +15,8 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { useRouter } from "next/navigation";
 import { logout } from "@/app/signup/data";
+import Link from "next/link";
+import loadingLogo from "@/public/loading.png";
 
 export default function ProfileDropdown() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -26,14 +28,13 @@ export default function ProfileDropdown() {
     logout();
     router.replace("/signup");
   };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage src={currentUser?.profile_pic} alt="@shadcn" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>{currentUser.name}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -51,14 +52,9 @@ export default function ProfileDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Rating</DropdownMenuItem>
           <DropdownMenuItem>
-            Profile
+            <Link href={`/people/${currentUser.uid}`}>Profile</Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

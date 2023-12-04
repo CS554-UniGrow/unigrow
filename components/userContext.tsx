@@ -41,22 +41,22 @@ export const UserContextProvider = ({ children }: Props) => {
   const pathName = usePathname();
   const openPath = ["/", "/signup"];
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user: any) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/auth.user
-        const userDetails = fetchUserDetails(user) as unknown as UserWithAuth;
-        setCurrentUser({ ...userDetails, isAuthenticated: true });
-      } else if (!openPath.includes(pathName)) {
-        // When user is not signed in, and the path is not open path, redirect to signup
-        router.replace("/signup");
-      } else {
-        setCurrentUser({ isAuthenticated: false } as UserWithAuth);
-      }
-      return () => unsubscribe();
-    });
-  }, [pathName]);
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user: any) => {
+  //     if (user) {
+  //       // User is signed in, see docs for a list of available properties
+  //       // https://firebase.google.com/docs/reference/js/auth.user
+  //       const userDetails = fetchUserDetails(user) as unknown as UserWithAuth;
+  //       setCurrentUser({ ...userDetails, isAuthenticated: true });
+  //     } else if (!openPath.includes(pathName)) {
+  //       // When user is not signed in, and the path is not open path, redirect to signup
+  //       router.replace("/signup");
+  //     } else {
+  //       setCurrentUser({ isAuthenticated: false } as UserWithAuth);
+  //     }
+  //     return () => unsubscribe();
+  //   });
+  // }, [pathName]);
 
   return (
     <UserContext.Provider

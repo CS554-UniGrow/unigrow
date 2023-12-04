@@ -4,7 +4,7 @@ import fs from "fs";
 import axios, { AxiosError } from "axios";
 import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
 import { courseList, semesters } from "@/lib/constants";
-import { courses } from "@/config/mongo/mongoCollections";
+import { courses, users } from "@/config/mongo/mongoCollections";
 import path from "path";
 import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
@@ -44,6 +44,14 @@ async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
       return course.course_code;
     })
   };
+  // insert user profile details into the database
+  let usersCollection = await users();
+  let userInDB = await usersCollection.findOne({ _id: uid });
+  if (userInDB === null) {
+    await usersCollection.insertOne(response);
+  } else {
+    await usersCollection.updateOne({ _id: uid }, { $set: response });
+  }
 
   return response;
 }

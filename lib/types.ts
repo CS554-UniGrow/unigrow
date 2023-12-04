@@ -115,4 +115,4 @@ export type User = {
 export type UserWithAuth = User & {
   isAuthenticated: boolean;
   lastSignedIn: string;
-}
+};
