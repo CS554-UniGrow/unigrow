@@ -5,10 +5,10 @@ import { getCourseByCode } from "@/app/courses/data";
 
 export async function GET(
   request: NextRequest,
-  params: { course_code: string }
+  params: { params: { course_code: string } }
 ) {
   try {
-    const course_code = params?.course_code;
+    const course_code = params?.params?.course_code;
     const data = await getCourseByCode(course_code);
     return NextResponse.json(data);
   } catch (e) {

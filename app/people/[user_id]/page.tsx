@@ -74,7 +74,7 @@ const User_Profile = () => {
               <Image
                 height={100}
                 width={100}
-                src={data?.avatar_url || loadingLogo}
+                src={data?.avatar_url}
                 sizes=""
                 alt=""
               />
