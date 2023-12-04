@@ -51,7 +51,6 @@ const CourseById = () => {
   if (loading) {
     return <Loading />;
   }
-  console.log(data);
   return (
     <div className="mx-auto max-w-4xl">
       {
