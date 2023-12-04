@@ -14,6 +14,7 @@ import { departmentList } from "@/lib/constants";
 
 function Questions() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
+
   const router = useRouter();
 
   const user_data_string = currentUser?.user;
@@ -27,6 +28,7 @@ function Questions() {
     const canvasToken_hashed = encrypt(event.target.elements.canvasToken.value);
 
     try {
+      console.log(currentUser);
       const response = await fetch(`/api/questions`, {
         method: "POST",
         body: JSON.stringify({
@@ -36,7 +38,7 @@ function Questions() {
       });
       if (response) {
         const data = await response.json();
-        if (data.primary_email === currentUser?.email) {
+        if (data?.primary_email === currentUser?.email) {
           await writeUserData({
             userId: currentUser?.uid, // Use the user ID from the context
             name: currentUser?.username, // Use the user's display name from context
@@ -46,9 +48,9 @@ function Questions() {
             graduationDate: "NA",
             canvasToken_hashed: canvasToken_hashed,
             phone_number: currentUser?.phone,
-            photo_url: data.avatar_url,
+            photo_url: data?.avatar_url,
             metadata: currentUser?.metadata,
-            courses: data.courses
+            courses: data?.courses
           });
           router.push("/dashboard");
         } else {

@@ -4,7 +4,7 @@ import logger from "@/lib/logger";
 
 export function writeUserData(user_data: User) {
   const db = getDatabase();
-  set(ref(db, `users/${user_data.userId}`), user_data)
+  set(ref(db, `users/${user_data?.userId}`), user_data)
     .then(() => {
       logger.info("Data successfully written!");
     })
@@ -28,6 +28,5 @@ export function writeUserData(user_data: User) {
 //     return false;
 //   }
 // }
-
 
 // firebase db functions
