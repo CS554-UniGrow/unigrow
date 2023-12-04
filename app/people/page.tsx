@@ -26,6 +26,7 @@ import Loading from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
 import { UserProfile } from "@/lib/types";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 function useFetchPeople() {
   const [data, setData] = useState([]);
@@ -78,15 +79,19 @@ const People = () => {
         <div className="grid grid-cols-1 gap-10 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredData?.map((user: UserProfile) => (
             <Card key={user?._id}>
-              <CardHeader>{user?.sortable_name}</CardHeader>
+              <CardHeader>
+                <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
+              </CardHeader>
               <CardContent className="grid gap-6">
                 <div className="flex items-center justify-between space-x-4">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-2">
-                      <Avatar>
-                        <AvatarImage src={user?.avatar_url} />
-                        <AvatarFallback>{user?.name.split(" ")}</AvatarFallback>
-                      </Avatar>
+                      <Link href={`/people/${user._id}/`}>
+                        <Avatar>
+                          <AvatarImage src={user?.avatar_url} />
+                          <AvatarFallback>{user?.name}</AvatarFallback>
+                        </Avatar>
+                      </Link>
                       <div>
                         <p className="text-sm ">{user?.primary_email}</p>
                         <Popover>
@@ -100,7 +105,7 @@ const People = () => {
                             <Command>
                               <CommandInput placeholder="Search Course..." />
                               <CommandList>
-                                <CommandEmpty>No roles found.</CommandEmpty>
+                                <CommandEmpty>No courses found.</CommandEmpty>
                                 <CommandGroup>
                                   {user.courses.map((course: string) => (
                                     <>

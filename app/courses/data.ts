@@ -36,3 +36,8 @@ export const getCourseById = async (id: string, isMongo: boolean = true) => {
     }
   }
 };
+export const getCourseByCode = async (course_code: string) => {
+  const courses = await courseColleciton();
+  const course = await courses.findOne({ course_code: course_code });
+  return course;
+};

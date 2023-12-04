@@ -28,7 +28,6 @@ function Questions() {
     const canvasToken_hashed = encrypt(event.target.elements.canvasToken.value);
 
     try {
-      console.log(currentUser);
       const response = await fetch(`/api/questions`, {
         method: "POST",
         body: JSON.stringify({
