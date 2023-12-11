@@ -12,7 +12,6 @@ export default async function Home() {
     redirect("/dashboard");
   }
 
-export default function Home() {
   return (
     <div>
       {/* Hero Section */}
