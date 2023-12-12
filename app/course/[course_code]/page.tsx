@@ -127,15 +127,31 @@ const CourseById = () => {
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">
-                      Students Enrolled
+                      Students Enrolled Currently
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      {data?.currently_enrolled?.map((enrolled) => (
-                        <span className="mr-4" key={enrolled}>
-                          {enrolled}
-                        </span>
-                      ))}{" "}
-                      {data?.currently_enrolled?.length === 0 && <span>-</span>}
+                      <span className="mr-4">
+                        {(data?.currently_enrolled?.length ?? 0) != 0 &&
+                          data.currently_enrolled.length}
+                        {(data?.currently_enrolled?.length ?? 0) === 0 && "-"}
+                      </span>
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 ">
+                      Students Enrolled Previously
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
+                      <span className="mr-4">
+                        {(data?.previously_enrolled?.length ?? 0) +
+                          (data?.currently_enrolled?.length ?? 0) !=
+                          0 &&
+                          data.previously_enrolled.length +
+                            data.currently_enrolled.length}
+                        {(data?.previously_enrolled?.length ?? 0) +
+                          (data?.currently_enrolled?.length ?? 0) ===
+                          0 && "-"}
+                      </span>
                     </dd>
                   </div>
 
@@ -149,38 +165,44 @@ const CourseById = () => {
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                              <span className="truncate font-medium">
-                                Syllabus
-                              </span>
                               <span className="flex-shrink-0 text-gray-400">
-                                {/* TODO add file size */}
+                                {data?.course_syllabus != "" &&
+                                  data?.download_size != 0 && (
+                                    <>{data?.download_size}KB</>
+                                  )}
                               </span>
+
+                              {data?.course_syllabus != "" &&
+                              data?.download_size != 0 ? (
+                                <div className="ml-4 flex-shrink-0">
+                                  <a
+                                    href={`${data?.course_syllabus}`}
+                                    target="_blank"
+                                    className="flex font-medium hover:text-indigo-500"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      className="lucide lucide-arrow-down-to-line"
+                                    >
+                                      <path d="M12 17V3" />
+                                      <path d="m6 11 6 6 6-6" />
+                                      <path d="M19 21H5" />
+                                    </svg>
+                                    Download
+                                  </a>
+                                </div>
+                              ) : (
+                                <p>No Syllabus Available Yet!</p>
+                              )}
                             </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0">
-                            <a
-                              href={`${data?.course_syllabus}`}
-                              target="_blank"
-                              className="flex font-medium hover:text-indigo-500"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="lucide lucide-arrow-down-to-line"
-                              >
-                                <path d="M12 17V3" />
-                                <path d="m6 11 6 6 6-6" />
-                                <path d="M19 21H5" />
-                              </svg>
-                              Download
-                            </a>
                           </div>
                         </li>
                       </ul>

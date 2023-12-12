@@ -93,10 +93,11 @@ export type Course = {
   course_professors: [{ display_name: string; avatar_image_url: string }] | [];
   course_syllabus: string;
   currently_enrolled: string[];
-  previous_enrolled: string[];
+  previously_enrolled: string[];
   stevens_course_link: string;
   department_code: string;
   department: string;
+  download_size: number;
 };
 
 export type User = {
