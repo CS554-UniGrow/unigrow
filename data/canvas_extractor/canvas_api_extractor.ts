@@ -148,7 +148,7 @@ async function extractSyllabusFromStudentCourseDetails(
               );
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
-              logger.info(file.byteLength);
+
               let coursesCollection = await courses();
               let courseInMongo = await coursesCollection.findOne({
                 course_code: course.course_code
@@ -170,7 +170,8 @@ async function extractSyllabusFromStudentCourseDetails(
                 logger.info("Uploaded a blob or file!");
                 let updateResult = await coursesCollection.updateOne(
                   { course_code: course.course_code },
-                  { $set: { course_syllabus: download_url } }
+                  { $set: { course_syllabus: download_url } },
+                  { $set: { download_size: file.byteLength / 1000 } }
                 );
                 logger.info(
                   "Syllabus updated successfully for " +
@@ -218,7 +219,8 @@ async function extractSyllabusFromStudentCourseDetails(
                   );
                   let updateResult = await coursesCollection.updateOne(
                     { course_code: course.course_code },
-                    { $set: { course_syllabus: download_url } }
+                    { $set: { course_syllabus: download_url } },
+                    { $set: { download_size: file.byteLength / 1000 } }
                   );
                 } else if (course_year_index === courseInMongo_year_index) {
                   if (course_semester_index > courseInMongo_semester_index) {
@@ -235,7 +237,8 @@ async function extractSyllabusFromStudentCourseDetails(
                     );
                     let updateResult = await coursesCollection.updateOne(
                       { course_code: course.course_code },
-                      { $set: { course_syllabus: download_url } }
+                      { $set: { course_syllabus: download_url } },
+                      { $set: { download_size: file.byteLength / 1000 } }
                     );
                   }
                 }
