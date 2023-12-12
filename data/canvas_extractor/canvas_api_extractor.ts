@@ -89,32 +89,49 @@ async function updateCourseCollection(updatedCourseDetails: any, uid: string) {
     let current_semester = semester_mapper.current_semester;
     let current_semester_index = semesters.indexOf(current_semester);
     let current_year_index = current_year;
+    let courseInMongo_currently_enrolled = courseInMongo.currently_enrolled;
+    let courseInMongo_previously_enrolled = courseInMongo.previously_enrolled;
     if (year_index > current_year_index) {
       await coursesCollection.updateOne(
         { course_code: course.course_code },
-        { $addToSet: { currently_enrolled: uid } }
+        {
+          $push: { currently_enrolled: uid },
+          $pull: { previously_enrolled: uid }
+        }
       );
     } else if (year_index === current_year_index) {
       if (semester_index > current_semester_index) {
         await coursesCollection.updateOne(
           { course_code: course.course_code },
-          { $addToSet: { currently_enrolled: uid } }
+          {
+            $push: { currently_enrolled: uid },
+            $pull: { previously_enrolled: uid }
+          }
         );
       } else if (semester_index === current_semester_index) {
         await coursesCollection.updateOne(
           { course_code: course.course_code },
-          { $addToSet: { currently_enrolled: uid } }
+          {
+            $push: { currently_enrolled: uid },
+            $pull: { previously_enrolled: uid }
+          }
         );
       } else {
         await coursesCollection.updateOne(
           { course_code: course.course_code },
-          { $addToSet: { previously_enrolled: uid } }
+          {
+            $push: { previously_enrolled: uid },
+            $pull: { currently_enrolled: uid }
+          }
         );
       }
     } else {
       await coursesCollection.updateOne(
         { course_code: course.course_code },
-        { $addToSet: { previously_enrolled: uid } }
+        {
+          $push: { previously_enrolled: uid },
+          $pull: { currently_enrolled: uid }
+        }
       );
     }
 

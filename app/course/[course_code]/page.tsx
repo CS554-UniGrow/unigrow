@@ -127,15 +127,31 @@ const CourseById = () => {
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">
-                      Students Enrolled
+                      Students Enrolled Currently
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      {data?.currently_enrolled?.map((enrolled) => (
-                        <span className="mr-4" key={enrolled}>
-                          {enrolled}
-                        </span>
-                      ))}{" "}
-                      {data?.currently_enrolled?.length === 0 && <span>-</span>}
+                      <span className="mr-4">
+                        {(data?.currently_enrolled?.length ?? 0) != 0 &&
+                          data.currently_enrolled.length}
+                        {(data?.currently_enrolled?.length ?? 0) === 0 && "-"}
+                      </span>
+                    </dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 ">
+                      Students Enrolled Previously
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
+                      <span className="mr-4">
+                        {(data?.previously_enrolled?.length ?? 0) +
+                          (data?.currently_enrolled?.length ?? 0) !=
+                          0 &&
+                          data.previously_enrolled.length +
+                            data.currently_enrolled.length}
+                        {(data?.previously_enrolled?.length ?? 0) +
+                          (data?.currently_enrolled?.length ?? 0) ===
+                          0 && "-"}
+                      </span>
                     </dd>
                   </div>
 
