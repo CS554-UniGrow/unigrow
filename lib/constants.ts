@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export const departmentMapper: { [code: string]: string } = {
   AAI: "Applied Artificial Intelligence",
   ACC: "Accounting",
@@ -2692,3 +2694,13 @@ export const semesters = [
   "Summer Session 2",
   "Fall"
 ];
+
+export const semester_mapper = {
+  current_year: dayjs().year(),
+  current_semester:
+    dayjs().month() < 5
+      ? semesters[3] // May
+      : dayjs().month() < 8
+      ? semesters[0] // August
+      : semesters[3] // September to December
+};

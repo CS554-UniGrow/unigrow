@@ -122,34 +122,43 @@ const DepertmentCourses = async ({
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
                               <span className="flex-shrink-0 text-gray-400">
-                                {course?.download_size}
+                                {course?.course_syllabus != "" &&
+                                  course?.download_size != 0 && (
+                                    <>{course?.download_size}KB</>
+                                  )}
                               </span>
+
+                              {course?.course_syllabus != "" &&
+                              course?.download_size != 0 ? (
+                                <div className="ml-4 flex-shrink-0">
+                                  <a
+                                    href={`${course.course_syllabus}`}
+                                    target="_blank"
+                                    className="flex font-medium hover:text-indigo-500"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="24"
+                                      height="24"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      className="lucide lucide-arrow-down-to-line"
+                                    >
+                                      <path d="M12 17V3" />
+                                      <path d="m6 11 6 6 6-6" />
+                                      <path d="M19 21H5" />
+                                    </svg>
+                                    Download
+                                  </a>
+                                </div>
+                              ) : (
+                                <p>No Syllabus Available Yet!</p>
+                              )}
                             </div>
-                          </div>
-                          <div className="ml-4 flex-shrink-0">
-                            <a
-                              href={`${course.course_syllabus}`}
-                              target="_blank"
-                              className="flex font-medium hover:text-indigo-500"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="lucide lucide-arrow-down-to-line"
-                              >
-                                <path d="M12 17V3" />
-                                <path d="m6 11 6 6 6-6" />
-                                <path d="M19 21H5" />
-                              </svg>
-                              Download
-                            </a>
                           </div>
                         </li>
                       </ul>

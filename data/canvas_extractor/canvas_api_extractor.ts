@@ -3,7 +3,7 @@ import logger from "@/lib/logger";
 import fs from "fs";
 import axios, { AxiosError } from "axios";
 import { Course, CourseApiReturn, UserProfile } from "@/lib/types";
-import { courseList, semesters } from "@/lib/constants";
+import { courseList, semester_mapper, semesters } from "@/lib/constants";
 import { courses, users } from "@/config/mongo/mongoCollections";
 import path from "path";
 import { decrypt } from "@/lib/utils";
@@ -77,8 +77,48 @@ async function updateCourseCollection(updatedCourseDetails: any, uid: string) {
         { $push: { course_professors: course.course_professors[0] } }
       );
     }
-    // TODO DHRUV based on term_taken_in add uid to the currently_enrolled array or the previous_enrolled array
     // { $push: { currently_enrolled: uid } }
+    //based on term_taken_in add uid to the currently_enrolled array or the previous_enrolled array
+    let term_taken_in = course.term_taken_in;
+    let term_taken_in_array = term_taken_in.split(" ");
+    let year = term_taken_in_array[0];
+    let semester = term_taken_in_array[1];
+    let semester_index = semesters.indexOf(semester);
+    let year_index = parseInt(year);
+    let current_year = semester_mapper.current_year;
+    let current_semester = semester_mapper.current_semester;
+    let current_semester_index = semesters.indexOf(current_semester);
+    let current_year_index = current_year;
+    if (year_index > current_year_index) {
+      await coursesCollection.updateOne(
+        { course_code: course.course_code },
+        { $addToSet: { currently_enrolled: uid } }
+      );
+    } else if (year_index === current_year_index) {
+      if (semester_index > current_semester_index) {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          { $addToSet: { currently_enrolled: uid } }
+        );
+      } else if (semester_index === current_semester_index) {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          { $addToSet: { currently_enrolled: uid } }
+        );
+      } else {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          { $addToSet: { previously_enrolled: uid } }
+        );
+      }
+    } else {
+      await coursesCollection.updateOne(
+        { course_code: course.course_code },
+        { $addToSet: { previously_enrolled: uid } }
+      );
+    }
+
+    logger.info("Course updated successfully for " + course.course_code);
   });
 }
 async function extractSyllabusFromStudentCourseDetails(
@@ -168,17 +208,27 @@ async function extractSyllabusFromStudentCourseDetails(
                 });
                 const download_url = await getDownloadURL(upload.ref);
                 logger.info("Uploaded a blob or file!");
-                logger.info(file.byteLength / 1000 + " KB");
+                const fileSizeKB = file.byteLength / 1000;
                 let updateResult = await coursesCollection.updateOne(
                   { course_code: course.course_code },
-                  { $set: { course_syllabus: download_url } },
-                  { $set: { download_size: file.byteLength / 1000 } }
+                  {
+                    $set: {
+                      course_syllabus: download_url,
+                      download_size: fileSizeKB
+                    }
+                  }
+                );
+                logger.info(
+                  updateResult.modifiedCount + " document(s) updated"
                 );
                 logger.info(
                   "Syllabus updated successfully for " +
                     course.course_code +
                     " and the syllabus is stored at " +
                     download_url
+                );
+                logger.info(
+                  updateResult.modifiedCount + " document(s) updated"
                 );
               } else if (courseInMongo.course_syllabus != "") {
                 logger.info(
@@ -218,10 +268,19 @@ async function extractSyllabusFromStudentCourseDetails(
                       " is of a more recent semester and the syllabus is stored at " +
                       download_url
                   );
+                  const fileSizeKB = file.byteLength / 1000;
+
                   let updateResult = await coursesCollection.updateOne(
                     { course_code: course.course_code },
-                    { $set: { course_syllabus: download_url } },
-                    { $set: { download_size: file.byteLength / 1000 } }
+                    {
+                      $set: {
+                        course_syllabus: download_url,
+                        download_size: fileSizeKB
+                      }
+                    }
+                  );
+                  logger.info(
+                    updateResult.modifiedCount + " document(s) updated"
                   );
                 } else if (course_year_index === courseInMongo_year_index) {
                   if (course_semester_index > courseInMongo_semester_index) {
@@ -236,12 +295,44 @@ async function extractSyllabusFromStudentCourseDetails(
                         " is of a more recent semester and the syllabus is stored at " +
                         download_url
                     );
+                    const fileSizeKB = file.byteLength / 1000;
+
                     let updateResult = await coursesCollection.updateOne(
                       { course_code: course.course_code },
-                      { $set: { course_syllabus: download_url } },
-                      { $set: { download_size: file.byteLength / 1000 } }
+                      {
+                        $set: {
+                          course_syllabus: download_url,
+                          download_size: fileSizeKB
+                        }
+                      }
+                    );
+                    logger.info(
+                      updateResult.modifiedCount + " document(s) updated"
                     );
                   }
+                } else {
+                  logger.info(
+                    "Syllabus already exists for " +
+                      course.course_code +
+                      " and the syllabus is stored at " +
+                      courseInMongo.course_syllabus
+                  );
+                  let fileStreamResult = await axios.get(
+                    courseInMongo.course_syllabus,
+                    {
+                      responseType: "arraybuffer"
+                    }
+                  );
+                  const file = fileStreamResult.data;
+                  const fileSizeKB = file.byteLength / 1000;
+
+                  let updateResult = await coursesCollection.updateOne(
+                    { course_code: course.course_code },
+                    { $set: { download_size: fileSizeKB } }
+                  );
+                  logger.info(
+                    updateResult.modifiedCount + " document(s) updated"
+                  );
                 }
               }
             }
