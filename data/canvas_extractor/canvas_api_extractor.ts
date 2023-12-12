@@ -98,7 +98,6 @@ async function extractSyllabusFromStudentCourseDetails(
       continue;
     }
 
-    let syllabusDoc = "";
     let moduleIds = response.data.map((module: any) => module.id);
 
     for (const moduleId of moduleIds) {
@@ -149,12 +148,7 @@ async function extractSyllabusFromStudentCourseDetails(
               );
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
-              const upload = await uploadBytes(fileRef, file, {
-                contentType: "application/pdf"
-              });
-              const download_url = await getDownloadURL(upload.ref);
-              logger.info("Uploaded a blob or file!");
-
+              logger.info(file.byteLength);
               let coursesCollection = await courses();
               let courseInMongo = await coursesCollection.findOne({
                 course_code: course.course_code
@@ -163,6 +157,26 @@ async function extractSyllabusFromStudentCourseDetails(
                 logger.error(
                   "Course not found in the database for the course code " +
                     course.course_code
+                );
+              } else if (
+                courseInMongo.course_syllabus === "" ||
+                courseInMongo.course_syllabus === undefined ||
+                courseInMongo.course_syllabus === null
+              ) {
+                const upload = await uploadBytes(fileRef, file, {
+                  contentType: "application/pdf"
+                });
+                const download_url = await getDownloadURL(upload.ref);
+                logger.info("Uploaded a blob or file!");
+                let updateResult = await coursesCollection.updateOne(
+                  { course_code: course.course_code },
+                  { $set: { course_syllabus: download_url } }
+                );
+                logger.info(
+                  "Syllabus updated successfully for " +
+                    course.course_code +
+                    " and the syllabus is stored at " +
+                    download_url
                 );
               } else if (courseInMongo.course_syllabus != "") {
                 logger.info(
@@ -191,6 +205,11 @@ async function extractSyllabusFromStudentCourseDetails(
                 );
                 let courseInMongo_year_index = parseInt(courseInMongo_year);
                 if (course_year_index > courseInMongo_year_index) {
+                  const upload = await uploadBytes(fileRef, file, {
+                    contentType: "application/pdf"
+                  });
+                  const download_url = await getDownloadURL(upload.ref);
+                  logger.info("Uploaded a blob or file!");
                   logger.info(
                     "Course " +
                       course.course_code +
@@ -203,6 +222,11 @@ async function extractSyllabusFromStudentCourseDetails(
                   );
                 } else if (course_year_index === courseInMongo_year_index) {
                   if (course_semester_index > courseInMongo_semester_index) {
+                    const upload = await uploadBytes(fileRef, file, {
+                      contentType: "application/pdf"
+                    });
+                    const download_url = await getDownloadURL(upload.ref);
+                    logger.info("Uploaded a blob or file!");
                     logger.info(
                       "Course " +
                         course.course_code +
@@ -216,16 +240,6 @@ async function extractSyllabusFromStudentCourseDetails(
                   }
                 }
               }
-              let updateResult = await coursesCollection.updateOne(
-                { course_code: course.course_code },
-                { $set: { course_syllabus: download_url } }
-              );
-              logger.info(
-                "Syllabus updated successfully for " +
-                  course.course_code +
-                  " and the syllabus is stored at " +
-                  download_url
-              );
             }
           } catch (error) {
             logger.error(" Error: " + error + " for the url " + url);
