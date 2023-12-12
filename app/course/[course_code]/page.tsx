@@ -148,7 +148,7 @@ const CourseById = () => {
                       >
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
-                            <div className="">
+                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
                               <span className="flex-shrink-0 text-gray-400">
                                 {data?.course_syllabus != "" &&
                                   data?.download_size != 0 && (
