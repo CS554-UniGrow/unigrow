@@ -2687,8 +2687,8 @@ export const courseList: courseListType = {
 };
 
 export const semesters = [
-  "Fall",
   "Spring",
   "Summer Session 1",
-  "Summer Session 2"
+  "Summer Session 2",
+  "Fall"
 ];

@@ -2,6 +2,7 @@ import logger from "@/lib/logger";
 import fs from "fs";
 import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection";
 import { courses as courseCollection } from "@/config/mongo/mongoCollections";
+import { users as userCollection } from "@/config/mongo/mongoCollections";
 import { NextRequest, NextResponse } from "next/server";
 const rawData = fs.readFileSync("./scripts/course_data_extracted.json", "utf8");
 const seedData = JSON.parse(rawData);
@@ -12,7 +13,9 @@ async function seed() {
     logger.info("Connected to the database.");
 
     const courses = await courseCollection();
+    const users = await userCollection();
     await courses.deleteMany({}); // Use deleteMany instead of dropDatabase
+    await users.deleteMany({});
     logger.info("Collection cleared.");
     await courses.insertMany(seedData);
     return "Data seeded successfully.";
