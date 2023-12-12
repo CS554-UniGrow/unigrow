@@ -97,6 +97,7 @@ export type Course = {
   stevens_course_link: string;
   department_code: string;
   department: string;
+  download_size: number;
 };
 
 export type User = {

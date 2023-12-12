@@ -121,11 +121,8 @@ const DepertmentCourses = async ({
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                              <span className="truncate font-medium">
-                                Syllabus
-                              </span>
                               <span className="flex-shrink-0 text-gray-400">
-                                {/* TODO add file size */}
+                                {course?.download_size}
                               </span>
                             </div>
                           </div>

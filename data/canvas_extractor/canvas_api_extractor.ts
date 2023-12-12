@@ -159,15 +159,16 @@ async function extractSyllabusFromStudentCourseDetails(
                     course.course_code
                 );
               } else if (
-                courseInMongo.course_syllabus === "" ||
-                courseInMongo.course_syllabus === undefined ||
-                courseInMongo.course_syllabus === null
+                courseInMongo!.course_syllabus === "" ||
+                courseInMongo!.course_syllabus === undefined ||
+                courseInMongo!.course_syllabus === null
               ) {
                 const upload = await uploadBytes(fileRef, file, {
                   contentType: "application/pdf"
                 });
                 const download_url = await getDownloadURL(upload.ref);
                 logger.info("Uploaded a blob or file!");
+                logger.info(file.byteLength / 1000 + " KB");
                 let updateResult = await coursesCollection.updateOne(
                   { course_code: course.course_code },
                   { $set: { course_syllabus: download_url } },
