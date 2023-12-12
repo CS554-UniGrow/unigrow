@@ -42,11 +42,16 @@ async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
     login_id: response.login_id,
     courses: data.map((course: any) => {
       return course.course_code;
-    })
+    }),
+    apiKey_hashed: apiKey_hashed
   };
   // insert user profile details into the database
   let usersCollection = await users();
-  let userInDB = await usersCollection.findOne({ _id: uid });
+  let userInDB = await usersCollection.findOne({
+    id: response.id,
+    login_id: response.login_id,
+    primary_email: response.primary_email
+  });
   if (userInDB === null) {
     await usersCollection.insertOne(response);
   } else {
@@ -138,7 +143,10 @@ async function extractSyllabusFromStudentCourseDetails(
                   " ",
                   "_"
                 ) + ".pdf";
-              const fileRef = ref(storage, `syllabus/${fileName}`);
+              const fileRef = ref(
+                storage,
+                `syllabus/${course.course_code.replace(" ", "_")}/${fileName}`
+              );
               // 'file' comes from the Blob or File API
               const file = fileStreamResult.data;
               const upload = await uploadBytes(fileRef, file, {
@@ -148,6 +156,66 @@ async function extractSyllabusFromStudentCourseDetails(
               logger.info("Uploaded a blob or file!");
 
               let coursesCollection = await courses();
+              let courseInMongo = await coursesCollection.findOne({
+                course_code: course.course_code
+              });
+              if (courseInMongo === null) {
+                logger.error(
+                  "Course not found in the database for the course code " +
+                    course.course_code
+                );
+              } else if (courseInMongo.course_syllabus != "") {
+                logger.info(
+                  "Syllabus already exists for " +
+                    course.course_code +
+                    " and the syllabus is stored at " +
+                    courseInMongo.course_syllabus
+                );
+                const courseInMongo_urlObject = new URL(
+                  courseInMongo.course_syllabus
+                );
+                const courseInMongo_pathArray =
+                  courseInMongo_urlObject.pathname.split("/");
+                const courseInMongo_fileName = decodeURIComponent(
+                  courseInMongo_pathArray[courseInMongo_pathArray.length - 1]
+                ).split(" " || ".");
+                // check if course url is of a more recent semester or not and update it if it is not the most recent
+                let course_semester = course.term_taken_in.split(" ")[1];
+                let course_year = course.term_taken_in.split(" ")[0];
+                let course_semester_index = semesters.indexOf(course_semester);
+                let course_year_index = parseInt(course_year);
+                let courseInMongo_semester = courseInMongo_fileName[2];
+                let courseInMongo_year = courseInMongo_fileName[1];
+                let courseInMongo_semester_index = semesters.indexOf(
+                  courseInMongo_semester
+                );
+                let courseInMongo_year_index = parseInt(courseInMongo_year);
+                if (course_year_index > courseInMongo_year_index) {
+                  logger.info(
+                    "Course " +
+                      course.course_code +
+                      " is of a more recent semester and the syllabus is stored at " +
+                      download_url
+                  );
+                  let updateResult = await coursesCollection.updateOne(
+                    { course_code: course.course_code },
+                    { $set: { course_syllabus: download_url } }
+                  );
+                } else if (course_year_index === courseInMongo_year_index) {
+                  if (course_semester_index > courseInMongo_semester_index) {
+                    logger.info(
+                      "Course " +
+                        course.course_code +
+                        " is of a more recent semester and the syllabus is stored at " +
+                        download_url
+                    );
+                    let updateResult = await coursesCollection.updateOne(
+                      { course_code: course.course_code },
+                      { $set: { course_syllabus: download_url } }
+                    );
+                  }
+                }
+              }
               let updateResult = await coursesCollection.updateOne(
                 { course_code: course.course_code },
                 { $set: { course_syllabus: download_url } }
@@ -225,7 +293,7 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
     //   logger.error(error);
     // }
 
-    processStudentCourseDetails(apiKey, result, uid);
+    await processStudentCourseDetails(apiKey, result, uid);
     return result;
   } catch (error) {
     logger.error(error);
@@ -255,4 +323,18 @@ async function processStudentCourseDetails(
   }
 }
 
-export { getUserProfileDetails, getUsersCourseDetails };
+async function getAllUsersCourseDetails() {
+  logger.info("Getting all users course details");
+  let usersCollection = await users();
+  let usersInDB = await usersCollection.find({}).toArray();
+  for (let user of usersInDB) {
+    const apiKey = decrypt(user.apiKey_hashed);
+    await getUsersCourseDetails(apiKey, user._id);
+  }
+}
+
+export {
+  getUserProfileDetails,
+  getUsersCourseDetails,
+  getAllUsersCourseDetails
+};

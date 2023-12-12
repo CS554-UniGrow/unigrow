@@ -9,6 +9,7 @@ export type UserProfile = {
   primary_email: string;
   login_id: string;
   courses: string[];
+  apiKey_hashed: string;
 };
 
 export type CourseApiReturn = {

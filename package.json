@@ -36,6 +36,7 @@
     "mongodb": "^6.2.0",
     "next": "14.0.1",
     "next-themes": "^0.2.1",
+    "node-cron": "^3.0.3",
     "pino": "^8.16.1",
     "pino-logflare": "^0.4.2",
     "pino-pretty": "^10.2.3",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@firebase/auth-types": "^0.12.0",
     "@types/node": "^20",
+    "@types/node-cron": "^3.0.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^9.0.6",
