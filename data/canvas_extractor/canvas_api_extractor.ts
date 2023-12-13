@@ -400,26 +400,7 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
     // remove nulls from result
     result = result.filter((course: any) => course !== null);
 
-    //TODO REFACTOR TO orchestrate it better
-    // try {
-    //   extractSyllabusFromStudentCourseDetails(apiKey, result).then(() => {
-    //     logger.info("Syllabus extracted successfully");
-    //   });
-    // } catch (error: any) {
-    //   logger.error(
-    //     error.code + ":" + error.message + "for the url " + error.config.url
-    //   );
-    // }
-    // try {
-    //   updateCourseCollection(result, uid).then(() => {
-    //     logger.info("Courses updated successfully");
-    //   });
-    // } catch (error) {
-    //   // TODO something with error
-    //   logger.error(error);
-    // }
-
-    await processStudentCourseDetails(apiKey, result, uid);
+    processStudentCourseDetails(apiKey, result, uid);
     return result;
   } catch (error) {
     logger.error(error);
