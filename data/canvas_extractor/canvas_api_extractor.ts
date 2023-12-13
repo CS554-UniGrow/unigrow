@@ -419,7 +419,7 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
     //   logger.error(error);
     // }
 
-    await processStudentCourseDetails(apiKey, result, uid);
+    processStudentCourseDetails(apiKey, result, uid);
     return result;
   } catch (error) {
     logger.error(error);
