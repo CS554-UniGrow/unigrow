@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* please refer to comments to make changes */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -73,4 +75,90 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+.hero-section {
+
+  /* Apply a background color as a fallback or overlay */
+  background-color: rgba(0, 0, 0, 0.5); /* A black overlay with 50% opacity */
+
+  /* Any other styles you want to apply to the hero section */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 75vh; /* Adjust the height as necessary */
+}
+
+.feature-card {
+
+  /* Apply a background color as a fallback or overlay */
+  background-color: rgba(0, 0, 0, 0.5); /* A black overlay with 50% opacity */
+
+  /* Any other styles you want to apply to the hero section */
+  display: flex;
+  padding: 10%;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  height: 100%; /* Adjust the height as necessary */
+}
+
+.testimonials-section {
+  padding-top: 10%;
+  background-color: rgba(0, 0, 0, 0.5); /* Light gray background */
+  padding: 5rem 0; /* Vertical padding */
+}
+
+.testimonial-item {
+  background-color: rgb(255, 255, 255, 0.85); /* White background for each testimonial */
+  padding: 1.5rem; /* Padding inside each testimonial */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-bottom: 1rem; /* Margin between testimonials */
+}
+
+.testimonial-item p {
+  font-style: italic; /* Italicize the testimonial text */
+  font-weight:500;
+  color: #000000; /* Dark gray text color */
+}
+
+.testimonial-item footer {
+  margin-top: 1rem; /* Space between testimonial text and footer */
+  font-weight: bold; /* Bold font for the footer (user's name) */
+  color: #333; /* Darker text color for contrast */
+}
+
+/* globals.css or within your component's <style> tag */
+
+.about-section {
+  padding: 2rem 0; /* Vertical padding */
+  background-color: rgba(0, 0, 0, 0.5); /* White or light background */
+  color: #fdfdfd; /* Dark text color for readability */
+}
+
+.about-section h3 {
+  text-align: center; /* Center-align the title */
+  font-size: 2.5rem; /* Larger font size for the heading */
+  font-weight: bold; /* Bold font weight for the heading */
+  margin-bottom: 1rem; /* Space below the heading */
+  color: #fffefe; /* Slightly darker color for the heading */
+}
+
+.about-section p {
+  font-size: 1rem; /* Font size for the paragraph */
+  line-height: 1.6; /* Line height for readability */
+  color: #ffffff; /* Slightly lighter color for the paragraph text */
+  margin-bottom: 1rem; /* Space below each paragraph */
+  max-width: 90%; /* Max width for better readability */
+  margin-left: auto; /* Center the paragraph if it's not full width */
+  margin-right: auto; /* Center the paragraph if it's not full width */
+}
+
+.testimonial-author {
+  color:rgba(0, 0, 0, 0.5);
+  font-style: italic;
+  font-weight: 500
 }
