@@ -400,7 +400,7 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
     // remove nulls from result
     result = result.filter((course: any) => course !== null);
 
-    processStudentCourseDetails(apiKey, result, uid);
+    await processStudentCourseDetails(apiKey, result, uid);
     return result;
   } catch (error) {
     logger.error(error);
