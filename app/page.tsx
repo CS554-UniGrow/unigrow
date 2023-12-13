@@ -5,20 +5,11 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      {/* Hero Section 
-      hero-section: Apply background images, colors, or any other large section styles here.
-      container mx-auto: Centers your content and applies max-width with automatic margins.
-      text-center: Aligns text to the center.
-      py-24: Applies padding to the top and bottom of the section (24 is a scale value).
-      text-5xl: Sets the text size for the heading.
-      font-bold: Makes the font weight bold.
-      mb-6: Adds a margin-bottom (6 is a scale value).
-      text-xl: Sets the text size for the paragraph.
-      mb-8: Adds a margin-bottom to the paragraph.*/}
+    <div>
+      {/* Hero Section */}
 
       <section className="hero-section container mx-auto text-center py-24">
-        <h1 className="text-5xl font-bold mb-6">Empowering Your Academic Journey</h1>
+        <h1 className="text-5xl font-bold mb-12">Empowering Your Academic Journey</h1>
         <p className="text-xl mb-8">
           UniGrow brings the entirety of your campus experience right at your fingertips. Connect, explore, and grow with our comprehensive suite of tools.
         </p>
@@ -27,36 +18,28 @@ export default function Home() {
         </Link>
       </section>
 
-      {/* Detailed Features Section 
-      
-      features-section bg-black-100: Sets the background color of the features section.
-      py-12: Adds vertical padding to the section.
-      grid grid-cols-3: Creates a grid layout with 3 columns.
-      gap-8: Sets the gap between grid items.
-      feature-card hover:shadow-lg: Styles the card, and hover:shadow-lg adds a large shadow on hover.
-      transition duration-300: Smooths the transition of the shadow effect.
-      
-      */}
+      {/* Detailed Features Section */}
+
       <section className="features-section bg-black-100 py-12">
         <div className="container mx-auto grid grid-cols-3 gap-8">
           {/* Dynamic Feature Cards */}
           {/* Feature 1: Course Syllabus Integration */}
           <Card className="feature-card hover:shadow-lg transition duration-300">
-            <h2 className="feature-title text-xl font-semibold">Syllabus at a Glance</h2>
+            <h2 className="feature-title text-xl font-semibold mb-4">Syllabus at a Glance</h2>
             <p>
               Automatically synchronize the latest syllabus from Canvas. Stay updated and plan ahead with ease.
             </p>
           </Card>
           {/* Feature 2: Real-time Communication */}
           <Card className="feature-card hover:shadow-lg transition duration-300">
-            <h2 className="feature-title text-xl font-semibold">Connect Instantly</h2>
+            <h2 className="feature-title text-xl font-semibold mb-4">Connect Instantly</h2>
             <p>
               Engage in real-time discussions with peers and mentors. The knowledge you need, shared and received live.
             </p>
           </Card>
           {/* Feature 3: User Rating System */}
           <Card className="feature-card hover:shadow-lg transition duration-300">
-            <h2 className="feature-title text-xl font-semibold">Peer Insights</h2>
+            <h2 className="feature-title text-xl font-semibold mb-4">Peer Insights</h2>
             <p>
               Benefit from collective wisdom. Rate and review courses with insights from those who experienced them.
             </p>
@@ -77,6 +60,9 @@ export default function Home() {
           <p className="text-xl">
             Join us on this journey. Embrace the possibilities that lay before you and become a part of a vibrant community dedicated to educational success. With UniGrow, your academic aspirations are within reach.
           </p>
+          <Link href="/aboutus">
+            <Button className="cta-button">Learn More</Button>
+          </Link>
         </div>
       </section>
 
@@ -123,13 +109,18 @@ export default function Home() {
       py-8: Adds vertical padding.
       
       */}
-      <footer className="text-white py-8">
+      <footer className="footer-section text-white py-8">
         <div className="container mx-auto text-center">
-          <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
-          {/* Add more footer content such as links to social media, privacy policy, etc. */}
+            <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+            <a href="/" className="text-base hover:text-white">Home</a>
+            <a href="/faq" className="text-base hover:text-white">FAQ</a>
+            <a href="/aboutus" className="text-base hover:text-white">About</a>
+            <a href="/resources" className="text-base hover:text-white">Resources</a>
+            </div>
+            <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
         </div>
-      </footer>
-    </main>
+       </footer>
+    </div>
   );
 }
 
