@@ -1,6 +1,6 @@
 import { getAllUsers } from "@/data/users/usersDataFunctions";
 import { NextRequest, NextResponse } from "next/server";
-
+export const dynamic = "force-dynamic";
 import logger from "@/lib/logger";
 
 export async function GET(request: Request) {
