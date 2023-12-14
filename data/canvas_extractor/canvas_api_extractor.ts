@@ -420,7 +420,7 @@ async function processStudentCourseDetails(
     logger.error(error);
   }
   try {
-    extractSyllabusFromStudentCourseDetails(apiKey, result);
+    await extractSyllabusFromStudentCourseDetails(apiKey, result);
     logger.info("Syllabus extracted successfully");
   } catch (error: any) {
     logger.error(
