@@ -16,6 +16,7 @@
     "lint:fix": "next lint --fix"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -25,7 +26,9 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-navigation-menu": "^1.1.4",
     "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "@types/pino": "^7.0.5",
     "axios": "^1.6.0",
     "class-variance-authority": "^0.7.0",
@@ -36,6 +39,7 @@
     "firebase": "^10.5.2",
     "mongodb": "^6.2.0",
     "next": "14.0.1",
+    "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
     "node-cron": "^3.0.3",
     "pino": "^8.16.1",
@@ -43,9 +47,11 @@
     "pino-pretty": "^10.2.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.49.2",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@firebase/auth-types": "^0.12.0",

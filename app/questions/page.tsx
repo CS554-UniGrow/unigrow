@@ -5,20 +5,70 @@ import { UserContext } from "@/components/userContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { writeUserData } from "./data";
 import { useRouter } from "next/navigation";
 import logger from "@/lib/logger";
 import { encrypt } from "@/lib/utils";
-import { departmentList } from "@/lib/constants";
+import { departmentList, joiningTerms } from "@/lib/constants";
 import Loading from "@/components/ui/loading";
+import { useSession } from "next-auth/react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form";
+
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+const formSchema = z.object({
+  major: z
+    .string({
+      required_error: "Please select your major."
+    })
+    .trim()
+    .min(1, { message: "Please select your major." }),
+  joiningTerm: z
+    .string({
+      required_error: "Please select your joining term."
+    })
+    .trim()
+    .min(1, { message: "Please select your joining term." }),
+  canvasToken: z.string().length(69, { message: "Enter a valid Canvas Token" })
+});
+
+type TQuestionaire = z.infer<typeof formSchema>;
 
 function Questions() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { data: session, status } = useSession();
+  console.log(session);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const user_data_string = currentUser?.user;
+  const form = useForm<TQuestionaire>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      major: "",
+      joiningTerm: "",
+      canvasToken: ""
+    }
+  });
+
+  const onSubmit = async (values) => {
+    console.log(values);
+  };
 
   async function handle_submit(event: any) {
     event.preventDefault(); // Prevent default form submission
@@ -37,6 +87,7 @@ function Questions() {
           uid: currentUser?.uid
         })
       });
+
       if (response) {
         setLoading(false);
 
@@ -68,12 +119,12 @@ function Questions() {
     <>
       {loading && <Loading />}
       <div className="grid gap-5">
-        <h1>Hey there! {currentUser?.username}</h1>
+        <h1 className="text-3xl">Hey! {session?.user?.name}</h1>
         <h2 className="my-10">
           Get started on our platform by answering a few simple questions
         </h2>
         {/* TODO add spinner to disable form when handle submit is running] */}
-        <form onSubmit={handle_submit}>
+        {/* <form onSubmit={handle_submit}>
           <ol>
             <li>
               <Label>Major:</Label>
@@ -144,7 +195,97 @@ function Questions() {
           <Button type="submit" className="my-10">
             Submit Data
           </Button>
-        </form>
+        </form> */}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="min-w-lg mx-auto max-w-lg space-y-8 lg:max-w-xl"
+          >
+            <FormField
+              control={form.control}
+              name="major"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Major</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Major" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {departmentList.map(({ course_code, department }) => (
+                          <SelectItem key={course_code} value={course_code}>
+                            {department}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>
+                    Choose the major that you are currently enrolled in
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="joiningTerm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Joining Term</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Joining Term" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {joiningTerms.map(({ term, value }) => (
+                          <SelectItem key={term} value={value}>
+                            {term}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>
+                    Choose the term that you joined Stevens
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="canvasToken"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Canvas Token</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your Canvas Token" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Generate your Canvas access token. Accessing the Canvas API
+                    requires a token, which you can think of as your username
+                    and password squished into one long random string. Do not
+                    share your token with anyone else!
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full">
+              Submit
+            </Button>
+          </form>
+        </Form>
       </div>
     </>
   );

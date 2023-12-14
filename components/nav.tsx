@@ -8,7 +8,6 @@ import {
   ElementRef,
   ComponentPropsWithoutRef
 } from "react";
-import { UserContext } from "./userContext";
 
 import {
   NavigationMenu,
@@ -23,51 +22,21 @@ import ProfileDropdown from "@/components/profileDropdown";
 import Image from "next/image";
 
 const navLinks = [
-  { title: "Dashboard", path: "/dashboard" },
-  { title: "Courses", path: "/courses" },
-  { title: "People", path: "/people" },
-  { title: "Resources", path: "/resources" }
+  { title: "Dashboard", path: "/dashboard", checkAuth: true },
+  { title: "Courses", path: "/courses", checkAuth: true },
+  { title: "People", path: "/people", checkAuth: true },
+  { title: "Resources", path: "/resources", checkAuth: false }
 ];
 
+import { useSession } from "next-auth/react";
+
 export default function Nav() {
-  const { currentUser } = useContext(UserContext);
+  const { data: session, status } = useSession();
 
   return (
     <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">
-      {currentUser?.isAuthenticated ? (
-        <>
-          <NavigationMenuList>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link href={"/dashboard"}>
-                  <Image
-                    src={"student.svg"}
-                    width={100}
-                    height={100}
-                    className="h-10 w-10"
-                    alt="Unigrow"
-                  ></Image>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-            {navLinks.map((link) => (
-              <NavigationMenuItem key={link.title}>
-                <Link href={link.path} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {link.title}
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <ProfileDropdown />
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </>
-      ) : (
-        <>
+      <>
+        <NavigationMenuList>
           <NavigationMenuList>
             <NavigationMenuItem>
               <Link href={"/dashboard"}>
@@ -81,15 +50,28 @@ export default function Nav() {
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href={"/signup"}>
-                <Button>Login</Button>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </>
-      )}
+          {navLinks.map(({ title, path, checkAuth }) => {
+            if (!checkAuth || session?.user?.isAuthenticated) {
+              return (
+                <NavigationMenuItem key={title}>
+                  <Link href={path} legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      {title}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              );
+            }
+          })}
+        </NavigationMenuList>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            {session?.user?.isAuthenticated && <ProfileDropdown />}
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </>
     </NavigationMenu>
   );
 }

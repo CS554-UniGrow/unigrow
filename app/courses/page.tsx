@@ -10,7 +10,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { departmentList } from "@/lib/constants";
 
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+
 const Departments = async () => {
+  const session = await getServerSession(options);
+  if (!session) {
+    redirect("/signup");
+  }
+
   return (
     <div className="">
       <div className="header flex flex-col gap-8">

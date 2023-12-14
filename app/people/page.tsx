@@ -29,11 +29,19 @@ import { UserProfile } from "@/lib/types";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 function useFetchPeople() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const { data: session, status } = useSession();
+
+  if (!session?.user?.isAuthenticated) {
+    redirect("/signup");
+  }
 
   useEffect(() => {
     setLoading(true);

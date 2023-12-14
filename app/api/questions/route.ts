@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor";
 import logger from "@/lib/logger";
+
 export async function POST(req: Request) {
   try {
     const temp = await req.json();

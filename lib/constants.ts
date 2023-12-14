@@ -2688,6 +2688,16 @@ export const courseList: courseListType = {
   "TM 900": "Thesis in Telecommunications Management (MS)"
 };
 
+export const joiningTerms = [
+  { term: "Fall 2020", value: "Fall 2020" },
+  { term: "Spring 2021", value: "Spring 2021" },
+  { term: "Fall 2021", value: "Fall 2021" },
+  { term: "Spring 2022", value: "Spring 2022" },
+  { term: "Fall 2022", value: "Fall 2022" },
+  { term: "Spring 2023", value: "Spring 2023" },
+  { term: "Fall 2023", value: "Fall 2023" }
+]
+
 export const semesters = [
   "Spring",
   "Summer Session 1",
@@ -2701,6 +2711,6 @@ export const semester_mapper = {
     dayjs().month() < 5
       ? semesters[3] // May
       : dayjs().month() < 8
-      ? semesters[0] // August
-      : semesters[3] // September to December
+        ? semesters[0] // August
+        : semesters[3] // September to December
 };

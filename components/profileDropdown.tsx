@@ -13,28 +13,24 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { ThemeToggle } from "./theme-toggle";
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/signup/data";
 import Link from "next/link";
-import loadingLogo from "@/public/loading.png";
+
+import { useSession, signOut } from "next-auth/react";
 
 export default function ProfileDropdown() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { data: session, status } = useSession();
 
-  const router = useRouter();
-
-  const handleLogOut = () => {
-    setCurrentUser({ isAuthenticated: false });
-    logout();
-    router.replace("/signup");
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={currentUser?.profile_pic} alt="@shadcn" />
-            <AvatarFallback>{currentUser.name}</AvatarFallback>
+            <AvatarImage
+              src={session?.user?.token?.picture as string}
+              alt="@shadcn"
+            />
+            <AvatarFallback>{session?.user?.name}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -42,10 +38,10 @@ export default function ProfileDropdown() {
         <DropdownMenuLabel className="flex justify-between font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {currentUser?.username}
+              {session?.user?.name}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {currentUser?.email}
+              {session?.user?.email}
             </p>
           </div>
           <ThemeToggle />
@@ -60,7 +56,13 @@ export default function ProfileDropdown() {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleLogOut()}>
+        <DropdownMenuItem
+          onClick={() =>
+            signOut({
+              callbackUrl: "/signup"
+            })
+          }
+        >
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
