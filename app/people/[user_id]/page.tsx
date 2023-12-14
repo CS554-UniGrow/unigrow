@@ -28,6 +28,9 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import loadingLogo from "@/public/loading.png";
 
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as UserProfile);
   const [error, setError] = useState(null);
@@ -54,6 +57,12 @@ function useFetchPerson(user_id: string) {
 }
 
 const User_Profile = () => {
+  const { data: session, status }: any = useSession();
+
+  if (!session?.user?.isAuthenticated) {
+    redirect("/signup");
+  }
+
   const params = useParams();
   const { user_id } = params;
   const { data, error, loading } = useFetchPerson(user_id as string);

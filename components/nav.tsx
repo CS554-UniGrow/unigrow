@@ -38,7 +38,7 @@ export default function Nav() {
         <NavigationMenuList>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href={"/dashboard"}>
+              <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
                 <Image
                   src={"student.svg"}
                   width={100}
