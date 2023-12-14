@@ -126,7 +126,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="cta-section py-12">
         <div className="container mx-auto text-center">
           <h2 className="mb-6 text-4xl font-bold">Join the UniGrow Family</h2>
