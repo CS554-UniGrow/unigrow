@@ -35,6 +35,7 @@ async function getUserProfileDetails({ apiKey_hashed, uid, refreshToken }: { api
   const data = await getUsersCourseDetails(apiKey, uid);
   // map the response to the UserProfile type
   response = {
+    _id: uid,
     id: response.id,
     name: response.name,
     sortable_name: response.sortable_name,

@@ -30,7 +30,7 @@ const navLinks = [
 import { useSession } from "next-auth/react";
 
 export default function Nav() {
-  const { data: session, status } = useSession();
+  const { data: session }: any = useSession();
 
   return (
     <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">

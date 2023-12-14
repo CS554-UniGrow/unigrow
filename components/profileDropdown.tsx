@@ -19,7 +19,7 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function ProfileDropdown() {
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  const { data: session, status } = useSession();
+  const { data: session, status }: any = useSession();
 
   return (
     <DropdownMenu>
@@ -27,8 +27,8 @@ export default function ProfileDropdown() {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src={session?.user?.token?.picture as string}
-              alt="@shadcn"
+              src={session?.user?.avatar_url || session?.user?.image || ""}
+              alt={session?.user?.name as string}
             />
             <AvatarFallback>{session?.user?.name}</AvatarFallback>
           </Avatar>

@@ -47,7 +47,7 @@ const formSchema = z.object({
 export type TQuestionnaire = z.infer<typeof formSchema>;
 
 const Questionnaire = () => {
-  const { data: session, status, update } = useSession();
+  const { data: session, status, update }: any = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -60,7 +60,7 @@ const Questionnaire = () => {
     }
   });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: TQuestionnaire) => {
     setIsLoading(true);
     try {
       const result = await handleSubmitAction(

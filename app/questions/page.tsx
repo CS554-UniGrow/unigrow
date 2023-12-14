@@ -6,7 +6,7 @@ import Questionnaire from "@/components/Questionnaire";
 import { redirect } from "next/navigation";
 
 async function Questions() {
-  const session = await getServerSession(options);
+  const session: any = await getServerSession(options);
 
   if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
     redirect("/dashboard");

@@ -37,7 +37,7 @@ function useFetchPeople() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { data: session, status } = useSession();
+  const { data: session, status }: any = useSession();
 
   if (!session?.user?.isAuthenticated) {
     redirect("/signup");

@@ -18,7 +18,7 @@ export const options: NextAuthOptions = {
   ],
   session: { strategy: 'jwt' },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile, email, credentials }: any) {
       const isEmailVerified = profile?.email_verified && profile?.email?.endsWith("@stevens.edu")
       if (isEmailVerified) {
         const usersCollection = await users();
@@ -46,11 +46,11 @@ export const options: NextAuthOptions = {
           return true
         }
 
-        account.sessionData = { _id: userExists._id.toString(), isOnboarded: userExists.isOnboarded, isEmailVerified: userExists.isEmailVerified, isAuthenticated: true }
+        account.sessionData = { _id: userExists._id.toString(), isOnboarded: userExists.isOnboarded, isEmailVerified: userExists.isEmailVerified, isAuthenticated: true, avatar_url: userExists?.avatar_url }
       }
       return isEmailVerified
     },
-    session: async ({ session, user, token }) => {
+    session: async ({ session, user, token }: any) => {
       if (session && session.user) {
         session.user.isAuthenticated = true;
         session.user = { ...session.user, ...token }
@@ -60,7 +60,7 @@ export const options: NextAuthOptions = {
     redirect: async ({ url, baseUrl }) => {
       return baseUrl.includes(url) ? baseUrl : url
     },
-    jwt: async ({ account, token, user, profile, session, trigger }) => {
+    jwt: async ({ account, token, user, profile, session, trigger }: any) => {
       if (account) {
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;
@@ -72,6 +72,7 @@ export const options: NextAuthOptions = {
         token.isOnboarded = account?.sessionData?.isOnboarded;
         token.isEmailVerified = account?.sessionData?.isEmailVerified;
         token.isAuthenticated = account?.sessionData?.isAuthenticated;
+        token.avatar_url = account?.sessionData?.avatar_url;
       }
 
       if (trigger === "update") {
@@ -79,11 +80,11 @@ export const options: NextAuthOptions = {
       }
 
       return token
-    },
-    pages: {
-      signIn: "/signup",
-      error: "/signup",
-      newUser: "/questions"
-    },
+    }
+  },
+  pages: {
+    signIn: "/signup",
+    error: "/signup",
+    newUser: "/questions"
   }
 }
