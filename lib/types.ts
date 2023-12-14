@@ -1,6 +1,6 @@
 // Type definitions for Canvas API
 export type UserProfile = {
-  _id: string;
+  _id?: string;
   id: number;
   name: string;
   sortable_name: string;
