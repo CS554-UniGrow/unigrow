@@ -8,5 +8,7 @@ export const getUserById = async (uid: string) => {
 
 export const getAllUsers = async () => {
   const user = await users();
+  logger.info("getAllUsers");
+  logger.info(user);
   return await user.find({}).toArray();
 };
