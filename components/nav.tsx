@@ -24,7 +24,9 @@ const navLinks = [
   { title: "Dashboard", path: "/dashboard", checkAuth: true },
   { title: "Courses", path: "/courses", checkAuth: true },
   { title: "People", path: "/people", checkAuth: true },
-  { title: "Resources", path: "/resources", checkAuth: false }
+  { title: "Resources", path: "/resources", checkAuth: false },
+  { title: "About Us", path: "/aboutus", checkAuth: false },
+  { title: "FAQs", path: "/faq", checkAuth: false }
 ];
 
 import { useSession } from "next-auth/react";
