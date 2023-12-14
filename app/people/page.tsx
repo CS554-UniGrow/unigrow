@@ -36,7 +36,7 @@ function useFetchPeople() {
 
   useEffect(() => {
     setLoading(true);
-    fetch("/api/people")
+    fetch("/api/people", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         setData(data);
