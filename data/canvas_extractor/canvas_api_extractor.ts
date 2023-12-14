@@ -9,9 +9,12 @@ import path from "path";
 import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
 import { metadata } from "@/app/layout";
+import { ObjectId } from "mongodb";
 let domain = "https://sit.instructure.com/api/v1/";
 
-async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
+
+
+async function getUserProfileDetails({ apiKey_hashed, uid, refreshToken }: { apiKey_hashed: string, uid: string, refreshToken: string }) {
   const apiKey = decrypt(apiKey_hashed);
   let url = domain + "users/self/profile";
   // use UserProfile type with the axios call
@@ -32,7 +35,6 @@ async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
   const data = await getUsersCourseDetails(apiKey, uid);
   // map the response to the UserProfile type
   response = {
-    _id: uid,
     id: response.id,
     name: response.name,
     sortable_name: response.sortable_name,
@@ -43,7 +45,9 @@ async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
     courses: data.map((course: any) => {
       return course.course_code;
     }),
-    apiKey_hashed: apiKey_hashed
+    apiKey_hashed: apiKey_hashed,
+    isOnboarded: true,
+    refreshToken: refreshToken
   };
   // insert user profile details into the database
   let usersCollection = await users();
@@ -52,12 +56,8 @@ async function getUserProfileDetails(apiKey_hashed: string, uid: string) {
     login_id: response.login_id,
     primary_email: response.primary_email
   });
-  if (userInDB === null) {
-    await usersCollection.insertOne(response);
-  } else {
-    await usersCollection.updateOne({ _id: uid }, { $set: response });
-  }
 
+  const res = await usersCollection.updateOne({ _id: new ObjectId(uid) }, { $set: response });
   return response;
 }
 
@@ -213,7 +213,7 @@ async function extractSyllabusFromStudentCourseDetails(
               if (courseInMongo === null) {
                 logger.error(
                   "Course not found in the database for the course code " +
-                    course.course_code
+                  course.course_code
                 );
               } else if (
                 courseInMongo!.course_syllabus === "" ||
@@ -240,9 +240,9 @@ async function extractSyllabusFromStudentCourseDetails(
                 );
                 logger.info(
                   "Syllabus updated successfully for " +
-                    course.course_code +
-                    " and the syllabus is stored at " +
-                    download_url
+                  course.course_code +
+                  " and the syllabus is stored at " +
+                  download_url
                 );
                 logger.info(
                   updateResult.modifiedCount + " document(s) updated"
@@ -250,9 +250,9 @@ async function extractSyllabusFromStudentCourseDetails(
               } else if (courseInMongo.course_syllabus != "") {
                 logger.info(
                   "Syllabus already exists for " +
-                    course.course_code +
-                    " and the syllabus is stored at " +
-                    courseInMongo.course_syllabus
+                  course.course_code +
+                  " and the syllabus is stored at " +
+                  courseInMongo.course_syllabus
                 );
                 const courseInMongo_urlObject = new URL(
                   courseInMongo.course_syllabus
@@ -281,9 +281,9 @@ async function extractSyllabusFromStudentCourseDetails(
                   logger.info("Uploaded a blob or file!");
                   logger.info(
                     "Course " +
-                      course.course_code +
-                      " is of a more recent semester and the syllabus is stored at " +
-                      download_url
+                    course.course_code +
+                    " is of a more recent semester and the syllabus is stored at " +
+                    download_url
                   );
                   const fileSizeKB = file.byteLength / 1000;
 
@@ -308,9 +308,9 @@ async function extractSyllabusFromStudentCourseDetails(
                     logger.info("Uploaded a blob or file!");
                     logger.info(
                       "Course " +
-                        course.course_code +
-                        " is of a more recent semester and the syllabus is stored at " +
-                        download_url
+                      course.course_code +
+                      " is of a more recent semester and the syllabus is stored at " +
+                      download_url
                     );
                     const fileSizeKB = file.byteLength / 1000;
 
@@ -330,9 +330,9 @@ async function extractSyllabusFromStudentCourseDetails(
                 } else {
                   logger.info(
                     "Syllabus already exists for " +
-                      course.course_code +
-                      " and the syllabus is stored at " +
-                      courseInMongo.course_syllabus
+                    course.course_code +
+                    " and the syllabus is stored at " +
+                    courseInMongo.course_syllabus
                   );
                   let fileStreamResult = await axios.get(
                     courseInMongo.course_syllabus,

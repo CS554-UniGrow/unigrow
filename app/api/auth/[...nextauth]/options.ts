@@ -20,13 +20,11 @@ export const options: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       const isEmailVerified = profile?.email_verified && profile?.email?.endsWith("@stevens.edu")
-      console.log('in sign in', { user, account, profile, email, credentials })
       if (isEmailVerified) {
         const usersCollection = await users();
         const userExists = await usersCollection.findOne({ email: profile?.email })
-        if (userExists?.isOnboarded) {
-          return '/dashboard'
-        } else {
+
+        if (!userExists) {
           const newUser = {
             email: profile?.email,
             name: profile?.name,
@@ -36,29 +34,56 @@ export const options: NextAuthOptions = {
             updatedAt: new Date(),
             isOnboarded: false,
             isEmailVerified: isEmailVerified,
-            courses: []
+            refreshToken: credentials?.refreshToken,
+            provider: "google"
           }
 
           const insertInfo = await usersCollection.insertOne(newUser);
           if (insertInfo.insertedCount === 0) {
             throw "Could not add user";
           }
-          return '/questions'
+          account.sessionData = { _id: insertInfo.insertedId.toString(), isOnboarded: false, isEmailVerified: isEmailVerified, isAuthenticated: true }
+          return true
         }
+
+        account.sessionData = { _id: userExists._id.toString(), isOnboarded: userExists.isOnboarded, isEmailVerified: userExists.isEmailVerified, isAuthenticated: true }
       }
       return isEmailVerified
     },
-    session: async ({ session, token, user }) => {
-      console.log("session", { session, token, user })
+    session: async ({ session, user, token }) => {
       if (session && session.user) {
         session.user.isAuthenticated = true;
-        session.user.token = token
+        session.user = { ...session.user, ...token }
       }
       return session
-    }
-  },
-  pages: {
-    signIn: "/signup",
-    error: "/signup"
+    },
+    redirect: async ({ url, baseUrl }) => {
+      return baseUrl.includes(url) ? baseUrl : url
+    },
+    jwt: async ({ account, token, user, profile, session, trigger }) => {
+      if (account) {
+        token.accessToken = account?.access_token;
+        token.refreshToken = account?.refresh_token;
+        token.id_token = account?.id_token;
+        token.expiresAt = account?.expires_at;
+        token.provider = account?.provider;
+        token.token_type = account?.token_type;
+        token._id = account?.sessionData?._id;
+        token.isOnboarded = account?.sessionData?.isOnboarded;
+        token.isEmailVerified = account?.sessionData?.isEmailVerified;
+        token.isAuthenticated = account?.sessionData?.isAuthenticated;
+      }
+
+      if (trigger === "update") {
+        token.isOnboarded = session?.isOnboarded;
+      }
+
+      return token
+    },
+    pages: {
+      signIn: "/signup",
+      error: "/signup",
+      newUser: "/questions"
+    },
   }
 }

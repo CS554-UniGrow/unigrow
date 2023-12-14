@@ -2,18 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor";
 import logger from "@/lib/logger";
 
+
 export async function POST(req: Request) {
   try {
     const temp = await req.json();
-    const canvasToken_hashed = temp.canvasToken_hashed;
+    const apiKey_hashed = temp.apiKey_hashed;
     const uid = temp.uid;
+    const refreshToken = temp.refreshToken;
 
-    if (!canvasToken_hashed) {
+    if (!apiKey_hashed) {
       return NextResponse.json({ error: "User ID is required" });
     }
-    logger.info(canvasToken_hashed);
 
-    const data = await getUserProfileDetails(canvasToken_hashed, uid);
+    const data = await getUserProfileDetails({ apiKey_hashed, uid, refreshToken: refreshToken });
 
     if (data) {
       return NextResponse.json(data);

@@ -16,7 +16,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu";
-import { Button } from "@/components/ui/button";
 
 import ProfileDropdown from "@/components/profileDropdown";
 import Image from "next/image";

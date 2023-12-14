@@ -11,12 +11,16 @@ const Signup = () => {
 
   const handleGoogleAuthSignUp = async () => {
     try {
-      const result = await signIn("google", { redirect: false });
+      const result = await signIn("google", {
+        redirect: false,
+        callbackUrl: "/questions"
+      });
       logger.info(result);
     } catch (e) {
       logger.error(e);
     }
   };
+
   return (
     <div className="border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl">
       <h1 className="text-center text-4xl">Continue with Google </h1>

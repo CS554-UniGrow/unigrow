@@ -10,6 +10,8 @@ export type UserProfile = {
   login_id: string;
   courses: string[];
   apiKey_hashed: string;
+  refreshToken: string
+  isOnboarded: boolean;
 };
 
 export type CourseApiReturn = {

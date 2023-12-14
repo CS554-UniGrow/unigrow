@@ -71,8 +71,8 @@ const People = () => {
   }
   const filteredData = data?.filter(
     (user: UserProfile) =>
-      user.sortable_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.courses.some((course: string) =>
+      user?.sortable_name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
+      user?.courses?.some((course: string) =>
         course.toLowerCase().includes(searchQuery.toLowerCase())
       )
   );
