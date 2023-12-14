@@ -413,20 +413,19 @@ async function processStudentCourseDetails(
   uid: string
 ) {
   try {
-    await extractSyllabusFromStudentCourseDetails(apiKey, result);
-    logger.info("Syllabus extracted successfully");
-  } catch (error: any) {
-    logger.error(
-      `${error.code}:${error.message} for the url ${error.config.url}`
-    );
-  }
-
-  try {
     await updateCourseCollection(result, uid);
     logger.info("Courses updated successfully");
   } catch (error) {
     // TODO something with error
     logger.error(error);
+  }
+  try {
+    extractSyllabusFromStudentCourseDetails(apiKey, result);
+    logger.info("Syllabus extracted successfully");
+  } catch (error: any) {
+    logger.error(
+      `${error.code}:${error.message} for the url ${error.config.url}`
+    );
   }
 }
 
