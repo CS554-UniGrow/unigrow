@@ -7,7 +7,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import Button from "./ui/Button_2";
 
 interface ChatInputProps {
-  chatPartner: User;
+  chatPartner: any;
   chatId: string;
 }
 

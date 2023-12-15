@@ -16,15 +16,18 @@ export async function POST(req: Request) {
 
     const [userId1, userId2] = chatId.split("--");
 
-    if (session.user.id !== userId1 && session.user.id !== userId2) {
+    if (
+      session.user.googleId !== userId1 &&
+      session.user.googleId !== userId2
+    ) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const friendId = session.user.id === userId1 ? userId2 : userId1;
+    const friendId = session.user.googleId === userId1 ? userId2 : userId1;
 
     const friendList = (await fetchRedis(
       "smembers",
-      `user:${session.user.id}:friends`
+      `user:${session.user.googleId}:friends`
     )) as string[];
     const isFriend = friendList.includes(friendId);
 
@@ -34,15 +37,15 @@ export async function POST(req: Request) {
 
     const rawSender = (await fetchRedis(
       "get",
-      `user:${session.user.id}`
+      `user:${session.user.googleId}`
     )) as string;
-    const sender = JSON.parse(rawSender) as User;
+    const sender = JSON.parse(rawSender) as any;
 
     const timestamp = Date.now();
 
     const messageData: Message = {
       id: nanoid(),
-      senderId: session.user.id,
+      senderId: session.user.googleId,
       text,
       timestamp
     };

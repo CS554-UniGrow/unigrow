@@ -14,12 +14,13 @@ export async function POST(req: Request) {
 
     const { id: idToDeny } = z.object({ id: z.string() }).parse(body);
 
-    await db.srem(`user:${session.user.id}:incoming_friend_requests`, idToDeny);
+    await db.srem(
+      `user:${session.user.googleId}:incoming_friend_requests`,
+      idToDeny
+    );
 
     return new Response("OK");
   } catch (error) {
-
-
     if (error instanceof z.ZodError) {
       return new Response("Invalid request payload", { status: 422 });
     }

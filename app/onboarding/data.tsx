@@ -4,7 +4,7 @@ import logger from "@/lib/logger";
 import { users } from "@/config/mongo/mongoCollections";
 import { dbConnection } from "@/config/mongo/mongoConnection";
 
-export function writeUserData(user_data: User) {
+export function writeUserData(user_data: any) {
   const db = getDatabase();
   set(ref(db, `users/${user_data?.userId}`), user_data)
     .then(() => {

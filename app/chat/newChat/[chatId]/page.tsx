@@ -18,12 +18,12 @@ export async function generateMetadata({
   const [userId1, userId2] = params.chatId.split("--");
   const { user } = session;
 
-  const chatPartnerId = user.id === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.googleId === userId1 ? userId2 : userId1;
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
   )) as string;
-  const chatPartner = JSON.parse(chatPartnerRaw) as User;
+  const chatPartner = JSON.parse(chatPartnerRaw) as any;
 
   return { title: `FriendZone | ${chatPartner.name} chat` };
 }
@@ -64,18 +64,18 @@ const page = async ({ params }: PageProps) => {
 
   const [userId1, userId2] = chatId.split("--");
 
-  if (user.id !== userId1 && user.id !== userId2) {
+  if (user.googleId !== userId1 && user.googleId !== userId2) {
     notFound();
   }
 
-  const chatPartnerId = user.id === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.googleId === userId1 ? userId2 : userId1;
   // new
 
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
   )) as string;
-  const chatPartner = JSON.parse(chatPartnerRaw) as User;
+  const chatPartner = JSON.parse(chatPartnerRaw) as any;
   const initialMessages = await getChatMessages(chatId);
 
   return (
@@ -110,7 +110,7 @@ const page = async ({ params }: PageProps) => {
         chatId={chatId}
         chatPartner={chatPartner}
         sessionImg={session.user.image}
-        sessionId={session.user.id}
+        sessionId={session.user.googleId}
         initialMessages={initialMessages}
       />
       <ChatInput chatId={chatId} chatPartner={chatPartner} />

@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 import UnseenChatToast from "./UnseenChatToast";
 
 interface SidebarChatListProps {
-  friends: User[];
+  friends: any[];
   sessionId: string;
 }
 
@@ -27,7 +27,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     pusherClient.subscribe(toPusherKey(`user:${sessionId}:chats`));
     pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
 
-    const newFriendHandler = (newFriend: User) => {
+    const newFriendHandler = (newFriend: any) => {
       setActiveChats((prev) => [...prev, newFriend]);
     };
 

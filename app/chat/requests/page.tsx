@@ -8,18 +8,17 @@ import { FC } from "react";
 const page = async () => {
   const session = await getServerSession(options);
   if (!session) notFound();
-
   // ids of people who sent current logged in user a friend requests
   const incomingSenderIds = (await fetchRedis(
     "smembers",
-    `user:${session.user.id}:incoming_friend_requests`
+    `user:${session.user.googleId}:incoming_friend_requests`
   )) as string[];
 
   const incomingFriendRequests = await Promise.all(
     incomingSenderIds.map(async (senderId) => {
       const sender = (await fetchRedis("get", `user:${senderId}`)) as string;
-      const senderParsed = JSON.parse(sender) as User;
-
+      const senderParsed = JSON.parse(sender) as any;
+      console.log(senderId);
       return {
         senderId,
         senderEmail: senderParsed.email
@@ -33,7 +32,7 @@ const page = async () => {
       <div className="flex flex-col gap-4">
         <FriendRequests
           incomingFriendRequests={incomingFriendRequests}
-          sessionId={session.user.id}
+          sessionId={session.user.googleId}
         />
       </div>
     </main>

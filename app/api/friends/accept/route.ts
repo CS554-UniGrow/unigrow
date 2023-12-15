@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     const isAlreadyFriends = await fetchRedis(
       "sismember",
-      `user:${session.user.id}:friends`,
+      `user:${session.user.googleId}:friends`,
       idToAdd
     );
 
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     const hasFriendRequest = await fetchRedis(
       "sismember",
-      `user:${session.user.id}:incoming_friend_requests`,
+      `user:${session.user.googleId}:incoming_friend_requests`,
       idToAdd
     );
 
@@ -41,12 +41,12 @@ export async function POST(req: Request) {
     }
 
     const [userRaw, friendRaw] = (await Promise.all([
-      fetchRedis("get", `user:${session.user.id}`),
+      fetchRedis("get", `user:${session.user.googleId}`),
       fetchRedis("get", `user:${idToAdd}`)
     ])) as [string, string];
 
-    const user = JSON.parse(userRaw) as User;
-    const friend = JSON.parse(friendRaw) as User;
+    const user = JSON.parse(userRaw) as any;
+    const friend = JSON.parse(friendRaw) as any;
 
     // notify added user
 
@@ -57,19 +57,17 @@ export async function POST(req: Request) {
         user
       ),
       pusherServer.trigger(
-        toPusherKey(`user:${session.user.id}:friends`),
+        toPusherKey(`user:${session.user.googleId}:friends`),
         "new_friend",
         friend
       ),
-      db.sadd(`user:${session.user.id}:friends`, idToAdd),
-      db.sadd(`user:${idToAdd}:friends`, session.user.id),
-      db.srem(`user:${session.user.id}:incoming_friend_requests`, idToAdd)
+      db.sadd(`user:${session.user.googleId}:friends`, idToAdd),
+      db.sadd(`user:${idToAdd}:friends`, session.user.googleId),
+      db.srem(`user:${session.user.googleId}:incoming_friend_requests`, idToAdd)
     ]);
 
     return new Response("OK");
   } catch (error) {
-
-
     if (error instanceof z.ZodError) {
       return new Response("Invalid request payload", { status: 422 });
     }

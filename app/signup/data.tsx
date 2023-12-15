@@ -39,7 +39,6 @@ export const loginEmailPassword = async (email: string, password: string) => {
       email,
       password
     );
-    logger.info(user_credentials);
     if (user_credentials) {
       return user_credentials;
     }

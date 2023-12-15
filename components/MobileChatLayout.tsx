@@ -15,7 +15,7 @@ import { SidebarOption } from "@/types/typings";
 import { usePathname } from "next/navigation";
 
 interface MobileChatLayoutProps {
-  friends: User[];
+  friends: any[];
   session: Session;
   sidebarOptions: SidebarOption[];
   unseenRequestCount: number;
@@ -100,7 +100,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                             <li>
                               <SidebarChatList
                                 friends={friends}
-                                sessionId={session.user.id}
+                                sessionId={session.user.googleId}
                               />
                             </li>
 
@@ -133,7 +133,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                                     initialUnseenRequestCount={
                                       unseenRequestCount
                                     }
-                                    sessionId={session.user.id}
+                                    sessionId={session.user.googleId}
                                   />
                                 </li>
                               </ul>

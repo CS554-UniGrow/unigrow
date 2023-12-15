@@ -12,7 +12,7 @@ interface MessagesProps {
   sessionId: string;
   chatId: string;
   sessionImg: string | null | undefined;
-  chatPartner: User;
+  chatPartner: any;
 }
 
 const Messages: FC<MessagesProps> = ({
