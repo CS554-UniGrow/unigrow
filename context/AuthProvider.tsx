@@ -27,7 +27,7 @@ export default function AuthProvider({
   }
 
   // useLayoutEffect(() => {
-  //   console.log("in layout effect");
+
   //   if (!session?.user?.isAuthenticated && !publicPaths.includes(pathname)) {
   //     redirect("/signup");
   //   }

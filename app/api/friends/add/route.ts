@@ -17,18 +17,19 @@ export async function POST(req: Request) {
       "get",
       `user:email:${emailToAdd}`
     )) as string;
-    //console.log("Fetched from redis")
+
     if (!idToAdd) {
       return new Response("This person does not exist.", { status: 400 });
     }
 
-    const session = await getServerSession(options);
-    //console.log("got server session")
+    const session: any = await getServerSession(options);
+
+
     if (!session) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    if (idToAdd === session.user.id) {
+    if (idToAdd === session?.user?.googleId) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
       });
@@ -38,7 +39,7 @@ export async function POST(req: Request) {
     const isAlreadyAdded = (await fetchRedis(
       "sismember",
       `user:${idToAdd}:incoming_friend_requests`,
-      session.user.id
+      session?.user?.googleId
     )) as 0 | 1;
 
     if (isAlreadyAdded) {
@@ -48,7 +49,7 @@ export async function POST(req: Request) {
     // check if user is already added
     const isAlreadyFriends = (await fetchRedis(
       "sismember",
-      `user:${session.user.id}:friends`,
+      `user:${session.user.googleId}:friends`,
       idToAdd
     )) as 0 | 1;
 
@@ -62,20 +63,21 @@ export async function POST(req: Request) {
         toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
         "incoming_friend_requests",
         {
-          senderId: session.user.id,
+          senderId: session.user.googleId,
           senderEmail: session.user.email
         }
       );
     } catch (e) {
-      console.log(e);
+
     }
 
-    //console.log("Done push server function")
 
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
-    //console.log("Done db function")
+
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.googleId);
+
     return new Response("OK");
   } catch (error) {
+
     if (error instanceof z.ZodError) {
       return new Response("Invalid request payload", { status: 422 });
     }

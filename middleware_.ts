@@ -10,13 +10,13 @@
 
 // export default withAuth(
 //   async function middleware(request: NextRequestWithAuth) {
-//     console.log(request.credentials)
+
 
 //     return NextResponse.next(request)
 //   }, {
 //   callbacks: {
 //     authorized: async ({ req, token }) => {
-//       console.log("authorized", token)
+
 //       return !!token
 //     }
 //   }
@@ -34,7 +34,7 @@
 //   const absoluteURL = new URL("/signup", req.nextUrl.origin);
 //   return NextResponse.redirect(absoluteURL.toString());
 // }
-//   console.log('in middleware', req.nextUrl.pathname)
+
 //   return NextResponse.next()
 // }
 

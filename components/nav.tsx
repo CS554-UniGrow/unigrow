@@ -22,6 +22,7 @@ const navLinks = [
   { title: "Resources", path: "/resources", checkAuth: false },
   { title: "About Us", path: "/aboutus", checkAuth: false },
   { title: "FAQs", path: "/faq", checkAuth: false },
+  { title: "Chat", path: "/chat", checkAuth: true },
   {
     title: "Complete Onboarding",
     path: "/onboarding",

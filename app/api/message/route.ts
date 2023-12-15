@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       `user:${session.user.id}`
     )) as string;
     const sender = JSON.parse(rawSender) as User;
-    //console.log(sender)
+
     const timestamp = Date.now();
 
     const messageData: Message = {
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const message = messageValidator.parse(messageData);
 
     // notify all connected chat room clients
-    //console.log("Trying to trigger push server")
+
     await pusherServer.trigger(
       toPusherKey(`chat:${chatId}`),
       "incoming-message",
@@ -66,13 +66,13 @@ export async function POST(req: Request) {
         senderName: sender.name
       }
     );
-    //console.log("All valid, sending the message")
+
     // all valid, send the message
     await db.zadd(`chat:${chatId}:messages`, {
       score: timestamp,
       member: JSON.stringify(message)
     });
-    //console.log("Done")
+
     return new Response("OK");
   } catch (error) {
     if (error instanceof Error) {

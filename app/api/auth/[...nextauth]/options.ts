@@ -1,8 +1,11 @@
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { users } from "@/config/mongo/mongoCollections";
+import { UpstashRedisAdapter } from '@next-auth/upstash-redis-adapter'
+import { db } from '@/lib/db'
 
 export const options: NextAuthOptions = {
+  adapter: UpstashRedisAdapter(db),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -19,6 +22,8 @@ export const options: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
+
+
       const isEmailVerified = profile?.email_verified && profile?.email?.endsWith("@stevens.edu")
       if (isEmailVerified) {
         const usersCollection = await users();
@@ -35,18 +40,21 @@ export const options: NextAuthOptions = {
             isOnboarded: false,
             isEmailVerified: isEmailVerified,
             refreshToken: credentials?.refreshToken,
-            provider: "google"
+            provider: "google",
+            googleId: user?.id
           }
 
           const insertInfo = await usersCollection.insertOne(newUser);
           if (insertInfo.insertedCount === 0) {
             throw "Could not add user";
           }
-          account.sessionData = { _id: insertInfo.insertedId.toString(), isOnboarded: false, isEmailVerified: isEmailVerified, isAuthenticated: true }
+          account.sessionData = {
+            _id: insertInfo.insertedId.toString(), isOnboarded: false, isEmailVerified: isEmailVerified, isAuthenticated: true, googleId: user?.id
+          }
           return true
         }
 
-        account.sessionData = { _id: userExists._id.toString(), isOnboarded: userExists.isOnboarded, isEmailVerified: userExists.isEmailVerified, isAuthenticated: true, avatar_url: userExists?.avatar_url }
+        account.sessionData = { _id: userExists._id.toString(), isOnboarded: userExists.isOnboarded, isEmailVerified: userExists.isEmailVerified, isAuthenticated: true, avatar_url: userExists?.avatar_url, googleId: user?.id }
       }
       return isEmailVerified
     },
@@ -61,6 +69,8 @@ export const options: NextAuthOptions = {
       return baseUrl.includes(url) ? baseUrl : url
     },
     jwt: async ({ account, token, user, profile, session, trigger }: any) => {
+
+
       if (account) {
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;
@@ -73,6 +83,7 @@ export const options: NextAuthOptions = {
         token.isEmailVerified = account?.sessionData?.isEmailVerified;
         token.isAuthenticated = account?.sessionData?.isAuthenticated;
         token.avatar_url = account?.sessionData?.avatar_url;
+        token.googleId = account?.sessionData?.googleId;
       }
 
       if (trigger === "update") {
