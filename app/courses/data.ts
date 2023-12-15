@@ -3,7 +3,6 @@ import logger from "@/lib/logger";
 
 import { doc, collection, getDoc, getDocs } from "firebase/firestore";
 import { courses as courseColleciton } from "@/config/mongo/mongoCollections";
-import { ObjectId } from "mongodb";
 
 export const getAllCourses = async (isMongo: boolean) => {
   let allCourses: any = [];
@@ -23,7 +22,7 @@ export const getAllCourses = async (isMongo: boolean) => {
 export const getCourseById = async (id: string, isMongo: boolean = true) => {
   if (isMongo) {
     const courses = await courseColleciton();
-    const course = await courses.findOne({ _id: new ObjectId(id) });
+    const course = await courses.findOne({ _id: id });
     return course;
   } else {
     const docRef = doc(db, "courses", id);

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
 
     const isAlreadyFriends = await fetchRedis(
       "sismember",
-      `user:${session.user.googleId}:friends`,
+      `user:${session.user._id}:friends`,
       idToAdd
     );
 
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     const hasFriendRequest = await fetchRedis(
       "sismember",
-      `user:${session.user.googleId}:incoming_friend_requests`,
+      `user:${session.user._id}:incoming_friend_requests`,
       idToAdd
     );
 
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
     }
 
     const [userRaw, friendRaw] = (await Promise.all([
-      fetchRedis("get", `user:${session.user.googleId}`),
+      fetchRedis("get", `user:${session.user._id}`),
       fetchRedis("get", `user:${idToAdd}`)
     ])) as [string, string];
 
@@ -57,13 +57,13 @@ export async function POST(req: Request) {
         user
       ),
       pusherServer.trigger(
-        toPusherKey(`user:${session.user.googleId}:friends`),
+        toPusherKey(`user:${session.user._id}:friends`),
         "new_friend",
         friend
       ),
-      db.sadd(`user:${session.user.googleId}:friends`, idToAdd),
-      db.sadd(`user:${idToAdd}:friends`, session.user.googleId),
-      db.srem(`user:${session.user.googleId}:incoming_friend_requests`, idToAdd)
+      db.sadd(`user:${session.user._id}:friends`, idToAdd),
+      db.sadd(`user:${idToAdd}:friends`, session.user._id),
+      db.srem(`user:${session.user._id}:incoming_friend_requests`, idToAdd)
     ]);
 
     return new Response("OK");

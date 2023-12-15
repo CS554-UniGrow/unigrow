@@ -2,7 +2,6 @@
 
 import { TQuestionnaire } from "@/lib/schemas";
 import { users } from "@/config/mongo/mongoCollections";
-import { ObjectId } from "mongodb";
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor";
 import { encrypt } from "./utils";
 
@@ -22,9 +21,9 @@ export const handleSubmitAction = async (values: TQuestionnaire, uid: string, re
 
   if (data) {
     const usersCollection = await users();
-    const userExists = await usersCollection.findOne({ _id: new ObjectId(uid) })
+    const userExists = await usersCollection.findOne({ _id: uid })
     if (userExists) {
-      const updateInfo = await usersCollection.updateOne({ _id: new ObjectId(uid) }, { $set: { major: major, joiningTerm: joiningTerm, canvasToken_hashed: canvasToken, isOnboarded: true } });
+      const updateInfo = await usersCollection.updateOne({ _id: uid }, { $set: { major: major, joiningTerm: joiningTerm, canvasToken_hashed: canvasToken, isOnboarded: true } });
       if (updateInfo.modifiedCount === 0) {
         throw "Could not update user";
       }

@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     const { id: idToDeny } = z.object({ id: z.string() }).parse(body);
 
     await db.srem(
-      `user:${session.user.googleId}:incoming_friend_requests`,
+      `user:${session.user._id}:incoming_friend_requests`,
       idToDeny
     );
 

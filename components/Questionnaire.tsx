@@ -31,6 +31,7 @@ import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas";
 
 const Questionnaire = () => {
   const { data: session, status, update }: any = useSession();
+  console.log("questionnaire", { session });
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

@@ -18,7 +18,7 @@ export async function generateMetadata({
   const [userId1, userId2] = params.chatId.split("--");
   const { user } = session;
 
-  const chatPartnerId = user.googleId === userId1 ? userId2 : userId1;
+  const chatPartnerId = user._id === userId1 ? userId2 : userId1;
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
@@ -64,11 +64,11 @@ const page = async ({ params }: PageProps) => {
 
   const [userId1, userId2] = chatId.split("--");
 
-  if (user.googleId !== userId1 && user.googleId !== userId2) {
+  if (user._id !== userId1 && user._id !== userId2) {
     notFound();
   }
 
-  const chatPartnerId = user.googleId === userId1 ? userId2 : userId1;
+  const chatPartnerId = user._id === userId1 ? userId2 : userId1;
   // new
 
   const chatPartnerRaw = (await fetchRedis(
@@ -110,7 +110,7 @@ const page = async ({ params }: PageProps) => {
         chatId={chatId}
         chatPartner={chatPartner}
         sessionImg={session.user.image}
-        sessionId={session.user.googleId}
+        sessionId={session.user._id}
         initialMessages={initialMessages}
       />
       <ChatInput chatId={chatId} chatPartner={chatPartner} />

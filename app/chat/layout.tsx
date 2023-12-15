@@ -36,12 +36,12 @@ const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(options);
   if (!session) notFound();
 
-  const friends = await getFriendsByUserId(session.user.googleId);
+  const friends = await getFriendsByUserId(session.user._id);
 
   const unseenRequestCount = (
     (await fetchRedis(
       "smembers",
-      `user:${session.user.googleId}:incoming_friend_requests`
+      `user:${session.user._id}:incoming_friend_requests`
     )) as any[]
   ).length;
 
@@ -70,10 +70,7 @@ const Layout = async ({ children }: LayoutProps) => {
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <li>
-              <SidebarChatList
-                sessionId={session.user.googleId}
-                friends={friends}
-              />
+              <SidebarChatList sessionId={session.user._id} friends={friends} />
             </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
@@ -101,7 +98,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
                 <li>
                   <FriendRequestSidebarOptions
-                    sessionId={session.user.googleId}
+                    sessionId={session.user._id}
                     initialUnseenRequestCount={unseenRequestCount}
                   />
                 </li>

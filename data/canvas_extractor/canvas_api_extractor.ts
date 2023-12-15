@@ -8,8 +8,6 @@ import { courses, users } from "@/config/mongo/mongoCollections";
 import path from "path";
 import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
-import { metadata } from "@/app/layout";
-import { ObjectId } from "mongodb";
 let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL;
 
 
@@ -57,7 +55,7 @@ async function getUserProfileDetails({ apiKey_hashed, uid, refreshToken }: { api
     primary_email: response.primary_email
   });
 
-  const res = await usersCollection.updateOne({ _id: new ObjectId(uid) }, { $set: response });
+  const res = await usersCollection.updateOne({ _id: uid }, { $set: response });
   return response;
 }
 
@@ -188,7 +186,6 @@ async function extractSyllabusFromStudentCourseDetails(
             });
 
             if (response.data.filename.toLowerCase().includes("syllabus")) {
-              // TODO CHANGE logic to store updated files only
               //download the syllabus from the url and store it in the database
               let fileStreamResult = await axios.get(response.data.url, {
                 responseType: "arraybuffer"

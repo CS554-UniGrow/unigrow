@@ -1,11 +1,9 @@
 import { users } from "@/config/mongo/mongoCollections";
 import logger from "@/lib/logger";
-import { ObjectId } from "mongodb";
 
 export const getUserById = async (uid: string) => {
   const user = await users();
-  // TODO Change back to uuid
-  return await user.findOne({ _id: new ObjectId(uid) });
+  return await user.findOne({ _id: uid });
 };
 
 export const getAllUsers = async () => {

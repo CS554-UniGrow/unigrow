@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    if (idToAdd === session?.user?.googleId) {
+    if (idToAdd === session?.user?._id) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
       });
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     const isAlreadyAdded = (await fetchRedis(
       "sismember",
       `user:${idToAdd}:incoming_friend_requests`,
-      session?.user?.googleId
+      session?.user?._id
     )) as 0 | 1;
 
     if (isAlreadyAdded) {
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     // check if user is already added
     const isAlreadyFriends = (await fetchRedis(
       "sismember",
-      `user:${session.user.googleId}:friends`,
+      `user:${session.user._id}:friends`,
       idToAdd
     )) as 0 | 1;
 
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
         toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
         "incoming_friend_requests",
         {
-          senderId: session.user.googleId,
+          senderId: session.user._id,
           senderEmail: session.user.email
         }
       );
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
 
 
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.googleId);
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user._id);
 
     return new Response("OK");
   } catch (error) {
