@@ -58,7 +58,6 @@ function useFetchPerson(user_id: string) {
 
 const User_Profile = () => {
   const { data: session, status }: any = useSession();
-  console.log(session);
   if (!session?.user?.isAuthenticated) {
     redirect("/signup");
   }
@@ -73,7 +72,6 @@ const User_Profile = () => {
     return <Loading />;
   }
 
-  console.log(data);
   return (
     <Card>
       <CardHeader>{data?.sortable_name} </CardHeader>
