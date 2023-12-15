@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { getCourseByDepartment } from "@/data/courses/course";
 import {
   Accordion,
