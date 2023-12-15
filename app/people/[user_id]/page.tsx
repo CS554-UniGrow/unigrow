@@ -51,14 +51,14 @@ function useFetchPerson(user_id: string) {
         });
     };
     fetchData();
-  }, []);
+  }, [user_id]);
 
   return { data, error, loading };
 }
 
 const User_Profile = () => {
   const { data: session, status }: any = useSession();
-
+  console.log(session);
   if (!session?.user?.isAuthenticated) {
     redirect("/signup");
   }
@@ -73,6 +73,7 @@ const User_Profile = () => {
     return <Loading />;
   }
 
+  console.log(data);
   return (
     <Card>
       <CardHeader>{data?.sortable_name} </CardHeader>
