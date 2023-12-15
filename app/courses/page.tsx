@@ -39,14 +39,14 @@ const Departments = () => {
         <h3 className="text-4xl">
           All Departments under Stevens Institute of Technology
         </h3>
-      </div>
-      <div className="grid grid-cols-1 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Input
-          type="text"
-          placeholder="Search by Course name or course code..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+        <div className="w-full">
+          <Input
+            type="text"
+            placeholder="Search by Course name or course code..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredData?.map((department: any) => (

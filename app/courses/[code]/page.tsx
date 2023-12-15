@@ -22,12 +22,11 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Link2, Underline } from "lucide-react";
-
 function useFetchCourse(code: string) {
-  const [data, setData] = useState([] as any);
+  const [data, setData] = useState([] as Course[]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +35,7 @@ function useFetchCourse(code: string) {
       setLoading(true);
       await fetch(`/api/courses/department/${code}`)
         .then((res) => res.json())
-        .then((data: any) => {
+        .then((data: Course[]) => {
           setData(data);
           setLoading(false);
         })
@@ -48,7 +47,7 @@ function useFetchCourse(code: string) {
     fetchData();
   }, [code]);
 
-  return data;
+  return { data, error, loading };
 }
 
 const DepertmentCourses = ({ params }: { params: { code: string } }) => {
@@ -60,10 +59,13 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   }
 
   const { code } = params;
+  if (departmentMapper[code.toUpperCase()] === undefined) {
+    notFound();
+  }
 
-  const courses: Course[] = useFetchCourse(code);
+  const { data, error, loading } = useFetchCourse(code);
 
-  const filteredData = courses?.filter(
+  const filteredData = data?.filter(
     (course: any) =>
       course?.course_title
         ?.toLowerCase()
@@ -82,19 +84,22 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   const course_level_unique = [
     ...new Set(filteredData.map((course) => course.course_level))
   ];
+
   return (
     <div className="mx-auto max-w-4xl">
-      <h1 className="text-3xl">
-        All courses Levels under Department of{" "}
-        {departmentMapper[code.toUpperCase()]}
-      </h1>
-      <div className="grid grid-cols-4 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <Input
-          type="text"
-          placeholder="Search by Course name or course code..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+      <div className="header flex flex-col gap-8">
+        <h1 className="text-3xl">
+          All courses Levels under Department of{" "}
+          {departmentMapper[code.toUpperCase()]}
+        </h1>
+        <div className="w-full">
+          <Input
+            type="text"
+            placeholder="Search by Course name or course code..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="grid grid-rows-4 gap-8 py-4 sm:grid-rows-2 lg:grid-rows-3 xl:grid-rows-4">
@@ -158,9 +163,9 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                               </dt>
                               <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                                 {course?.course_prereqs?.map((prereq) => (
-                                  <span className="mr-4" key={prereq}>
-                                    {prereq}
-                                  </span>
+                                  <Link href={`/course/${prereq}`} key={prereq}>
+                                    <Button className="mr-4">{prereq}</Button>
+                                  </Link>
                                 ))}{" "}
                                 {course?.course_prereqs.length === 0 && (
                                   <span>-</span>

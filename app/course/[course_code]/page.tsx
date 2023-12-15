@@ -6,14 +6,15 @@ import {
   AccordionItem,
   AccordionTrigger
 } from "@/components/ui/accordion";
-import { departmentMapper } from "@/lib/constants";
+import { courseList, departmentMapper } from "@/lib/constants";
 
 import { Button } from "@/components/ui/button";
 import { Course, UserProfile } from "@/lib/types";
 import { getCourseById } from "@/app/courses/data";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "@/components/ui/loading";
+import Link from "next/link";
 
 function useFetchCourse(course_code: string) {
   const [data, setData] = useState({} as Course);
@@ -35,14 +36,15 @@ function useFetchCourse(course_code: string) {
         });
     };
     fetchData();
-  }, []);
+  }, [course_code]);
 
   return { data, error, loading };
 }
 
 const CourseById = () => {
   const params = useParams();
-  const { course_code } = params;
+  const course_code = params.course_code as string;
+
   const { data, error, loading } = useFetchCourse(course_code as string);
 
   if (error) {
@@ -50,6 +52,10 @@ const CourseById = () => {
   }
   if (loading) {
     return <Loading />;
+  }
+  // throw 404 page error if no data
+  if (courseList[decodeURI(course_code)] == undefined) {
+    notFound();
   }
   return (
     <div className="mx-auto max-w-4xl">
@@ -95,9 +101,9 @@ const CourseById = () => {
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                       {data?.course_prereqs?.map((prereq) => (
-                        <span className="mr-4" key={prereq}>
-                          {prereq}
-                        </span>
+                        <Link href={`/course/${prereq}`} key={prereq}>
+                          <Button className="mr-4">{prereq}</Button>
+                        </Link>
                       ))}{" "}
                       {data?.course_prereqs?.length === 0 && <span>-</span>}
                     </dd>
