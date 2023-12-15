@@ -41,3 +41,11 @@ export const getCourseByCode = async (course_code: string) => {
   const course = await courses.findOne({ course_code: course_code });
   return course;
 };
+
+export const getCourseByDept = async (department_code: string) => {
+  const courses = await courseColleciton();
+  const course = await courses
+    .find({ department_code: department_code.toUpperCase() })
+    .toArray();
+  return course;
+};
