@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
-import { UserContextProvider } from "@/components/userContext";
 import dayjs from "dayjs";
 import { semesters } from "@/lib/constants";
 import AuthProvider from "@/context/AuthProvider";

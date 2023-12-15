@@ -1,6 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { UserContext } from "./userContext";
 import { useContext } from "react";
 import {
   DropdownMenu,
@@ -18,9 +17,8 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
 export default function ProfileDropdown() {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
   const { data: session, status }: any = useSession();
-
+  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -48,7 +46,7 @@ export default function ProfileDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <Link href={`/people/${currentUser.uid}`}>
+          <Link href={`/people/${session?.user._id}`}>
             <DropdownMenuItem>
               Profile
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
