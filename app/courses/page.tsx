@@ -1,3 +1,5 @@
+"use client";
+export const dynamic = "force-dynamic";
 import {
   Card,
   CardContent,
@@ -11,14 +13,25 @@ import Link from "next/link";
 import { departmentList } from "@/lib/constants";
 
 import { options } from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
-const Departments = async () => {
-  const session = await getServerSession(options);
-  if (!session) {
+const Departments = () => {
+  const { data: session, status }: any = useSession();
+  const [searchQuery, setSearchQuery] = useState("");
+  if (!session?.user?.isAuthenticated) {
     redirect("/signup");
   }
+  const filteredData = departmentList.filter((department) => {
+    return (
+      department.course_code
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      department.department.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   return (
     <div className="">
@@ -28,7 +41,15 @@ const Departments = async () => {
         </h3>
       </div>
       <div className="grid grid-cols-1 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {departmentList?.map((department: any) => (
+        <Input
+          type="text"
+          placeholder="Search by Course name or course code..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-8 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filteredData?.map((department: any) => (
           <Card
             key={department.course_code}
             className="flex flex-col justify-center"
