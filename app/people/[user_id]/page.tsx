@@ -59,7 +59,6 @@ function useFetchPerson(user_id: string) {
 
 const User_Profile = () => {
   const { data: session, status }: any = useSession();
-  console.log(session);
   if (!session?.user?.isAuthenticated) {
     redirect("/signup");
   }
