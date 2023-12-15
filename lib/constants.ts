@@ -153,7 +153,7 @@ export const departmentList: Department[] = [
   { course_code: "TE", department: "Technical Elective" },
   { course_code: "TG", department: "Technogenesis" },
   { course_code: "TM", department: "Telecommunications Management" }
-];
+].sort((a, b) => a.department.localeCompare(b.department));
 
 type courseListType = {
   [string: string]: string;
@@ -2696,7 +2696,7 @@ export const joiningTerms = [
   { term: "Fall 2022", value: "Fall 2022" },
   { term: "Spring 2023", value: "Spring 2023" },
   { term: "Fall 2023", value: "Fall 2023" }
-]
+];
 
 export const semesters = [
   "Spring",
@@ -2711,6 +2711,6 @@ export const semester_mapper = {
     dayjs().month() < 5
       ? semesters[3] // May
       : dayjs().month() < 8
-        ? semesters[0] // August
-        : semesters[3] // September to December
+      ? semesters[0] // August
+      : semesters[3] // September to December
 };

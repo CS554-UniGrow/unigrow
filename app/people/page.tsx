@@ -1,5 +1,7 @@
 "use client";
+
 export const dynamic = "force-dynamic";
+import loadingLogo from "@/public/loading.png";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -18,7 +20,6 @@ import {
 } from "@/components/ui/popover";
 import Loading from "@/components/ui/loading";
 import { Button } from "@/components/ui/button";
-import { UserProfile } from "@/lib/types";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -67,7 +68,7 @@ const People = () => {
     return <Loading />;
   }
   const filteredData = data?.filter(
-    (user: UserProfile) =>
+    (user: any) =>
       user?.sortable_name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
       user?.courses?.some((course: string) =>
         course.toLowerCase().includes(searchQuery.toLowerCase())
@@ -76,7 +77,7 @@ const People = () => {
 
   return (
     <div>
-      <div>
+      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Input
           type="text"
           placeholder="Search by name or course code..."
@@ -86,8 +87,8 @@ const People = () => {
       </div>
 
       {/* Display filtered data */}
-      <div className="grid grid-cols-1 gap-10 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredData?.map((user: UserProfile) => (
+      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {filteredData?.map((user: any) => (
           <Card key={user?._id}>
             <CardHeader>
               <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
@@ -98,7 +99,9 @@ const People = () => {
                   <div className="flex items-center space-x-2">
                     <Link href={`/people/${user._id}/`}>
                       <Avatar>
-                        <AvatarImage src={user?.avatar_url} />
+                        <AvatarImage
+                          src={user?.avatar_url || user?.image || loadingLogo}
+                        />
                         <AvatarFallback>{user?.name}</AvatarFallback>
                       </Avatar>
                     </Link>
