@@ -37,6 +37,10 @@ function useFetchPeople() {
     redirect("/signup");
   }
 
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding");
+  }
+
   useEffect(() => {
     setLoading(true);
     fetch("/api/people", { cache: "no-store" })

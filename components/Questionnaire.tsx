@@ -19,32 +19,15 @@ import {
 import { departmentList, joiningTerms } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { handleSubmitAction } from "@/lib/actions";
+import { checkCanvasToken, handleSubmitAction } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Loading from "./ui/loading";
 
-const formSchema = z.object({
-  major: z
-    .string({
-      required_error: "Please select your major."
-    })
-    .trim()
-    .min(1, { message: "Please select your major." }),
-  joiningTerm: z
-    .string({
-      required_error: "Please select your joining term."
-    })
-    .trim()
-    .min(1, { message: "Please select your joining term." }),
-  canvasToken: z.string().length(69, { message: "Enter a valid Canvas Token" })
-});
-
-export type TQuestionnaire = z.infer<typeof formSchema>;
+import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas";
 
 const Questionnaire = () => {
   const { data: session, status, update }: any = useSession();
@@ -52,7 +35,7 @@ const Questionnaire = () => {
   const router = useRouter();
 
   const form = useForm<TQuestionnaire>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(questionnaireFormSchema),
     defaultValues: {
       major: "",
       joiningTerm: "",
@@ -63,12 +46,24 @@ const Questionnaire = () => {
   const onSubmit = async (values: TQuestionnaire) => {
     setIsLoading(true);
     try {
+      const isTokenValid = await checkCanvasToken(values.canvasToken);
+
+      if (!isTokenValid) {
+        form.setError("canvasToken", {
+          type: "manual",
+          message: "Seems like you have entered an invalid token."
+        });
+        setIsLoading(false);
+        return;
+      }
+      // values.canvasToken = encrypt(values.canvasToken);
       const result = await handleSubmitAction(
         values,
         session?.user?._id,
         session?.user?.refreshToken
       );
-      update({ isOnboarded: true });
+      await update({ isOnboarded: true, avatar_url: result?.avatar_url });
+
       setIsLoading(false);
       router.push("/dashboard");
     } catch (e) {

@@ -3,17 +3,13 @@
 import { Button } from "@/components/ui/button";
 import logger from "@/lib/logger";
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 
-const Signup = () => {
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error");
-
+const Signup = ({ searchParams: { error } }: any) => {
   const handleGoogleAuthSignUp = async () => {
     try {
       const result = await signIn("google", {
         redirect: false,
-        callbackUrl: "/questions"
+        callbackUrl: "/onboarding"
       });
       logger.info(result);
     } catch (e) {

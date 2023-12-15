@@ -72,6 +72,10 @@ const User_Profile = () => {
     redirect("/signup");
   }
 
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding");
+  }
+
   const params = useParams();
   const { user_id } = params;
   const { data, error, loading } = useFetchPerson(user_id as string);

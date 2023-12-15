@@ -76,7 +76,7 @@ export const options: NextAuthOptions = {
       }
 
       if (trigger === "update") {
-        token.isOnboarded = session?.isOnboarded;
+        token = { ...token, ...session }
       }
 
       return token
@@ -85,6 +85,6 @@ export const options: NextAuthOptions = {
   pages: {
     signIn: "/signup",
     error: "/signup",
-    newUser: "/questions"
+    newUser: "/onboarding"
   }
 }

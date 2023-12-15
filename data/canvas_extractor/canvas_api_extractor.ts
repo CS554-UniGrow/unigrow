@@ -10,7 +10,7 @@ import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
 import { metadata } from "@/app/layout";
 import { ObjectId } from "mongodb";
-let domain = "https://sit.instructure.com/api/v1/";
+let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL;
 
 
 
