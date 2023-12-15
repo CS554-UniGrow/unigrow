@@ -72,7 +72,7 @@ const People = () => {
 
   return (
     <div>
-      <div>
+      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Input
           type="text"
           placeholder="Search by name or course code..."
@@ -82,7 +82,7 @@ const People = () => {
       </div>
 
       {/* Display filtered data */}
-      <div className="grid grid-cols-1 gap-10 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredData?.map((user: UserProfile) => (
           <Card key={user?._id}>
             <CardHeader>

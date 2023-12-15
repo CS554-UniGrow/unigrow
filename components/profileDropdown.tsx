@@ -18,7 +18,6 @@ import { useSession, signOut } from "next-auth/react";
 
 export default function ProfileDropdown() {
   const { data: session, status }: any = useSession();
-  console.log(session);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
