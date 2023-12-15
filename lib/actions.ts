@@ -9,7 +9,7 @@ import { encrypt } from "./utils";
 
 export const checkCanvasToken = async (token: string) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CANVAS_BASE_URL}/users/self/profile`,
+    `${process.env.NEXT_PUBLIC_CANVAS_BASE_URL}users/self/profile`,
     { cache: "no-store", headers: { Authorization: `Bearer ${token}` } }
   );
   return response.ok
