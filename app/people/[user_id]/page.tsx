@@ -1,4 +1,7 @@
 "use client";
+export const dynamic = "force-dynamic";
+
+import { Mail } from "lucide-react";
 import { getCourseByDepartment } from "@/data/courses/course";
 import {
   Accordion,
@@ -23,16 +26,23 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-import { UserProfile } from "@/lib/types";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import loadingLogo from "@/public/loading.png";
 
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList
+} from "@radix-ui/react-navigation-menu";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
 function useFetchPerson(user_id: string) {
-  const [data, setData] = useState({} as UserProfile);
+  const [data, setData] = useState({} as any);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -41,7 +51,7 @@ function useFetchPerson(user_id: string) {
       setLoading(true);
       await fetch(`/api/people/${user_id}`)
         .then((res) => res.json())
-        .then((data: UserProfile) => {
+        .then((data: any) => {
           setData(data);
           setLoading(false);
         })
@@ -71,38 +81,67 @@ const User_Profile = () => {
   if (loading) {
     return <Loading />;
   }
-
   return (
-    <Card>
-      <CardHeader>{data?.sortable_name} </CardHeader>
-      <CardContent className="grid gap-6">
-        <div className="flex items-center justify-between space-x-4">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <Image
-                height={100}
-                width={100}
-                src={data?.avatar_url}
-                sizes=""
-                alt=""
-              />
-              <div>
-                <p className="text-sm ">{data?.primary_email}</p>
-              </div>
-              <br></br>
+    <div className="container mt-20 ">
+      <div className="relative mx-auto w-1/2  justify-items-center  rounded-lg border p-20 shadow">
+        <div className="flex justify-center">
+          <Image
+            width={100}
+            height={100}
+            src={data?.avatar_url || data?.image || loadingLogo}
+            alt=""
+            className="absolute -top-20 mx-auto h-32 w-32 transform rounded-full border-4  shadow-md transition duration-200 hover:scale-110"
+          />
+        </div>
 
-              {data?.courses?.map((course) => (
-                <div key={course}>
-                  <Link href={`/course/${course}`}>
-                    <Badge>{course}</Badge>
-                  </Link>
-                </div>
-              ))}
-            </div>
+        <div className="grid gap-5">
+          <div className="grid grid-rows-2 gap-2">
+            <h1 className="text-center text-3xl font-bold ">{data?.name}</h1>
+            <p className="text-center text-sm font-medium ">
+              {departmentMapper[data?.major]}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            {/* email logo */}
+
+            <Button
+              onClick={() => {
+                window.location.href = `mailto:${data?.primary_email}`;
+              }}
+            >
+              <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
+            </Button>
+            <Button>
+              Chat with{" "}
+              <span className="font-bold">
+                @ {data?.primary_email?.split("@")[0]}
+              </span>
+            </Button>
+          </div>
+
+          <div className="justify-items-center ">
+            <h3 className="text-left font-medium ">Courses</h3>
+            <br></br>
+            <NavigationMenu>
+              <NavigationMenuList className="grid grid-cols-5 gap-5">
+                {data?.courses?.map((course: string) => (
+                  <NavigationMenuItem key={course}>
+                    <Link legacyBehavior passHref href={`/course/${course}`}>
+                      <NavigationMenuLink
+                        className={`${navigationMenuTriggerStyle()} rounded border`}
+                      >
+                        {course}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 
