@@ -9,16 +9,10 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { departmentList } from "@/lib/constants";
-
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation";
+import { getSessionServer } from "@/lib/hooks";
 
 const Departments = async () => {
-  const session = await getServerSession(options);
-  if (!session) {
-    redirect("/signup");
-  }
+  const session = await getSessionServer("/courses");
 
   return (
     <div className="">

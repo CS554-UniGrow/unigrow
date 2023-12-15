@@ -1,13 +1,7 @@
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth/next";
-import { redirect } from "next/navigation";
+import { getSessionServer } from "@/lib/hooks";
 
 const Dashboard = async () => {
-  const session = await getServerSession(options);
-  if (!session) {
-    redirect("/signup");
-  }
-
+  const session = await getSessionServer("/dashboard");
   return <div className="text-6xl">Welcome to UniGrow!</div>;
 };
 

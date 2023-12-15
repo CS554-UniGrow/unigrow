@@ -17,8 +17,11 @@ import {
   CardFooter
 } from "@/components/ui/card";
 import Link from "next/link";
+import { getSessionServer } from "@/lib/hooks";
 
 const DepertmentCourses = async ({ params }: { params: { code: string } }) => {
+  const session = await getSessionServer("/courses");
+
   const { code } = params;
 
   const courses: Course[] = await getCourseByDepartment(code);

@@ -2,12 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import {
-  useContext,
-  forwardRef,
-  ElementRef,
-  ComponentPropsWithoutRef
-} from "react";
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
 
 import {
   NavigationMenu,
@@ -26,7 +21,12 @@ const navLinks = [
   { title: "People", path: "/people", checkAuth: true },
   { title: "Resources", path: "/resources", checkAuth: false },
   { title: "About Us", path: "/aboutus", checkAuth: false },
-  { title: "FAQs", path: "/faq", checkAuth: false }
+  { title: "FAQs", path: "/faq", checkAuth: false },
+  {
+    title: "Complete Onboarding",
+    path: "/onboarding",
+    checkAuth: false
+  }
 ];
 
 import { useSession } from "next-auth/react";
@@ -52,12 +52,20 @@ export default function Nav() {
             </NavigationMenuItem>
           </NavigationMenuList>
           {navLinks.map(({ title, path, checkAuth }) => {
-            if (!checkAuth || session?.user?.isAuthenticated) {
+            if (!checkAuth || session?.user?.isOnboarded) {
+              if (
+                path === "/onboarding" &&
+                (session?.user?.isOnboarded || !session?.user?.isAuthenticated)
+              ) {
+                return null;
+              }
               return (
                 <NavigationMenuItem key={title}>
                   <Link href={path} legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
+                      className={`${navigationMenuTriggerStyle()} ${
+                        path === "/onboarding" && "bg-red-400"
+                      }`}
                     >
                       {title}
                     </NavigationMenuLink>
