@@ -25,6 +25,7 @@ import { useSession } from "next-auth/react";
 import { redirect, notFound } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Link2, Underline } from "lucide-react";
+
 function useFetchCourse(code: string) {
   const [data, setData] = useState([] as Course[]);
   const [error, setError] = useState(null);
