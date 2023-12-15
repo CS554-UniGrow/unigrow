@@ -11,10 +11,11 @@ import { courseList, departmentMapper } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Course, UserProfile } from "@/lib/types";
 import { getCourseById } from "@/app/courses/data";
-import { notFound, useParams } from "next/navigation";
+import { notFound, redirect, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "@/components/ui/loading";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 function useFetchCourse(course_code: string) {
   const [data, setData] = useState({} as Course);
@@ -43,9 +44,18 @@ function useFetchCourse(course_code: string) {
 
 const CourseById = () => {
   const params = useParams();
+  const { data: session, status }: any = useSession();
   const course_code = params.course_code as string;
 
   const { data, error, loading } = useFetchCourse(course_code as string);
+
+  if (!session?.user?.isAuthenticated) {
+    redirect("/signup");
+  }
+
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding");
+  }
 
   if (error) {
     return <div>Error</div>;

@@ -24,6 +24,10 @@ const Departments = () => {
   if (!session?.user?.isAuthenticated) {
     redirect("/signup");
   }
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding");
+  }
+
   const filteredData = departmentList.filter((department) => {
     return (
       department.course_code

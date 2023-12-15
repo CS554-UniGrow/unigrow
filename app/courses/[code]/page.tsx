@@ -58,6 +58,10 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
     redirect("/signup");
   }
 
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding");
+  }
+
   const { code } = params;
   if (departmentMapper[code.toUpperCase()] === undefined) {
     notFound();
