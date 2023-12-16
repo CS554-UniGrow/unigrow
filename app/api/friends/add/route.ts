@@ -24,12 +24,11 @@ export async function POST(req: Request) {
 
     const session: any = await getServerSession(options);
 
-
     if (!session) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    if (idToAdd === session?.user?._id) {
+    if (idToAdd === session?.user.sub) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
       });
@@ -39,7 +38,7 @@ export async function POST(req: Request) {
     const isAlreadyAdded = (await fetchRedis(
       "sismember",
       `user:${idToAdd}:incoming_friend_requests`,
-      session?.user?._id
+      session?.user.sub
     )) as 0 | 1;
 
     if (isAlreadyAdded) {
@@ -49,7 +48,7 @@ export async function POST(req: Request) {
     // check if user is already added
     const isAlreadyFriends = (await fetchRedis(
       "sismember",
-      `user:${session.user._id}:friends`,
+      `user:${session.user.sub}:friends`,
       idToAdd
     )) as 0 | 1;
 
@@ -63,21 +62,16 @@ export async function POST(req: Request) {
         toPusherKey(`user:${idToAdd}:incoming_friend_requests`),
         "incoming_friend_requests",
         {
-          senderId: session.user._id,
+          senderId: session.user.sub,
           senderEmail: session.user.email
         }
       );
-    } catch (e) {
+    } catch (e) {}
 
-    }
-
-
-
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user._id);
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.sub);
 
     return new Response("OK");
   } catch (error) {
-
     if (error instanceof z.ZodError) {
       return new Response("Invalid request payload", { status: 422 });
     }

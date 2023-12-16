@@ -100,7 +100,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                             <li>
                               <SidebarChatList
                                 friends={friends}
-                                sessionId={session.user._id}
+                                sessionId={session.user.sub}
                               />
                             </li>
 
@@ -133,7 +133,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                                     initialUnseenRequestCount={
                                       unseenRequestCount
                                     }
-                                    sessionId={session.user._id}
+                                    sessionId={session.user.sub}
                                   />
                                 </li>
                               </ul>

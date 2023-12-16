@@ -89,7 +89,7 @@ const People = () => {
       {/* Display filtered data */}
       <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredData?.map((user: any) => (
-          <Card key={user?._id}>
+          <Card key={user.sub}>
             <CardHeader>
               <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
             </CardHeader>

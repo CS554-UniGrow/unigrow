@@ -11,7 +11,7 @@ const page = async () => {
   // ids of people who sent current logged in user a friend requests
   const incomingSenderIds = (await fetchRedis(
     "smembers",
-    `user:${session.user._id}:incoming_friend_requests`
+    `user:${session.user.sub}:incoming_friend_requests`
   )) as string[];
 
   const incomingFriendRequests = await Promise.all(
@@ -32,7 +32,7 @@ const page = async () => {
       <div className="flex flex-col gap-4">
         <FriendRequests
           incomingFriendRequests={incomingFriendRequests}
-          sessionId={session.user._id}
+          sessionId={session.user.sub}
         />
       </div>
     </main>
