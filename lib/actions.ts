@@ -50,17 +50,22 @@ export const handleSubmitAction = async (
   }
 }
 
-
 export const overrideUpstashKeys = async (session: any) => {
-  const upStashID = await db.get(`user:email:${session.user.email}`);
+  const upStashID = await db.get(`user:email:${session.user.email}`)
 
+  await db.set(`user:email:${session.user.email}`, `${session.user._id}`)
+
+  await db.del(`user:${upStashID}`)
   await db.set(
-    `user:email:${session.user.email}`,
-    `${session.user._id}`
+    `user:${session.user._id}`,
+    JSON.stringify({
+      email: session.user.email,
+      name: session.user.name,
+      image: session.user.image,
+      id: session.user._id,
+      email_verified: session.user.email_verified
+    })
   )
-
-  await db.del(`user:${upStashID}`);
-  await db.set(`user:${session.user._id}`, JSON.stringify({ email: session.user.email, name: session.user.name, image: session.user.image, id: session.user._id, email_verified: session.user.email_verified }));
 
   await db.set(
     `user:${session.user._id}`,
@@ -73,11 +78,14 @@ export const overrideUpstashKeys = async (session: any) => {
     })
   )
 
-  // const upstashTokenDetails = await db.get(`user:account:google:${session.user._id}`) as any;
-  // await db.set(`user:account:google:${session.user._id}`, JSON.stringify({ ...upstashTokenDetails, userId: session.user._id }));
-
+  const upstashTokenDetails = (await db.get(
+    `user:account:google:${session.user._id}`
+  )) as any
+  await db.set(
+    `user:account:google:${session.user._id}`,
+    JSON.stringify({ ...upstashTokenDetails, userId: session.user._id })
+  )
 
   await db.del(`user:account:by-user-id:${upStashID}`)
-  await db.set(`user:account:by-user-id:${session.user._id}`, session.user._id);
-
+  await db.set(`user:account:by-user-id:${session.user._id}`, session.user._id)
 }

@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import { users } from "@/config/mongo/mongoCollections"
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 import { db } from "@/lib/db"
-import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid"
 
 export const options: NextAuthOptions = {
   adapter: UpstashRedisAdapter(db),
@@ -20,7 +20,7 @@ export const options: NextAuthOptions = {
       },
       async profile(profile) {
         return {
-          id: uuid(),
+          id: profile.sub,
           name: profile?.name,
           email: profile?.email,
           image: profile?.picture
@@ -81,6 +81,7 @@ export const options: NextAuthOptions = {
     session: async ({ session, user, token }: any) => {
       if (session && session.user) {
         session.user.isAuthenticated = true
+        // TODO CHECK IF SUB VALUE BELOW AFFECTS ANYTHING
         session.user = { ...session.user, ...token, sub: session.user._id }
       }
       return session

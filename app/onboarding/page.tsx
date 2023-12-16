@@ -5,7 +5,9 @@ import { getSessionServer } from "@/lib/hooks"
 async function Onboarding() {
   const session = await getSessionServer("/onboarding")
 
-  await overrideUpstashKeys(session)
+  if (session) {
+    await overrideUpstashKeys(session)
+  }
 
   return (
     <>
