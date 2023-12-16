@@ -1,5 +1,5 @@
-import { FC } from "react";
-import Skeleton from "react-loading-skeleton";
+import { FC } from "react"
+import Skeleton from "react-loading-skeleton"
 
 interface loadingProps {}
 
@@ -81,7 +81,7 @@ const loading: FC<loadingProps> = ({}) => {
         chatId={chatId}
       /> */}
     </div>
-  );
-};
+  )
+}
 
-export default loading;
+export default loading

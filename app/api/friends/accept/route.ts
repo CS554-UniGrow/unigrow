@@ -1,21 +1,21 @@
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../../auth/[...nextauth]/options";
-import { db } from "@/lib/db";
-import { pusherServer } from "@/lib/pusher";
-import { toPusherKey } from "@/lib/utils";
-import { getServerSession } from "next-auth";
-import { z } from "zod";
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../../auth/[...nextauth]/options"
+import { db } from "@/lib/db"
+import { pusherServer } from "@/lib/pusher"
+import { toPusherKey } from "@/lib/utils"
+import { getServerSession } from "next-auth"
+import { z } from "zod"
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = await req.json()
 
-    const { id: idToAdd } = z.object({ id: z.string() }).parse(body);
+    const { id: idToAdd } = z.object({ id: z.string() }).parse(body)
 
-    const session = await getServerSession(options);
+    const session = await getServerSession(options)
 
     if (!session) {
-      return new Response("Unauthorized", { status: 401 });
+      return new Response("Unauthorized", { status: 401 })
     }
 
     // verify both users are not already friends
@@ -24,29 +24,29 @@ export async function POST(req: Request) {
       "sismember",
       `user:${session.user.sub}:friends`,
       idToAdd
-    );
+    )
 
     if (isAlreadyFriends) {
-      return new Response("Already friends", { status: 400 });
+      return new Response("Already friends", { status: 400 })
     }
 
     const hasFriendRequest = await fetchRedis(
       "sismember",
       `user:${session.user.sub}:incoming_friend_requests`,
       idToAdd
-    );
+    )
 
     if (!hasFriendRequest) {
-      return new Response("No friend request", { status: 400 });
+      return new Response("No friend request", { status: 400 })
     }
 
     const [userRaw, friendRaw] = (await Promise.all([
       fetchRedis("get", `user:${session.user.sub}`),
       fetchRedis("get", `user:${idToAdd}`)
-    ])) as [string, string];
+    ])) as [string, string]
 
-    const user = JSON.parse(userRaw) as any;
-    const friend = JSON.parse(friendRaw) as any;
+    const user = JSON.parse(userRaw) as any
+    const friend = JSON.parse(friendRaw) as any
 
     // notify added user
 
@@ -64,14 +64,14 @@ export async function POST(req: Request) {
       db.sadd(`user:${session.user.sub}:friends`, idToAdd),
       db.sadd(`user:${idToAdd}:friends`, session.user.sub),
       db.srem(`user:${session.user.sub}:incoming_friend_requests`, idToAdd)
-    ]);
+    ])
 
-    return new Response("OK");
+    return new Response("OK")
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response("Invalid request payload", { status: 422 });
+      return new Response("Invalid request payload", { status: 422 })
     }
 
-    return new Response("Invalid request", { status: 400 });
+    return new Response("Invalid request", { status: 400 })
   }
 }

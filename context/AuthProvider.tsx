@@ -1,29 +1,29 @@
-"use client";
-import { usePathname } from "next/navigation";
-import { redirect } from "next/navigation";
+"use client"
+import { usePathname } from "next/navigation"
+import { redirect } from "next/navigation"
 
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "next-auth/react"
 
-const publicPaths = ["/signup", "/"];
+const publicPaths = ["/signup", "/"]
 
 export default function AuthProvider({
   children,
   session
 }: {
-  children: React.ReactNode;
-  session: any;
+  children: React.ReactNode
+  session: any
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   if (
     session?.user?.isAuthenticated &&
     (pathname === "/signup" || pathname === "/")
   ) {
-    redirect("/dashboard");
+    redirect("/dashboard")
   }
 
   if (!session?.user?.isAuthenticated && publicPaths.includes(pathname)) {
-    return <SessionProvider session={session}>{children}</SessionProvider>;
+    return <SessionProvider session={session}>{children}</SessionProvider>
   }
 
   // useLayoutEffect(() => {
@@ -33,5 +33,5 @@ export default function AuthProvider({
   //   }
   // }, []);
 
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return <SessionProvider session={session}>{children}</SessionProvider>
 }

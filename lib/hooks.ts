@@ -1,31 +1,31 @@
-import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import { redirect } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth"
+import { options } from "@/app/api/auth/[...nextauth]/options"
+import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
-const UNAUTHENTICATED_REDIRECT = "/signup";
-const ONBOARDING_REDIRECT = "/onboarding";
-const PROTECTED_ROUTES = ["/dashboard"];
-const ROUTES = ["/", "/signup", "/onboarding"];
+const UNAUTHENTICATED_REDIRECT = "/signup"
+const ONBOARDING_REDIRECT = "/onboarding"
+const PROTECTED_ROUTES = ["/dashboard"]
+const ROUTES = ["/", "/signup", "/onboarding"]
 
 export const getSessionServer = async (pathname?: string) => {
   // TODO: Add types to session
-  const session = await getServerSession(options);
+  const session = await getServerSession(options)
 
   // If the user is not authenticated, redirect to login page
   if (!session) {
-    redirect(UNAUTHENTICATED_REDIRECT);
+    redirect(UNAUTHENTICATED_REDIRECT)
   }
 
-  const { user }: any = session;
+  const { user }: any = session
 
   if (
     user?.isAuthenticated &&
     user?.isOnboarded &&
     (pathname === ONBOARDING_REDIRECT || ROUTES.includes(pathname!))
   ) {
-    redirect("/dashboard");
+    redirect("/dashboard")
   }
 
   // If user is authenticated but not onboarded, redirect to onboarding page
@@ -34,20 +34,20 @@ export const getSessionServer = async (pathname?: string) => {
     !user?.isOnboarded &&
     pathname !== ONBOARDING_REDIRECT
   ) {
-    redirect(ONBOARDING_REDIRECT);
+    redirect(ONBOARDING_REDIRECT)
   }
 
-  return session;
-};
+  return session
+}
 
 // TODO: Think a better way to do this
 export const useSessionClient = () => {
-  const router = useRouter();
-  const session = useSession();
+  const router = useRouter()
+  const session = useSession()
 
   if (!session) {
-    redirect(UNAUTHENTICATED_REDIRECT);
+    redirect(UNAUTHENTICATED_REDIRECT)
   }
 
-  const { user }: any = session;
-};
+  const { user }: any = session
+}

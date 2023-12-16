@@ -1,37 +1,37 @@
-import ChatInput from "@/components/ChatInput";
-import Messages from "@/components/Messages";
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../../../api/auth/[...nextauth]/options";
-import { messageArrayValidator } from "@/lib/validations/message";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import { notFound } from "next/navigation";
+import ChatInput from "@/components/ChatInput"
+import Messages from "@/components/Messages"
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../../../api/auth/[...nextauth]/options"
+import { messageArrayValidator } from "@/lib/validations/message"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
+import { notFound } from "next/navigation"
 
 // The following generateMetadata functiion was written after the video and is purely optional
 export async function generateMetadata({
   params
 }: {
-  params: { chatId: string };
+  params: { chatId: string }
 }) {
-  const session = await getServerSession(options);
-  if (!session) notFound();
-  const [userId1, userId2] = params.chatId.split("--");
-  const { user } = session;
+  const session = await getServerSession(options)
+  if (!session) notFound()
+  const [userId1, userId2] = params.chatId.split("--")
+  const { user } = session
 
-  const chatPartnerId = user.sub === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.sub === userId1 ? userId2 : userId1
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
-  )) as string;
-  const chatPartner = JSON.parse(chatPartnerRaw) as any;
+  )) as string
+  const chatPartner = JSON.parse(chatPartnerRaw) as any
 
-  return { title: `FriendZone | ${chatPartner?.name} chat` };
+  return { title: `FriendZone | ${chatPartner?.name} chat` }
 }
 
 interface PageProps {
   params: {
-    chatId: string;
-  };
+    chatId: string
+  }
 }
 
 async function getChatMessages(chatId: string) {
@@ -41,42 +41,42 @@ async function getChatMessages(chatId: string) {
       `chat:${chatId}:messages`,
       0,
       -1
-    );
+    )
 
-    const dbMessages = results.map((message) => JSON.parse(message) as Message);
+    const dbMessages = results.map((message) => JSON.parse(message) as Message)
 
-    const reversedDbMessages = dbMessages.reverse();
+    const reversedDbMessages = dbMessages.reverse()
 
-    const messages = messageArrayValidator.parse(reversedDbMessages);
+    const messages = messageArrayValidator.parse(reversedDbMessages)
 
-    return messages;
+    return messages
   } catch (error) {
-    notFound();
+    notFound()
   }
 }
 
 const page = async ({ params }: PageProps) => {
-  const { chatId } = params;
-  const session = await getServerSession(options);
-  if (!session) notFound();
+  const { chatId } = params
+  const session = await getServerSession(options)
+  if (!session) notFound()
 
-  const { user } = session;
+  const { user } = session
 
-  const [userId1, userId2] = chatId.split("--");
+  const [userId1, userId2] = chatId.split("--")
 
   if (user.sub !== userId1 && user.sub !== userId2) {
-    notFound();
+    notFound()
   }
 
-  const chatPartnerId = user.sub === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.sub === userId1 ? userId2 : userId1
   // new
 
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
-  )) as string;
-  const chatPartner = JSON.parse(chatPartnerRaw) as any;
-  const initialMessages = await getChatMessages(chatId);
+  )) as string
+  const chatPartner = JSON.parse(chatPartnerRaw) as any
+  const initialMessages = await getChatMessages(chatId)
 
   return (
     <div className="flex h-full max-h-[calc(100vh-6rem)] flex-1 flex-col justify-between">
@@ -115,7 +115,7 @@ const page = async ({ params }: PageProps) => {
       />
       <ChatInput chatId={chatId} chatPartner={chatPartner} />
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page

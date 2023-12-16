@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from "dayjs"
 
 export const departmentMapper: { [code: string]: string } = {
   AAI: "Applied Artificial Intelligence",
@@ -71,11 +71,11 @@ export const departmentMapper: { [code: string]: string } = {
   TE: "Technical Elective",
   TG: "Technogenesis",
   TM: "Telecommunications Management"
-};
+}
 type Department = {
-  course_code: string;
-  department: string;
-};
+  course_code: string
+  department: string
+}
 export const departmentList: Department[] = [
   { course_code: "AAI", department: "Applied Artificial Intelligence" },
   { course_code: "ACC", department: "Accounting" },
@@ -153,11 +153,11 @@ export const departmentList: Department[] = [
   { course_code: "TE", department: "Technical Elective" },
   { course_code: "TG", department: "Technogenesis" },
   { course_code: "TM", department: "Telecommunications Management" }
-].sort((a, b) => a.department.localeCompare(b.department));
+].sort((a, b) => a.department.localeCompare(b.department))
 
 type courseListType = {
-  [string: string]: string;
-};
+  [string: string]: string
+}
 export const courseList: courseListType = {
   "AAI 551": "Engineering Programming: Python",
   "AAI 627": "Data Acquisition, Modeling and Analysis: Big Data Analytics",
@@ -2686,7 +2686,7 @@ export const courseList: courseListType = {
   "TM 801": "Special Problems in Telecommunications Management (PhD)",
   "TM 810": "Special Topics in Telecommunications Management",
   "TM 900": "Thesis in Telecommunications Management (MS)"
-};
+}
 
 export const joiningTerms = [
   { term: "Fall 2020", value: "Fall 2020" },
@@ -2696,14 +2696,14 @@ export const joiningTerms = [
   { term: "Fall 2022", value: "Fall 2022" },
   { term: "Spring 2023", value: "Spring 2023" },
   { term: "Fall 2023", value: "Fall 2023" }
-];
+]
 
 export const semesters = [
   "Spring",
   "Summer Session 1",
   "Summer Session 2",
   "Fall"
-];
+]
 
 export const semester_mapper = {
   current_year: dayjs().year(),
@@ -2713,4 +2713,4 @@ export const semester_mapper = {
       : dayjs().month() < 8
         ? semesters[0] // August
         : semesters[3] // September to December
-};
+}

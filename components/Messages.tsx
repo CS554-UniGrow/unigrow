@@ -1,18 +1,18 @@
-"use client";
+"use client"
 
-import { pusherClient } from "@/lib/pusher";
-import { cn, toPusherKey } from "@/lib/utils";
-import { Message } from "@/lib/validations/message";
-import { format } from "date-fns";
-import Image from "next/image";
-import { FC, useEffect, useRef, useState } from "react";
+import { pusherClient } from "@/lib/pusher"
+import { cn, toPusherKey } from "@/lib/utils"
+import { Message } from "@/lib/validations/message"
+import { format } from "date-fns"
+import Image from "next/image"
+import { FC, useEffect, useRef, useState } from "react"
 
 interface MessagesProps {
-  initialMessages: Message[];
-  sessionId: string;
-  chatId: string;
-  sessionImg: string | null | undefined;
-  chatPartner: any;
+  initialMessages: Message[]
+  sessionId: string
+  chatId: string
+  sessionImg: string | null | undefined
+  chatPartner: any
 }
 
 const Messages: FC<MessagesProps> = ({
@@ -22,28 +22,28 @@ const Messages: FC<MessagesProps> = ({
   chatPartner,
   sessionImg
 }) => {
-  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [messages, setMessages] = useState<Message[]>(initialMessages)
 
   useEffect(() => {
-    pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
+    pusherClient.subscribe(toPusherKey(`chat:${chatId}`))
 
     const messageHandler = (message: Message) => {
-      setMessages((prev) => [message, ...prev]);
-    };
+      setMessages((prev) => [message, ...prev])
+    }
 
-    pusherClient.bind("incoming-message", messageHandler);
+    pusherClient.bind("incoming-message", messageHandler)
 
     return () => {
-      pusherClient.unsubscribe(toPusherKey(`chat:${chatId}`));
-      pusherClient.unbind("incoming-message", messageHandler);
-    };
-  }, [chatId]);
+      pusherClient.unsubscribe(toPusherKey(`chat:${chatId}`))
+      pusherClient.unbind("incoming-message", messageHandler)
+    }
+  }, [chatId])
 
-  const scrollDownRef = useRef<HTMLDivElement | null>(null);
+  const scrollDownRef = useRef<HTMLDivElement | null>(null)
 
   const formatTimestamp = (timestamp: number) => {
-    return format(timestamp, "HH:mm");
-  };
+    return format(timestamp, "HH:mm")
+  }
 
   return (
     <div
@@ -53,10 +53,10 @@ const Messages: FC<MessagesProps> = ({
       <div ref={scrollDownRef} />
 
       {messages.map((message, index) => {
-        const isCurrentUser = message.senderId === sessionId;
+        const isCurrentUser = message.senderId === sessionId
 
         const hasNextMessageFromSameUser =
-          messages[index - 1]?.senderId === messages[index].senderId;
+          messages[index - 1]?.senderId === messages[index].senderId
 
         return (
           <div
@@ -113,10 +113,10 @@ const Messages: FC<MessagesProps> = ({
               </div>
             </div>
           </div>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
-export default Messages;
+export default Messages

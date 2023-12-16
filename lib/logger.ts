@@ -1,11 +1,11 @@
-import pino from "pino";
-import { logflarePinoVercel } from "pino-logflare";
-let logger = pino();
+import pino from "pino"
+import { logflarePinoVercel } from "pino-logflare"
+let logger = pino()
 if (process.env.VERCEL === "1") {
   const { stream, send } = logflarePinoVercel({
     apiKey: process.env.NEXT_PUBLIC_LOGFLARE_KEY!,
     sourceToken: process.env.NEXT_PUBLIC_LOGFLARE_SOURCE_TOKEN!
-  });
+  })
 
   logger = pino(
     {
@@ -20,7 +20,7 @@ if (process.env.VERCEL === "1") {
       }
     },
     stream
-  );
+  )
 } else {
   logger = pino(
     {
@@ -28,7 +28,7 @@ if (process.env.VERCEL === "1") {
     }
     // uncomment to log to a file
     //pino.destination("./logs/log.txt")
-  );
+  )
 }
 
-export default logger;
+export default logger

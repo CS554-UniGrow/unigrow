@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import React from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import Link from "next/link"
 
 const Resources: React.FC = () => {
   return (
@@ -74,7 +74,7 @@ const Resources: React.FC = () => {
         </div>
       </footer>
     </main>
-  );
-};
+  )
+}
 
-export default Resources;
+export default Resources

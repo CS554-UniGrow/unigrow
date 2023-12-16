@@ -1,30 +1,30 @@
-import FriendRequests from "@/components/FriendRequests";
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
-import { notFound } from "next/navigation";
-import { FC } from "react";
+import FriendRequests from "@/components/FriendRequests"
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../../api/auth/[...nextauth]/options"
+import { getServerSession } from "next-auth"
+import { notFound } from "next/navigation"
+import { FC } from "react"
 
 const page = async () => {
-  const session = await getServerSession(options);
-  if (!session) notFound();
+  const session = await getServerSession(options)
+  if (!session) notFound()
   // ids of people who sent current logged in user a friend requests
   const incomingSenderIds = (await fetchRedis(
     "smembers",
     `user:${session.user.sub}:incoming_friend_requests`
-  )) as string[];
+  )) as string[]
 
   const incomingFriendRequests = await Promise.all(
     incomingSenderIds.map(async (senderId) => {
-      const sender = (await fetchRedis("get", `user:${senderId}`)) as string;
-      const senderParsed = JSON.parse(sender) as any;
+      const sender = (await fetchRedis("get", `user:${senderId}`)) as string
+      const senderParsed = JSON.parse(sender) as any
       //console.log(senderId);
       return {
         senderId,
         senderEmail: senderParsed.email
-      };
+      }
     })
-  );
+  )
 
   return (
     <main className="pt-8">
@@ -36,7 +36,7 @@ const page = async () => {
         />
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default page;
+export default page

@@ -1,15 +1,15 @@
-import { chatHrefConstructor, cn } from "@/lib/utils";
-import Image from "next/image";
-import { FC } from "react";
-import { toast, type Toast } from "react-hot-toast";
+import { chatHrefConstructor, cn } from "@/lib/utils"
+import Image from "next/image"
+import { FC } from "react"
+import { toast, type Toast } from "react-hot-toast"
 
 interface UnseenChatToastProps {
-  t: Toast;
-  sessionId: string;
-  senderId: string;
-  senderImg: string;
-  senderName: string;
-  senderMessage: string;
+  t: Toast
+  sessionId: string
+  senderId: string
+  senderImg: string
+  senderName: string
+  senderMessage: string
 }
 
 const UnseenChatToast: FC<UnseenChatToastProps> = ({
@@ -61,7 +61,7 @@ const UnseenChatToast: FC<UnseenChatToastProps> = ({
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UnseenChatToast;
+export default UnseenChatToast

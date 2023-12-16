@@ -1,21 +1,21 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import React, { useState, ReactNode } from "react";
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import Link from "next/link"
+import React, { useState, ReactNode } from "react"
 
 interface FaqItemProps {
-  question: string;
-  answer?: string;
-  children?: ReactNode;
+  question: string
+  answer?: string
+  children?: ReactNode
 }
 
 const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
 
-  const toggleOpen = () => setIsOpen(!isOpen);
+  const toggleOpen = () => setIsOpen(!isOpen)
 
   return (
     <div className="faq-question py-4">
@@ -29,8 +29,8 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
         <div className="text-xl">{children ? children : <p>{answer}</p>}</div>
       )}
     </div>
-  );
-};
+  )
+}
 
 export default function Faq() {
   return (
@@ -122,5 +122,5 @@ export default function Faq() {
         </div>
       </footer>
     </main>
-  );
+  )
 }

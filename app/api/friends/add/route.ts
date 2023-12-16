@@ -1,37 +1,37 @@
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../../auth/[...nextauth]/options";
-import { db } from "@/lib/db";
-import { pusherServer } from "@/lib/pusher";
-import { toPusherKey } from "@/lib/utils";
-import { addFriendValidator } from "@/lib/validations/add-friend";
-import { getServerSession } from "next-auth";
-import { z } from "zod";
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../../auth/[...nextauth]/options"
+import { db } from "@/lib/db"
+import { pusherServer } from "@/lib/pusher"
+import { toPusherKey } from "@/lib/utils"
+import { addFriendValidator } from "@/lib/validations/add-friend"
+import { getServerSession } from "next-auth"
+import { z } from "zod"
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body = await req.json()
 
-    const { email: emailToAdd } = addFriendValidator.parse(body.email);
+    const { email: emailToAdd } = addFriendValidator.parse(body.email)
 
     const idToAdd = (await fetchRedis(
       "get",
       `user:email:${emailToAdd}`
-    )) as string;
+    )) as string
 
     if (!idToAdd) {
-      return new Response("This person does not exist.", { status: 400 });
+      return new Response("This person does not exist.", { status: 400 })
     }
 
-    const session: any = await getServerSession(options);
+    const session: any = await getServerSession(options)
 
     if (!session) {
-      return new Response("Unauthorized", { status: 401 });
+      return new Response("Unauthorized", { status: 401 })
     }
 
     if (idToAdd === session?.user.sub) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
-      });
+      })
     }
 
     // check if user is already added
@@ -39,10 +39,10 @@ export async function POST(req: Request) {
       "sismember",
       `user:${idToAdd}:incoming_friend_requests`,
       session?.user.sub
-    )) as 0 | 1;
+    )) as 0 | 1
 
     if (isAlreadyAdded) {
-      return new Response("Already added this user", { status: 400 });
+      return new Response("Already added this user", { status: 400 })
     }
 
     // check if user is already added
@@ -50,10 +50,10 @@ export async function POST(req: Request) {
       "sismember",
       `user:${session.user.sub}:friends`,
       idToAdd
-    )) as 0 | 1;
+    )) as 0 | 1
 
     if (isAlreadyFriends) {
-      return new Response("Already friends with this user", { status: 400 });
+      return new Response("Already friends with this user", { status: 400 })
     }
 
     // valid request, send friend request
@@ -65,17 +65,17 @@ export async function POST(req: Request) {
           senderId: session.user.sub,
           senderEmail: session.user.email
         }
-      );
+      )
     } catch (e) {}
 
-    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.sub);
+    await db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.sub)
 
-    return new Response("OK");
+    return new Response("OK")
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response("Invalid request payload", { status: 422 });
+      return new Response("Invalid request payload", { status: 422 })
     }
 
-    return new Response("Invalid request", { status: 400 });
+    return new Response("Invalid request", { status: 400 })
   }
 }
