@@ -44,7 +44,8 @@ export const options: NextAuthOptions = {
             isOnboarded: false,
             isEmailVerified: isEmailVerified,
             refreshToken: credentials?.refreshToken,
-            provider: "google"
+            provider: "google",
+            googleId: user?.id
           }
 
           const insertInfo = await usersCollection.insertOne(newUser)
