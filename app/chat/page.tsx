@@ -10,7 +10,7 @@ import { notFound } from "next/navigation";
 
 const page = async ({}) => {
   const session = await getServerSession(options);
-  console.log({ session });
+  //console.log({ session });
   if (!session) notFound();
 
   const friends = await getFriendsByUserId(session.user.sub);
