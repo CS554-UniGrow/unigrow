@@ -1,8 +1,11 @@
 import Questionnaire from "@/components/Questionnaire"
+import { overrideUpstashKeys } from "@/lib/actions"
 import { getSessionServer } from "@/lib/hooks"
 
 async function Onboarding() {
   const session = await getSessionServer("/onboarding")
+
+  await overrideUpstashKeys(session)
 
   return (
     <>

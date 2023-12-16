@@ -4,6 +4,7 @@ import { TQuestionnaire } from "@/lib/schemas"
 import { users } from "@/config/mongo/mongoCollections"
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor"
 import { encrypt } from "./utils"
+import { db } from "./db"
 
 export const checkCanvasToken = async (token: string) => {
   const response = await fetch(
@@ -47,4 +48,38 @@ export const handleSubmitAction = async (
     }
     return data
   }
+}
+
+
+export const overrideUpstashKeys = async (session: any) => {
+  const upStashID = await db.get(`user:email:${session.user.email}`);
+
+  await db.set(
+    `user:email:${session.user.email}`,
+    JSON.stringify(session.user._id)
+  )
+
+  await db.del(`user:${upStashID}`);
+  await db.set(`user:${session.user._id}`, JSON.stringify({ email: session.user.email, name: session.user.name, image: session.user.image, id: session.user._id, email_verified: session.user.email_verified }));
+
+  await db.set(
+    `user:${session.user._id}`,
+    JSON.stringify({
+      email: session.user.email,
+      name: session.user.name,
+      image: session.user.image,
+      id: session.user._id,
+      email_verified: session.user.email_verified
+    })
+  )
+
+  const upstashTokenDetails = JSON.parse(await db.get(`user:account:by-user-id:${session.user._id}`) as string);
+  console.log({ upstashTokenDetails })
+
+  delete upstashTokenDetails.userId;
+  await db.set(`user:account:by-user-id:${session.user._id}`, JSON.stringify({ ...upstashTokenDetails }));
+
+  await db.del(`user:account:by-user-id:${upStashID}`)
+  await db.set(`user:account:by-user-id:${session.user._id}`, session.user._id);
+
 }
