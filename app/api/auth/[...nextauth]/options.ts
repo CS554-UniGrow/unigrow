@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import { users } from "@/config/mongo/mongoCollections"
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 import { db } from "@/lib/db"
+import { v4 as uuid } from "uuid";
 
 export const options: NextAuthOptions = {
   adapter: UpstashRedisAdapter(db),
@@ -32,7 +33,7 @@ export const options: NextAuthOptions = {
 
         if (!userExists) {
           const newUser = {
-            _id: user?.id,
+            _id: uuid(),
             email: profile?.email,
             name: profile?.name,
             image: profile?.picture,
@@ -72,7 +73,7 @@ export const options: NextAuthOptions = {
     session: async ({ session, user, token }: any) => {
       if (session && session.user) {
         session.user.isAuthenticated = true
-        session.user = { ...session.user, ...token }
+        session.user = { ...session.user, ...token, sub: session.user._id }
       }
       return session
     },

@@ -3,7 +3,6 @@ import { fetchRedis } from "@/helpers/redis"
 import { options } from "../../api/auth/[...nextauth]/options"
 import { getServerSession } from "next-auth"
 import { notFound } from "next/navigation"
-import { FC } from "react"
 
 const page = async () => {
   const session = await getServerSession(options)
@@ -21,7 +20,7 @@ const page = async () => {
       //console.log(senderId);
       return {
         senderId,
-        senderEmail: senderParsed.email
+        senderEmail: senderParsed?.email
       }
     })
   )
