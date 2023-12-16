@@ -37,7 +37,7 @@ export default function Faq() {
   return (
     <main className="faq-page">
       {/* FAQ Header */}
-      <section className="faq-header-section container mx-auto text-center py-24 bg-[rgba(0,0,0,0.5)] text-white">
+      <section className="faq-header-section container mx-auto text-center py-24 ">
         <h1 className="text-5xl font-bold mb-6">Frequently Asked Questions</h1>
         <p className="text-xl">
           Everything you need to know to get started and navigate UniGrow with ease.
@@ -100,13 +100,13 @@ export default function Faq() {
       </section>
 
       {/* Footer */}
-      <footer className="footer-section text-white py-8">
+      <footer className="footer-section">
         <div className="container mx-auto text-center">
             <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            <a href="/" className="text-base hover:text-white">Home</a>
-            <a href="/faq" className="text-base hover:text-white">FAQ</a>
-            <a href="/aboutus" className="text-base hover:text-white">About</a>
-            <a href="/resources" className="text-base hover:text-white">Resources</a>
+            <a href="/" className="text-base">Home</a>
+            <a href="/faq" className="text-base">FAQ</a>
+            <a href="/aboutus" className="text-base">About</a>
+            <a href="/resources" className="text-base">Resources</a>
             </div>
             <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
         </div>
