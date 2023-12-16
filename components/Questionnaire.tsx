@@ -59,7 +59,7 @@ const Questionnaire = () => {
       // values.canvasToken = encrypt(values.canvasToken);
       const result = await handleSubmitAction(
         values,
-        session?.user.sub,
+        session?.user._id,
         session?.user?.refreshToken
       )
       await update({ isOnboarded: true, avatar_url: result?.avatar_url })

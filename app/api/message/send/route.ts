@@ -16,15 +16,15 @@ export async function POST(req: Request) {
 
     const [userId1, userId2] = chatId.split("--")
 
-    if (session.user.sub !== userId1 && session.user.sub !== userId2) {
+    if (session.user._id !== userId1 && session.user._id !== userId2) {
       return new Response("Unauthorized", { status: 401 })
     }
 
-    const friendId = session.user.sub === userId1 ? userId2 : userId1
+    const friendId = session.user._id === userId1 ? userId2 : userId1
 
     const friendList = (await fetchRedis(
       "smembers",
-      `user:${session.user.sub}:friends`
+      `user:${session.user._id}:friends`
     )) as string[]
     const isFriend = friendList.includes(friendId)
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
 
     const rawSender = (await fetchRedis(
       "get",
-      `user:${session.user.sub}`
+      `user:${session.user._id}`
     )) as string
     const sender = JSON.parse(rawSender) as any
 
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     const messageData: Message = {
       id: nanoid(),
-      senderId: session.user.sub,
+      senderId: session.user._id,
       text,
       timestamp
     }

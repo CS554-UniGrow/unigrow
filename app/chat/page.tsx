@@ -13,12 +13,12 @@ const page = async ({}) => {
   //console.log({ session });
   if (!session) notFound()
 
-  const friends = await getFriendsByUserId(session.user.sub)
+  const friends = await getFriendsByUserId(session.user._id)
   const friendsWithLastMessage = await Promise.all(
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
         "zrange",
-        `chat:${chatHrefConstructor(session.user.sub, friend.id)}:messages`,
+        `chat:${chatHrefConstructor(session.user._id, friend.id)}:messages`,
         -1,
         -1
       )) as string[]
@@ -51,7 +51,7 @@ const page = async ({}) => {
 
             <Link
               href={`/chat/newChat/${chatHrefConstructor(
-                session.user.sub,
+                session.user._id,
                 friend.id
               )}`}
               className="relative sm:flex"
@@ -72,7 +72,7 @@ const page = async ({}) => {
                 <h4 className="text-lg font-semibold">{friend.name}</h4>
                 <p className="mt-1 max-w-md">
                   <span className="text-zinc-400">
-                    {friend.lastMessage?.senderId === session.user.sub
+                    {friend.lastMessage?.senderId === session.user._id
                       ? "You: "
                       : ""}
                   </span>
