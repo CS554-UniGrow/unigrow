@@ -70,14 +70,13 @@ const Resources: React.FC = () => {
           <p className="text-xl mb-6">
             Have questions or need support? Our team is here to help.
           </p>
-          {/* Contact Form or Contact Information */}
-          <div className="contact-form">
-            {/* Example Contact Form */}
-            <Input type="text" placeholder="Your Name" className="mb-4" />
-            <Input type="email" placeholder="Your Email" className="mb-4" />
-            <textarea placeholder="Your Message" className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"></textarea>
-            <Button>Send Message</Button>
-          </div>
+          {/* Contact Form */}
+          <form action="https://formspree.io/f/xyyrgzzw" method="POST">
+            <input type="text" name="name" placeholder="Your Name" className="mb-4 w-full p-2" />
+            <input type="email" name="_replyto" placeholder="Your Email" className="mb-4 w-full p-2" />
+            <textarea name="message" placeholder="Your Message" className="w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"></textarea>
+            <button type="submit" className="button">Send Message</button>
+          </form>
         </div>
       </section>
 
