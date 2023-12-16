@@ -23,10 +23,41 @@ const Resources: React.FC = () => {
             {/* List of more resources here */}
             {/* Resource Card Placeholder*/}
             <div className="resource-card">
-              <h3 className="text-xl font-semibold mb-2">Resource Title</h3>
-              <p>Description or content of the resource.</p>
-              <Button className="mt-4">Learn More</Button>
+              <h3 className="text-xl font-semibold mb-2">Academic Calendar</h3>
+              <p>Access the Stevens Institute of Technology Academic Calendar for important dates and deadlines.</p>
+              <a href="https://www.stevens.edu/page-basic/academic-calendar" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
             </div>
+            
+            <div className="resource-card">
+              <h3 className="text-xl font-semibold mb-2">Stevens Support Portal</h3>
+              <p>Find support resources and assistance for various services at Stevens Institute of Technology.</p>
+              <a href="https://support.stevens.edu/support/solutions/19000058786" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
+            </div>
+
+            <div className="resource-card">
+              <h3 className="text-xl font-semibold mb-2">Stevens Office of the Registrar</h3>
+              <p>Visit the Office of the Registrar for academic records, registration, course information, and more.</p>
+              <a href="https://www.stevens.edu/office-of-the-registrar" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
+            </div>
+
+            <div className="resource-card">
+              <h3 className="text-xl font-semibold mb-2">International Student and Scholar Services</h3>
+              <p>Explore resources and support services for international students and scholars at Stevens.</p>
+              <a href="https://www.stevens.edu/page-minisite-landing/isss" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
+            </div>
+
+            <div className="resource-card">
+              <h3 className="text-xl font-semibold mb-2">MyStevens</h3>
+              <p>Login to MyStevens to access all resources offered to Stevens Institute of Technology students.</p>
+              <a href="https://login.stevens.edu/" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
+            </div>
+
+            <div className="resource-card">
+              <h3 className="text-xl font-semibold mb-2">Stevens Division of Information Technology</h3>
+              <p>Explore IT resources and support services for Stevens students. </p>
+              <a href="https://www.stevens.edu/division-information-technology" target="_blank" rel="noopener noreferrer" className="button mt-4">Learn More</a>
+            </div>
+
             {/* Repeat for other resources */}
           </div>
         </div>
