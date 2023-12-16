@@ -17,6 +17,14 @@ export const options: NextAuthOptions = {
           access_type: "offline",
           response_type: "code"
         }
+      },
+      async profile(profile) {
+        return {
+          id: uuid(),
+          name: profile?.name,
+          email: profile?.email,
+          image: profile?.picture
+        }
       }
     })
   ],
@@ -33,7 +41,7 @@ export const options: NextAuthOptions = {
 
         if (!userExists) {
           const newUser = {
-            _id: uuid(),
+            _id: user.id,
             email: profile?.email,
             name: profile?.name,
             image: profile?.picture,
