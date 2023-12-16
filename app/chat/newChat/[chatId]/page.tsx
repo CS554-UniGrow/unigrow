@@ -18,14 +18,14 @@ export async function generateMetadata({
   const [userId1, userId2] = params.chatId.split("--");
   const { user } = session;
 
-  const chatPartnerId = user._id === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.sub === userId1 ? userId2 : userId1;
   const chatPartnerRaw = (await fetchRedis(
     "get",
     `user:${chatPartnerId}`
   )) as string;
   const chatPartner = JSON.parse(chatPartnerRaw) as any;
 
-  return { title: `FriendZone | ${chatPartner.name} chat` };
+  return { title: `FriendZone | ${chatPartner?.name} chat` };
 }
 
 interface PageProps {
@@ -64,11 +64,11 @@ const page = async ({ params }: PageProps) => {
 
   const [userId1, userId2] = chatId.split("--");
 
-  if (user._id !== userId1 && user._id !== userId2) {
+  if (user.sub !== userId1 && user.sub !== userId2) {
     notFound();
   }
 
-  const chatPartnerId = user._id === userId1 ? userId2 : userId1;
+  const chatPartnerId = user.sub === userId1 ? userId2 : userId1;
   // new
 
   const chatPartnerRaw = (await fetchRedis(
@@ -87,8 +87,8 @@ const page = async ({ params }: PageProps) => {
               <Image
                 fill
                 referrerPolicy="no-referrer"
-                src={chatPartner.image}
-                alt={`${chatPartner.name} profile picture`}
+                src={chatPartner?.image}
+                alt={`${chatPartner?.name} profile picture`}
                 className="rounded-full"
               />
             </div>
@@ -97,7 +97,7 @@ const page = async ({ params }: PageProps) => {
           <div className="flex flex-col leading-tight">
             <div className="flex items-center text-xl">
               <span className="mr-3 font-semibold text-gray-700">
-                {chatPartner.name}
+                {chatPartner?.name}
               </span>
             </div>
 

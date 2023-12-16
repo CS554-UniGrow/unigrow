@@ -34,7 +34,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     const chatHandler = (message: ExtendedMessage) => {
       const shouldNotify =
         pathname !==
-        `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`;
+        `/chat/newChat/${chatHrefConstructor(sessionId, message.senderId)}`;
 
       if (!shouldNotify) return;
 
@@ -83,7 +83,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
         return (
           <li key={friend.id}>
             <a
-              href={`/dashboard/chat/${chatHrefConstructor(
+              href={`/chat/newChat/${chatHrefConstructor(
                 sessionId,
                 friend.id
               )}`}

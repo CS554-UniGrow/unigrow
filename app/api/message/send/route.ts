@@ -1,5 +1,5 @@
 import { fetchRedis } from "@/helpers/redis";
-import { options } from "../auth/[...nextauth]/options";
+import { options } from "../../auth/[...nextauth]/options";
 import { db } from "@/lib/db";
 import { pusherServer } from "@/lib/pusher";
 import { toPusherKey } from "@/lib/utils";
