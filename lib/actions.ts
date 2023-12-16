@@ -56,7 +56,7 @@ export const overrideUpstashKeys = async (session: any) => {
 
   await db.set(
     `user:email:${session.user.email}`,
-    JSON.stringify(session.user._id)
+    `${session.user._id}`
   )
 
   await db.del(`user:${upStashID}`);
@@ -73,11 +73,9 @@ export const overrideUpstashKeys = async (session: any) => {
     })
   )
 
-  const upstashTokenDetails = JSON.parse(await db.get(`user:account:by-user-id:${session.user._id}`) as string);
-  console.log({ upstashTokenDetails })
+  // const upstashTokenDetails = await db.get(`user:account:google:${session.user._id}`) as any;
+  // await db.set(`user:account:google:${session.user._id}`, JSON.stringify({ ...upstashTokenDetails, userId: session.user._id }));
 
-  delete upstashTokenDetails.userId;
-  await db.set(`user:account:by-user-id:${session.user._id}`, JSON.stringify({ ...upstashTokenDetails }));
 
   await db.del(`user:account:by-user-id:${upStashID}`)
   await db.set(`user:account:by-user-id:${session.user._id}`, session.user._id);

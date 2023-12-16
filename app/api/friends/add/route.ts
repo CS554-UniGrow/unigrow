@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const idToAdd = (await fetchRedis(
       "get",
       `user:email:${emailToAdd}`
-    )) as string
+    ))
 
     if (!idToAdd) {
       return new Response("This person does not exist.", { status: 400 })
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 })
     }
 
+    console.log({ idToAdd, userToChecK: session.user._id })
     if (idToAdd === session?.user._id) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
