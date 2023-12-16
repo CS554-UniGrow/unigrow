@@ -151,10 +151,10 @@ export default function About() {
       <footer className="footer-section">
         <div className="container mx-auto text-center">
             <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            <a href="/" className="text-base">Home</a>
-            <a href="/faq" className="text-base">FAQ</a>
-            <a href="/aboutus" className="text-base">About</a>
-            <a href="/resources" className="text-base">Resources</a>
+            <a href="/" className="text-base hover:text-blue-600">Home</a>
+            <a href="/faq" className="text-base hover:text-blue-600">FAQ</a>
+            <a href="/aboutus" className="text-base hover:text-blue-600">About</a>
+            <a href="/resources" className="text-base hover:text-blue-600">Resources</a>
             </div>
             <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
         </div>

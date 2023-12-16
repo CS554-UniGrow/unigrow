@@ -59,16 +59,16 @@ export default function Faq() {
                 Log into Canvas at <a href="https://sit.instructure.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800">https://sit.instructure.com</a>.
               </li>
               <li>
-                Click "Account" in the left menu, then select "Settings."
+                Click &quot;Account&quot; in the left menu, then select &quot;Settings.&quot;
               </li>
               <li>
-                Scroll down to "Approved Integration" and click on "New Access Token."
+                Scroll down to &quot;Approved Integration&quot; and click on &quot;New Access Token.&quot;
               </li>
               <li>
-                Fill in the "Purpose" field and, for added security, set an expiry date for your token.
+                Fill in the &quot;Purpose&quot; field and, for added security, set an expiry date for your token.
               </li>
               <li>
-                Click "Generate Token," then copy and securely save your newly generated token.
+                Click &quot;Generate Token,&quot; then copy and securely save your newly generated token.
               </li>
             </ol>
             {/* Embed a YouTube video */}
@@ -95,23 +95,13 @@ export default function Faq() {
            />
 
             <FaqItem 
-            question="What kind of support does UniGrow provide for new users?"
-            answer="We provide comprehensive guides, tutorial videos, and responsive customer support to help new users navigate our platform with ease."
-            />
-
-            <FaqItem 
             question="Can I contribute to course reviews and ratings on UniGrow?"
             answer="Absolutely! We encourage users to share their experiences and insights by contributing to our course reviews and ratings."
             />
 
             <FaqItem 
-            question="Does UniGrow offer any collaboration tools for group projects?"
-            answer="Yes, our platform live chatting functionality"
-            />
-
-            <FaqItem 
-            question="How does UniGrow handle user feedback and suggestions?"
-            answer="We value user feedback and regularly update our platform based on suggestions to continually enhance the user experience."
+            question="Does UniGrow offer any collaboration tools with other fellow members?"
+            answer="Yes, our platform provides live chatting functionality"
             />
 
             <FaqItem 
@@ -166,10 +156,10 @@ export default function Faq() {
       <footer className="footer-section">
         <div className="container mx-auto text-center">
             <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            <a href="/" className="text-base">Home</a>
-            <a href="/faq" className="text-base">FAQ</a>
-            <a href="/aboutus" className="text-base">About</a>
-            <a href="/resources" className="text-base">Resources</a>
+            <a href="/" className="text-base hover:text-blue-600">Home</a>
+            <a href="/faq" className="text-base hover:text-blue-600">FAQ</a>
+            <a href="/aboutus" className="text-base hover:text-blue-600">About</a>
+            <a href="/resources" className="text-base hover:text-blue-600">Resources</a>
             </div>
             <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
         </div>
