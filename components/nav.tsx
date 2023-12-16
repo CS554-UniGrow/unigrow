@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react"
 
 import {
   NavigationMenu,
@@ -10,10 +10,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu"
 
-import ProfileDropdown from "@/components/profileDropdown";
-import Image from "next/image";
+import ProfileDropdown from "@/components/profileDropdown"
+import Image from "next/image"
 
 const navLinks = [
   { title: "Dashboard", path: "/dashboard", checkAuth: true },
@@ -28,13 +28,12 @@ const navLinks = [
     path: "/onboarding",
     checkAuth: false
   }
-];
+]
 
-import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react"
 
 export default function Nav() {
-  const { data: session }: any = useSession();
-
+  const { data: session }: any = useSession()
   return (
     <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">
       <>
@@ -58,7 +57,7 @@ export default function Nav() {
                 path === "/onboarding" &&
                 (session?.user?.isOnboarded || !session?.user?.isAuthenticated)
               ) {
-                return null;
+                return null
               }
               return (
                 <NavigationMenuItem key={title}>
@@ -72,7 +71,7 @@ export default function Nav() {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-              );
+              )
             }
           })}
         </NavigationMenuList>
@@ -83,7 +82,7 @@ export default function Nav() {
         </NavigationMenuList>
       </>
     </NavigationMenu>
-  );
+  )
 }
 
 const ListItem = forwardRef<ElementRef<"a">, ComponentPropsWithoutRef<"a">>(
@@ -106,7 +105,7 @@ const ListItem = forwardRef<ElementRef<"a">, ComponentPropsWithoutRef<"a">>(
           </a>
         </NavigationMenuLink>
       </li>
-    );
+    )
   }
-);
-ListItem.displayName = "ListItem";
+)
+ListItem.displayName = "ListItem"

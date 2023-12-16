@@ -1,27 +1,28 @@
-import { Icon, Icons } from "@/components/Icons";
-import SignOutButton from "@/components/SignOutButton";
-import { options } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { FC, ReactNode } from "react";
-import FriendRequestSidebarOptions from "@/components/FriendRequestSidebarOptions";
-import { fetchRedis } from "@/helpers/redis";
-import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
-import SidebarChatList from "@/components/SidebarChatList";
-import MobileChatLayout from "@/components/MobileChatLayout";
-import { SidebarOption } from "@/types/typings";
+export const dynamic = "force-dynamic"
+import { Icon, Icons } from "@/components/Icons"
+import SignOutButton from "@/components/SignOutButton"
+import { options } from "../api/auth/[...nextauth]/options"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
+import Link from "next/link"
+import { notFound } from "next/navigation"
+import { FC, ReactNode } from "react"
+import FriendRequestSidebarOptions from "@/components/FriendRequestSidebarOptions"
+import { fetchRedis } from "@/helpers/redis"
+import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id"
+import SidebarChatList from "@/components/SidebarChatList"
+import MobileChatLayout from "@/components/MobileChatLayout"
+import { SidebarOption } from "@/types/typings"
 
 interface LayoutProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 // Done after the video and optional: add page metadata
 export const metadata = {
   title: "Unigrow Chat App Section",
   description: "Your dashboard"
-};
+}
 
 const sidebarOptions: SidebarOption[] = [
   {
@@ -30,20 +31,20 @@ const sidebarOptions: SidebarOption[] = [
     href: "/chat/add",
     Icon: "UserPlus"
   }
-];
+]
 
 const Layout = async ({ children }: LayoutProps) => {
-  const session = await getServerSession(options);
-  if (!session) notFound();
+  const session = await getServerSession(options)
+  if (!session) notFound()
 
-  const friends = await getFriendsByUserId(session.user.id);
+  const friends = await getFriendsByUserId(session.user._id)
 
   const unseenRequestCount = (
     (await fetchRedis(
       "smembers",
-      `user:${session.user.id}:incoming_friend_requests`
-    )) as User[]
-  ).length;
+      `user:${session.user._id}:incoming_friend_requests`
+    )) as any[]
+  ).length
 
   return (
     <div className="flex h-screen w-full">
@@ -70,7 +71,7 @@ const Layout = async ({ children }: LayoutProps) => {
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <li>
-              <SidebarChatList sessionId={session.user.id} friends={friends} />
+              <SidebarChatList sessionId={session.user._id} friends={friends} />
             </li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
@@ -79,7 +80,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
               <ul role="list" className="-mx-2 mt-2 space-y-1">
                 {sidebarOptions.map((option) => {
-                  const Icon = Icons[option.Icon];
+                  const Icon = Icons[option.Icon]
                   return (
                     <li key={option.id}>
                       <Link
@@ -93,12 +94,12 @@ const Layout = async ({ children }: LayoutProps) => {
                         <span className="truncate">{option.name}</span>
                       </Link>
                     </li>
-                  );
+                  )
                 })}
 
                 <li>
                   <FriendRequestSidebarOptions
-                    sessionId={session.user.id}
+                    sessionId={session.user._id}
                     initialUnseenRequestCount={unseenRequestCount}
                   />
                 </li>
@@ -136,7 +137,7 @@ const Layout = async ({ children }: LayoutProps) => {
         {children}
       </aside>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

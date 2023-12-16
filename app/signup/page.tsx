@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import logger from "@/lib/logger";
-import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button"
+import logger from "@/lib/logger"
+import { signIn } from "next-auth/react"
 
 const Signup = ({ searchParams: { error } }: any) => {
   const handleGoogleAuthSignUp = async () => {
@@ -10,12 +10,12 @@ const Signup = ({ searchParams: { error } }: any) => {
       const result = await signIn("google", {
         redirect: false,
         callbackUrl: "/onboarding"
-      });
-      logger.info(result);
+      })
+      logger.info(result)
     } catch (e) {
-      logger.error(e);
+      logger.error(e)
     }
-  };
+  }
 
   return (
     <div className="border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl">
@@ -32,7 +32,7 @@ const Signup = ({ searchParams: { error } }: any) => {
         Google
       </Button>
     </div>
-  );
-};
+  )
+}
 
-export default Signup;
+export default Signup

@@ -1,6 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
+
 set the env variables for mongodb
 MONGO_CONNECTION_STRING
 MONGO_DB_NAME=UniGrow
@@ -8,7 +9,7 @@ MONGO_DB_NAME=UniGrow
 to seed the project's mongodb do the following
 generate a md5 using a secret text https://www.md5hashgenerator.com/
 set the env variable NEXT_API_SEED_SECRET to the generated hash
-now hit the route /api/mongo/ with a post request and set the header x-api-key to the hash value 
+now hit the route /api/mongo/ with a post request and set the header x-api-key to the hash value
 
 First, run the development server:
 

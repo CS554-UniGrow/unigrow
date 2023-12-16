@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   Select,
@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 import {
   Form,
   FormControl,
@@ -15,24 +15,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from "@/components/ui/form";
-import { departmentList, joiningTerms } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { useSession } from "next-auth/react";
-import { checkCanvasToken, handleSubmitAction } from "@/lib/actions";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Loading from "./ui/loading";
+} from "@/components/ui/form"
+import { departmentList, joiningTerms } from "@/lib/constants"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { useSession } from "next-auth/react"
+import { checkCanvasToken, handleSubmitAction } from "@/lib/actions"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import Loading from "./ui/loading"
 
-import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas";
+import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas"
 
 const Questionnaire = () => {
-  const { data: session, status, update }: any = useSession();
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const { data: session, status, update }: any = useSession()
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   const form = useForm<TQuestionnaire>({
     resolver: zodResolver(questionnaireFormSchema),
@@ -41,35 +41,35 @@ const Questionnaire = () => {
       joiningTerm: "",
       canvasToken: ""
     }
-  });
+  })
 
   const onSubmit = async (values: TQuestionnaire) => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const isTokenValid = await checkCanvasToken(values.canvasToken);
+      const isTokenValid = await checkCanvasToken(values.canvasToken)
 
       if (!isTokenValid) {
         form.setError("canvasToken", {
           type: "manual",
           message: "Seems like you have entered an invalid token."
-        });
-        setIsLoading(false);
-        return;
+        })
+        setIsLoading(false)
+        return
       }
       // values.canvasToken = encrypt(values.canvasToken);
       const result = await handleSubmitAction(
         values,
-        session?.user?._id,
+        session?.user._id,
         session?.user?.refreshToken
-      );
-      await update({ isOnboarded: true, avatar_url: result?.avatar_url });
+      )
+      await update({ isOnboarded: true, avatar_url: result?.avatar_url })
 
-      setIsLoading(false);
-      router.push("/dashboard");
+      setIsLoading(false)
+      router.push("/dashboard")
     } catch (e) {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <>
@@ -165,7 +165,7 @@ const Questionnaire = () => {
         </form>
       </Form>
     </>
-  );
-};
+  )
+}
 
-export default Questionnaire;
+export default Questionnaire

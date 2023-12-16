@@ -1,5 +1,5 @@
-"use client";
-export const dynamic = "force-dynamic";
+"use client"
+export const dynamic = "force-dynamic"
 import {
   Card,
   CardContent,
@@ -7,25 +7,25 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { departmentList } from "@/lib/constants";
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { departmentList } from "@/lib/constants"
 
-import { options } from "@/app/api/auth/[...nextauth]/options";
-import { redirect } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
+import { options } from "@/app/api/auth/[...nextauth]/options"
+import { redirect } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { useState } from "react"
+import { Input } from "@/components/ui/input"
 
 const Departments = () => {
-  const { data: session, status }: any = useSession();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { data: session, status }: any = useSession()
+  const [searchQuery, setSearchQuery] = useState("")
   if (!session?.user?.isAuthenticated) {
-    redirect("/signup");
+    redirect("/signup")
   }
   if (!session?.user?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
   const filteredData = departmentList.filter((department) => {
@@ -34,8 +34,8 @@ const Departments = () => {
         .toLowerCase()
         .includes(searchQuery.toLowerCase()) ||
       department.department.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+    )
+  })
 
   return (
     <div className="">
@@ -77,7 +77,7 @@ const Departments = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Departments;
+export default Departments

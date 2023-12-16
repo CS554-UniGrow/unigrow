@@ -1,6 +1,6 @@
-import React from "react";
-import loadingLogo from "@/public/loading.png";
-import Image from "next/image";
+import React from "react"
+import loadingLogo from "@/public/loading.png"
+import Image from "next/image"
 const Loading = () => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
@@ -17,7 +17,7 @@ const Loading = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

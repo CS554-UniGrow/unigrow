@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import { addFriendValidator } from "@/lib/validations/add-friend";
-import axios, { AxiosError } from "axios";
-import { FC, useState } from "react";
-import Button from "./ui/Button_2";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { addFriendValidator } from "@/lib/validations/add-friend"
+import axios, { AxiosError } from "axios"
+import { FC, useState } from "react"
+import Button from "./ui/Button_2"
+import { z } from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 interface AddFriendButtonProps {}
 
-type FormData = z.infer<typeof addFriendValidator>;
+type FormData = z.infer<typeof addFriendValidator>
 
 const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
-  const [showSuccessState, setShowSuccessState] = useState<boolean>(false);
+  const [showSuccessState, setShowSuccessState] = useState<boolean>(false)
 
   const {
     register,
@@ -22,35 +22,35 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
     formState: { errors }
   } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator)
-  });
+  })
 
   const addFriend = async (email: string) => {
     try {
-      const validatedEmail = addFriendValidator.parse({ email });
+      const validatedEmail = addFriendValidator.parse({ email })
 
       await axios.post("/api/friends/add", {
         email: validatedEmail
-      });
+      })
 
-      setShowSuccessState(true);
+      setShowSuccessState(true)
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setError("email", { message: error.message });
-        return;
+        setError("email", { message: error.message })
+        return
       }
 
       if (error instanceof AxiosError) {
-        setError("email", { message: error.response?.data });
-        return;
+        setError("email", { message: error.response?.data })
+        return
       }
 
-      setError("email", { message: "Something went wrong." });
+      setError("email", { message: "Something went wrong." })
     }
-  };
+  }
 
   const onSubmit = (data: FormData) => {
-    addFriend(data.email);
-  };
+    addFriend(data.email)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
@@ -75,7 +75,7 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
         <p className="mt-1 text-sm text-green-600">Friend request sent!</p>
       ) : null}
     </form>
-  );
-};
+  )
+}
 
-export default AddFriendButton;
+export default AddFriendButton
