@@ -50,7 +50,6 @@
     "next": "14.0.1",
     "next-auth": "^4.24.5",
     "next-themes": "^0.2.1",
-    "node-cron": "^3.0.3",
     "pino": "^8.16.1",
     "pino-pretty": "^10.2.3",
     "pusher": "^5.2.0",

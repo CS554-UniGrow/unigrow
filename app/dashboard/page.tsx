@@ -1,3 +1,7 @@
+export async function generateMetadata({ params }: any) {
+  return { title: `Unigrow | Dashboard` }
+}
+
 import { getSessionServer } from "@/lib/hooks"
 
 const Dashboard = async () => {

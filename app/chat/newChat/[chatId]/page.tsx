@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import ChatInput from "@/components/ChatInput"
 import Messages from "@/components/Messages"
 import { fetchRedis } from "@/helpers/redis"
@@ -25,7 +26,7 @@ export async function generateMetadata({
   )) as string
   const chatPartner = JSON.parse(chatPartnerRaw) as any
 
-  return { title: `FriendZone | ${chatPartner?.name} chat` }
+  return { title: `Unigrow | ${chatPartner?.name} chat` }
 }
 
 interface PageProps {

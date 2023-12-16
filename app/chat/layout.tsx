@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"
 import { Icon, Icons } from "@/components/Icons"
 import SignOutButton from "@/components/SignOutButton"
 import { options } from "../api/auth/[...nextauth]/options"
