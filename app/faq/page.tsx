@@ -52,7 +52,7 @@ export default function Faq() {
             answer="Absolutely. We use your Canvas data solely for its intended purpose and never for anything else. Your privacy is our priority."
           />
           <FaqItem question="How can I obtain my Canvas key?">
-            <p>Getting your Canvas key is simple. Or else watch our step-by-step guide on YouTube for detailed instructions.</p>
+            <p>Getting your Canvas key is simple. You can also watch our step-by-step guide on YouTube for detailed instructions.</p>
 
             <ol className="list-decimal pl-6">
               <li>
