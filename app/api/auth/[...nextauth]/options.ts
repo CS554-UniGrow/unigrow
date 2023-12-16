@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import { users } from "@/config/mongo/mongoCollections"
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 import { db } from "@/lib/db"
-import { v4 as uuid } from "uuid"
+
 export const options: NextAuthOptions = {
   adapter: UpstashRedisAdapter(db),
   providers: [
@@ -22,8 +22,6 @@ export const options: NextAuthOptions = {
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }: any) {
-      //console.log("SIGN IN", { user, account, profile, email, credentials })
-
       const isEmailVerified =
         profile?.email_verified && profile?.email?.endsWith("@stevens.edu")
       if (isEmailVerified) {
@@ -34,7 +32,7 @@ export const options: NextAuthOptions = {
 
         if (!userExists) {
           const newUser = {
-            _id: uuid(),
+            _id: user?.id,
             email: profile?.email,
             name: profile?.name,
             image: profile?.picture,
@@ -82,8 +80,6 @@ export const options: NextAuthOptions = {
       return baseUrl.includes(url) ? baseUrl : url
     },
     jwt: async ({ account, token, user, profile, session, trigger }: any) => {
-      //console.log('JWT', { account, token, user, profile, session, trigger })
-
       if (account) {
         token.accessToken = account?.access_token
         token.refreshToken = account?.refresh_token
