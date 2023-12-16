@@ -41,7 +41,7 @@ export default function Nav() {
           <NavigationMenuItem>
             <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
               <Image
-                src={"/logo-animated.gif"}
+                src="/logo-animated.gif"
                 width={100}
                 height={100}
                 className="h-10 w-10"
