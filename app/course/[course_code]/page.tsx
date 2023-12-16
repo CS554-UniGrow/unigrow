@@ -1,71 +1,71 @@
-"use client";
-import { getCourseByDepartment } from "@/data/courses/course";
+"use client"
+import { getCourseByDepartment } from "@/data/courses/course"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
-} from "@/components/ui/accordion";
-import { courseList, departmentMapper } from "@/lib/constants";
+} from "@/components/ui/accordion"
+import { courseList, departmentMapper } from "@/lib/constants"
 
-import { Button } from "@/components/ui/button";
-import { Course, UserProfile } from "@/lib/types";
-import { getCourseById } from "@/app/courses/data";
-import { notFound, redirect, useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import Loading from "@/components/ui/loading";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button"
+import { Course, UserProfile } from "@/lib/types"
+import { getCourseById } from "@/app/courses/data"
+import { notFound, redirect, useParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import Loading from "@/components/ui/loading"
+import Link from "next/link"
+import { useSession } from "next-auth/react"
 
 function useFetchCourse(course_code: string) {
-  const [data, setData] = useState({} as Course);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({} as Course)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(true)
       await fetch(`/api/course/${course_code}`)
         .then((res) => res.json())
         .then((data: Course) => {
-          setData(data);
-          setLoading(false);
+          setData(data)
+          setLoading(false)
         })
         .catch((error) => {
-          setError(error);
-          setLoading(false);
-        });
-    };
-    fetchData();
-  }, [course_code]);
+          setError(error)
+          setLoading(false)
+        })
+    }
+    fetchData()
+  }, [course_code])
 
-  return { data, error, loading };
+  return { data, error, loading }
 }
 
 const CourseById = () => {
-  const params = useParams();
-  const { data: session, status }: any = useSession();
-  const course_code = params.course_code as string;
+  const params = useParams()
+  const { data: session, status }: any = useSession()
+  const course_code = params.course_code as string
 
-  const { data, error, loading } = useFetchCourse(course_code as string);
+  const { data, error, loading } = useFetchCourse(course_code as string)
 
   if (!session?.user?.isAuthenticated) {
-    redirect("/signup");
+    redirect("/signup")
   }
 
   if (!session?.user?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
   if (error) {
-    return <div>Error</div>;
+    return <div>Error</div>
   }
   if (loading) {
-    return <Loading />;
+    return <Loading />
   }
   // throw 404 page error if no data
   if (courseList[decodeURI(course_code)] == undefined) {
-    notFound();
+    notFound()
   }
   return (
     <div className="mx-auto max-w-4xl">
@@ -240,7 +240,7 @@ const CourseById = () => {
         </Accordion>
       }
     </div>
-  );
-};
+  )
+}
 
-export default CourseById;
+export default CourseById

@@ -1,8 +1,8 @@
-import Questionnaire from "@/components/Questionnaire";
-import { getSessionServer } from "@/lib/hooks";
+import Questionnaire from "@/components/Questionnaire"
+import { getSessionServer } from "@/lib/hooks"
 
 async function Onboarding() {
-  const session = await getSessionServer("/onboarding");
+  const session = await getSessionServer("/onboarding")
 
   return (
     <>
@@ -14,7 +14,7 @@ async function Onboarding() {
       </div>
       <Questionnaire />
     </>
-  );
+  )
 }
 
-export default Onboarding;
+export default Onboarding

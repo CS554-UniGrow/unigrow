@@ -1,18 +1,18 @@
-import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../api/auth/[...nextauth]/options";
-import { chatHrefConstructor } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id"
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../api/auth/[...nextauth]/options"
+import { chatHrefConstructor } from "@/lib/utils"
+import { ChevronRight } from "lucide-react"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
+import Link from "next/link"
+import { notFound } from "next/navigation"
 
 const page = async ({}) => {
-  const session = await getServerSession(options);
-  if (!session) notFound();
+  const session = await getServerSession(options)
+  if (!session) notFound()
 
-  const friends = await getFriendsByUserId(session.user.id);
+  const friends = await getFriendsByUserId(session.user.id)
   const friendsWithLastMessage = await Promise.all(
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
@@ -20,18 +20,18 @@ const page = async ({}) => {
         `chat:${chatHrefConstructor(session.user.id, friend.id)}:messages`,
         -1,
         -1
-      )) as string[];
+      )) as string[]
 
       const lastMessage = lastMessageRaw
         ? (JSON.parse(lastMessageRaw) as Message)
-        : ({} as Message);
+        : ({} as Message)
 
       return {
         ...friend,
         lastMessage
-      };
+      }
     })
-  );
+  )
 
   return (
     <div className="container py-12">
@@ -83,7 +83,7 @@ const page = async ({}) => {
         ))
       )}
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page

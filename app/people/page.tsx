@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-export const dynamic = "force-dynamic";
-import loadingLogo from "@/public/loading.png";
-import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+export const dynamic = "force-dynamic"
+import loadingLogo from "@/public/loading.png"
+import { useEffect, useState } from "react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Command,
   CommandEmpty,
@@ -12,60 +12,60 @@ import {
   CommandInput,
   CommandItem,
   CommandList
-} from "@/components/ui/command";
+} from "@/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from "@/components/ui/popover";
-import Loading from "@/components/ui/loading";
-import { Button } from "@/components/ui/button";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+} from "@/components/ui/popover"
+import Loading from "@/components/ui/loading"
+import { Button } from "@/components/ui/button"
+import { ChevronDownIcon } from "@radix-ui/react-icons"
+import Link from "next/link"
+import { Input } from "@/components/ui/input"
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
 
 function useFetchPeople() {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-  const { data: session, status }: any = useSession();
+  const { data: session, status }: any = useSession()
 
   if (!session?.user?.isAuthenticated) {
-    redirect("/signup");
+    redirect("/signup")
   }
 
   if (!session?.user?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(true)
     fetch("/api/people", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
-        setLoading(false);
+        setData(data)
+        setLoading(false)
       })
       .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
+        setError(error)
+        setLoading(false)
+      })
+  }, [])
 
-  return { data, error, loading };
+  return { data, error, loading }
 }
 
 const People = () => {
-  const { data, error, loading } = useFetchPeople();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { data, error, loading } = useFetchPeople()
+  const [searchQuery, setSearchQuery] = useState("")
   if (error) {
-    return <div>Error</div>;
+    return <div>Error</div>
   }
   if (loading) {
-    return <Loading />;
+    return <Loading />
   }
   const filteredData = data?.filter(
     (user: any) =>
@@ -73,7 +73,7 @@ const People = () => {
       user?.courses?.some((course: string) =>
         course.toLowerCase().includes(searchQuery.toLowerCase())
       )
-  );
+  )
 
   return (
     <div>
@@ -144,7 +144,7 @@ const People = () => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default People;
+export default People

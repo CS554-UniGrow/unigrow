@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod"
 
 export const questionnaireFormSchema = z.object({
   major: z
@@ -14,6 +14,6 @@ export const questionnaireFormSchema = z.object({
     .trim()
     .min(1, { message: "Please select your joining term." }),
   canvasToken: z.string().length(69, { message: "Enter a valid Canvas Token" })
-});
+})
 
-export type TQuestionnaire = z.infer<typeof questionnaireFormSchema>;
+export type TQuestionnaire = z.infer<typeof questionnaireFormSchema>
