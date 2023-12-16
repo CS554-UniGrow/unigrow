@@ -45,7 +45,7 @@ export default function About() {
           <h2 className="mb-8 text-3xl font-bold">Our Values</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {/* Value: Innovation */}
-            <div className="value-card rounded-lg p-4 shadow-lg">
+            <div className="value-card rounded-lg shadow-lg">
               <h3 className="mb-3 text-xl font-semibold">Innovation</h3>
               <p>
                 Pioneering the future of educational technology with creativity
@@ -132,7 +132,7 @@ export default function About() {
       </section>
 
       {/* Our Story */}
-      <section className="our-story-section container mx-auto my-8  p-8">
+      <section className="our-story-section container mx-auto my-8 p-8 text-center">
         <div className="container mx-auto">
           <h2 className="mb-8 text-center text-3xl font-bold">
             Our Story
