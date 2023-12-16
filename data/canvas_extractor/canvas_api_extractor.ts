@@ -10,9 +10,15 @@ import { decrypt } from "@/lib/utils";
 import { storage } from "@/firebase";
 let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL;
 
-
-
-async function getUserProfileDetails({ apiKey_hashed, uid, refreshToken }: { apiKey_hashed: string, uid: string, refreshToken: string }) {
+async function getUserProfileDetails({
+  apiKey_hashed,
+  uid,
+  refreshToken
+}: {
+  apiKey_hashed: string;
+  uid: string;
+  refreshToken: string;
+}) {
   const apiKey = decrypt(apiKey_hashed);
   let url = domain + "users/self/profile";
   // use UserProfile type with the axios call
@@ -210,7 +216,7 @@ async function extractSyllabusFromStudentCourseDetails(
               if (courseInMongo === null) {
                 logger.error(
                   "Course not found in the database for the course code " +
-                  course.course_code
+                    course.course_code
                 );
               } else if (
                 courseInMongo!.course_syllabus === "" ||
@@ -237,9 +243,9 @@ async function extractSyllabusFromStudentCourseDetails(
                 );
                 logger.info(
                   "Syllabus updated successfully for " +
-                  course.course_code +
-                  " and the syllabus is stored at " +
-                  download_url
+                    course.course_code +
+                    " and the syllabus is stored at " +
+                    download_url
                 );
                 logger.info(
                   updateResult.modifiedCount + " document(s) updated"
@@ -247,9 +253,9 @@ async function extractSyllabusFromStudentCourseDetails(
               } else if (courseInMongo.course_syllabus != "") {
                 logger.info(
                   "Syllabus already exists for " +
-                  course.course_code +
-                  " and the syllabus is stored at " +
-                  courseInMongo.course_syllabus
+                    course.course_code +
+                    " and the syllabus is stored at " +
+                    courseInMongo.course_syllabus
                 );
                 const courseInMongo_urlObject = new URL(
                   courseInMongo.course_syllabus
@@ -278,9 +284,9 @@ async function extractSyllabusFromStudentCourseDetails(
                   logger.info("Uploaded a blob or file!");
                   logger.info(
                     "Course " +
-                    course.course_code +
-                    " is of a more recent semester and the syllabus is stored at " +
-                    download_url
+                      course.course_code +
+                      " is of a more recent semester and the syllabus is stored at " +
+                      download_url
                   );
                   const fileSizeKB = file.byteLength / 1000;
 
@@ -305,9 +311,9 @@ async function extractSyllabusFromStudentCourseDetails(
                     logger.info("Uploaded a blob or file!");
                     logger.info(
                       "Course " +
-                      course.course_code +
-                      " is of a more recent semester and the syllabus is stored at " +
-                      download_url
+                        course.course_code +
+                        " is of a more recent semester and the syllabus is stored at " +
+                        download_url
                     );
                     const fileSizeKB = file.byteLength / 1000;
 
@@ -327,9 +333,9 @@ async function extractSyllabusFromStudentCourseDetails(
                 } else {
                   logger.info(
                     "Syllabus already exists for " +
-                    course.course_code +
-                    " and the syllabus is stored at " +
-                    courseInMongo.course_syllabus
+                      course.course_code +
+                      " and the syllabus is stored at " +
+                      courseInMongo.course_syllabus
                   );
                   let fileStreamResult = await axios.get(
                     courseInMongo.course_syllabus,

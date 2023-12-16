@@ -7,7 +7,6 @@ export async function fetchRedis(
   command: Command,
   ...args: (string | number)[]
 ) {
-
   const commandUrl = `${upstashRedisRestUrl}/${command}/${args.join("/")}`;
 
   const response = await fetch(commandUrl, {

@@ -2711,6 +2711,6 @@ export const semester_mapper = {
     dayjs().month() < 5
       ? semesters[3] // May
       : dayjs().month() < 8
-      ? semesters[0] // August
-      : semesters[3] // September to December
+        ? semesters[0] // August
+        : semesters[3] // September to December
 };

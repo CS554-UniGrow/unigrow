@@ -11,7 +11,6 @@
 // export default withAuth(
 //   async function middleware(request: NextRequestWithAuth) {
 
-
 //     return NextResponse.next(request)
 //   }, {
 //   callbacks: {
@@ -22,7 +21,6 @@
 //   }
 // }
 // )
-
 
 // import type { NextRequest } from 'next/server'
 // const protectedRoutes = ['/dashboard', '/coureses', '/people', '/profile'];
