@@ -1,38 +1,19 @@
 "use client"
 export const dynamic = "force-dynamic"
 
+//need to change mongo call here
 import { Mail } from "lucide-react"
-import { getCourseByDepartment } from "@/data/courses/course"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion"
 import { departmentMapper } from "@/lib/constants"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Course } from "@/lib/types"
 import { useEffect, useState } from "react"
 import Loading from "@/components/ui/loading"
-
 import { useParams } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card"
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
 import loadingLogo from "@/public/loading.png"
-
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { Label } from "@radix-ui/react-dropdown-menu"
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -85,6 +66,7 @@ const User_Profile = () => {
   if (loading) {
     return <Loading />
   }
+
   return (
     <div className="container mt-20 ">
       <div className="relative mx-auto w-1/2  justify-items-center  rounded-lg border p-20 shadow">
