@@ -12,6 +12,7 @@ import {
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
 
+import { ThemeToggle } from "./theme-toggle"
 import ProfileDropdown from "@/components/profileDropdown"
 import Image from "next/image"
 
@@ -76,7 +77,7 @@ export default function Nav() {
         </NavigationMenuList>
         <NavigationMenuList>
           <NavigationMenuItem>
-            {session?.user?.isAuthenticated && <ProfileDropdown />}
+            <ProfileDropdown />
           </NavigationMenuItem>
         </NavigationMenuList>
       </>

@@ -9,7 +9,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion"
 import { departmentMapper } from "@/lib/constants"
-import Rating from "@/components/Rating"
+import ReviewRating from "@/components/ReviewRating"
 
 import { Button } from "@/components/ui/button"
 import { Course } from "@/lib/types"
@@ -307,10 +307,10 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                                 <Button>View on Stevens Website</Button>
                               </a>
                             </div>
-                            <Rating
+                            <ReviewRating
                               courseId={course._id}
                               courseCode={course.course_code}
-                            ></Rating>
+                            ></ReviewRating>
                           </div>
                         </AccordionContent>
                       </AccordionItem>

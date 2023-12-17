@@ -5,8 +5,10 @@ import React, { useEffect, useState } from "react"
 import RatingStars from "react-rating-stars-component"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
+//import { Rating } from "@smastrom/react-rating"
+import "@smastrom/react-rating/style.css"
 
-const Rating = ({ courseId, courseCode }: any) => {
+const ReviewRating = ({ courseId, courseCode }: any) => {
   const { data: session }: any = useSession()
   const [rating, setRating] = useState(0)
   const [sliderUpdated, setSliderUpdated] = useState(false)
@@ -92,43 +94,6 @@ const Rating = ({ courseId, courseCode }: any) => {
     }
   }
 
-  // useEffect(() => {
-  //   const updateRatingInDatabase = async (
-  //     userId: string,
-  //     courseId: string,
-  //     newRating: number,
-  //     courseCode: string
-  //   ) => {
-  //     try {
-  //       const object_data = {
-  //         userId: userId,
-  //         courseId: courseId,
-  //         rating: newRating,
-  //         courseCode: courseCode
-  //       }
-
-  //       const response = await fetch(`/api/reviews`, {
-  //         method: "POST",
-  //         body: JSON.stringify(object_data)
-  //       })
-
-  //       if (!response.ok) {
-  //         throw new Error("Failed to update rating")
-  //       }
-
-  //       console.log(response)
-  //     } catch (error) {
-  //       console.error("Error updating rating:", error)
-  //     }
-  //   }
-
-  //   // Only update the rating in the database if the slider has been updated
-  //   if (sliderUpdated) {
-  //     updateRatingInDatabase(user_mongo_id, courseId, rating, courseCode)
-  //     setSliderUpdated(false)
-  //   }
-  // }, [sliderUpdated, rating, user_mongo_id, courseId, courseCode])
-
   useEffect(() => {
     const fetchCurrentReview = async (courseId: string) => {
       try {
@@ -190,4 +155,4 @@ const Rating = ({ courseId, courseCode }: any) => {
   )
 }
 
-export default Rating
+export default ReviewRating
