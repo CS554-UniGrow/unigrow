@@ -13,7 +13,6 @@ import Link from "next/link"
 import loadingLogo from "@/public/loading.png"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -21,6 +20,12 @@ import {
   NavigationMenuList
 } from "@radix-ui/react-navigation-menu"
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
+import toast from "react-hot-toast"
+import { addFriendValidator } from "@/lib/validations/add-friend"
+import axios from "axios"
+import { chatHrefConstructor } from "@/lib/utils"
+
+import AddFriendButton from "@/components/AddFriendButton"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
@@ -60,16 +65,18 @@ const User_Profile = () => {
   const params = useParams()
   const { user_id } = params
   const { data, error, loading } = useFetchPerson(user_id as string)
+
   if (error) {
     return <div>Error</div>
   }
+
   if (loading) {
     return <Loading />
   }
 
   return (
-    <div className="container mt-20 ">
-      <div className="relative mx-auto w-1/2  justify-items-center  rounded-lg border p-20 shadow">
+    <div className="container mt-20">
+      <div className="relative mx-auto max-w-xl justify-items-center rounded-lg border p-8 shadow lg:p-20">
         <div className="flex justify-center">
           <Image
             width={100}
@@ -88,29 +95,30 @@ const User_Profile = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            {/* email logo */}
-
-            <Button
-              onClick={() => {
-                window.location.href = `mailto:${data?.primary_email}`
-              }}
-            >
-              <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
-            </Button>
-            <Button>
-              Chat with{" "}
-              <span className="font-bold">
-                @ {data?.primary_email?.split("@")[0]}
-              </span>
-            </Button>
-          </div>
+          {!data?.isSelf && (
+            <div className={`grid grid-cols-1 gap-2 md:grid-cols-2`}>
+              <Button
+                onClick={() => {
+                  window.location.href = `mailto:${data?.primary_email}`
+                }}
+              >
+                <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
+              </Button>
+              <AddFriendButton
+                email={data?.primary_email}
+                isSelf={data?.isSelf}
+                isAlreadyAdded={data?.isAlreadyAdded}
+                isAlreadyFriends={data?.isAlreadyFriends}
+                userId={user_id as string}
+              />
+            </div>
+          )}
 
           <div className="justify-items-center ">
             <h3 className="text-left font-medium ">Courses</h3>
             <br></br>
             <NavigationMenu>
-              <NavigationMenuList className="grid grid-cols-5 gap-5">
+              <NavigationMenuList className="grid grid-cols-3 gap-8 sm:grid-cols-5">
                 {data?.courses?.map((course: string) => (
                   <NavigationMenuItem key={course}>
                     <Link legacyBehavior passHref href={`/course/${course}`}>

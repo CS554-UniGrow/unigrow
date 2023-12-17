@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 })
     }
 
-    if (idToAdd === session?.user._id) {
+    if (idToAdd === session?.user._id || emailToAdd === session?.user.email) {
       return new Response("You cannot add yourself as a friend", {
         status: 400
       })

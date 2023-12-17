@@ -21,12 +21,6 @@ import { Input } from "@/components/ui/input"
 const Departments = () => {
   const { data: session, status }: any = useSession()
   const [searchQuery, setSearchQuery] = useState("")
-  if (!session?.user?.isAuthenticated) {
-    redirect("/signup")
-  }
-  if (!session?.user?.isOnboarded) {
-    redirect("/onboarding")
-  }
 
   const filteredData = departmentList.filter((department) => {
     return (
