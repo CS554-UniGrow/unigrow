@@ -16,6 +16,7 @@ import ProfileDropdown from "@/components/profileDropdown";
 import Image from "next/image";
 
 const navLinks = [
+  { title: "Home", path: "/", checkAuth: false },
   { title: "Dashboard", path: "/dashboard", checkAuth: true },
   { title: "Courses", path: "/courses", checkAuth: true },
   { title: "People", path: "/people", checkAuth: true },
@@ -60,6 +61,7 @@ export default function Nav() {
               ) {
                 return null;
               }
+            
               return (
                 <NavigationMenuItem key={title}>
                   <Link href={path} legacyBehavior passHref>
@@ -74,7 +76,34 @@ export default function Nav() {
                 </NavigationMenuItem>
               );
             }
+
+            if (!checkAuth || session?.user?.isOnboarded) {
+              if (
+                path === "/" &&
+                (session?.user?.isOnboarded || !session?.user?.isAuthenticated)
+              ) {
+                return null;
+              }
+            
+              return (
+                <NavigationMenuItem key={title}>
+                  <Link href={path} legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={`${navigationMenuTriggerStyle()} ${
+                        path === "/dashboard"
+                      }`}
+                    >
+                      {title}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              );
+            }
+
           })}
+          
+            
+
         </NavigationMenuList>
         <NavigationMenuList>
           <NavigationMenuItem>
