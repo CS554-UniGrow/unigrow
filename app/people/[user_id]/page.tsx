@@ -67,7 +67,6 @@ const User_Profile = () => {
     return <Loading />
   }
 
-  console.log(data)
   return (
     <div className="container mt-20 ">
       <div className="relative mx-auto w-1/2  justify-items-center  rounded-lg border p-20 shadow">
