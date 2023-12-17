@@ -69,7 +69,6 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   }
 
   const { data, error, loading } = useFetchCourse(code)
-  console.log(data)
   const filteredData = data?.filter(
     (course: any) =>
       course?.course_title
@@ -89,7 +88,6 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   const course_level_unique = [
     ...new Set(filteredData.map((course) => course.course_level))
   ]
-  console.log(course_level_unique)
 
   return (
     <div className="mx-auto max-w-4xl">
