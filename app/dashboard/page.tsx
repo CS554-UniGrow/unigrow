@@ -198,63 +198,72 @@ const Dashboard = () => {
         <h2 className="mb-8 text-center text-2xl font-bold">
           People in Your Major
         </h2>
-
-        <div className="mb-12 grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filteredData?.map((user: any) => (
-            <Card key={user._id}>
-              <CardHeader>
-                <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="flex items-center justify-between space-x-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-2">
-                      <Link href={`/people/${user._id}/`}>
-                        <Avatar>
-                          <AvatarImage
-                            src={user?.avatar_url || user?.image || loadingLogo}
-                          />
-                          <AvatarFallback>{user?.name}</AvatarFallback>
-                        </Avatar>
-                      </Link>
-                      <div>
-                        <p className="text-sm ">{user?.primary_email}</p>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button variant="outline" className="ml-auto">
-                              Courses{" "}
-                              <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="p-0" align="start">
-                            <Command>
-                              <CommandInput placeholder="Search Course..." />
-                              <CommandList>
-                                <CommandEmpty>No courses found.</CommandEmpty>
-                                <CommandGroup>
-                                  {user.courses.map((course: string) => (
-                                    <Link
-                                      key={user._id + course}
-                                      href={`/course/${course}`}
-                                    >
-                                      <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
-                                        <p>{course}</p>
-                                      </CommandItem>
-                                    </Link>
-                                  ))}
-                                </CommandGroup>
-                              </CommandList>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
+        {filteredData?.length > 0 ? (
+          <div className="mb-12 grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredData?.map((user: any) => (
+              <Card key={user._id}>
+                <CardHeader>
+                  <Link href={`/people/${user._id}/`}>
+                    {user?.sortable_name}
+                  </Link>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="flex items-center justify-between space-x-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
+                        <Link href={`/people/${user._id}/`}>
+                          <Avatar>
+                            <AvatarImage
+                              src={
+                                user?.avatar_url || user?.image || loadingLogo
+                              }
+                            />
+                            <AvatarFallback>{user?.name}</AvatarFallback>
+                          </Avatar>
+                        </Link>
+                        <div>
+                          <p className="text-sm ">{user?.primary_email}</p>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button variant="outline" className="ml-auto">
+                                Courses{" "}
+                                <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="p-0" align="start">
+                              <Command>
+                                <CommandInput placeholder="Search Course..." />
+                                <CommandList>
+                                  <CommandEmpty>No courses found.</CommandEmpty>
+                                  <CommandGroup>
+                                    {user.courses.map((course: string) => (
+                                      <Link
+                                        key={user._id + course}
+                                        href={`/course/${course}`}
+                                      >
+                                        <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+                                          <p>{course}</p>
+                                        </CommandItem>
+                                      </Link>
+                                    ))}
+                                  </CommandGroup>
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center text-xl">
+            We couldn't find people in your major.
+          </div>
+        )}
       </section>
 
       <footer className="footer-section">
