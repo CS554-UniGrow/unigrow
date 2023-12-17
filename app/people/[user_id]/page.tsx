@@ -1,19 +1,16 @@
 "use client"
 export const dynamic = "force-dynamic"
 
+//need to change mongo call here
 import { Mail } from "lucide-react"
-import { getCourseByDepartment } from "@/data/courses/course"
-
 import { departmentMapper } from "@/lib/constants"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useEffect, useState } from "react"
 import Loading from "@/components/ui/loading"
-
 import { useParams } from "next/navigation"
 import Link from "next/link"
 import loadingLogo from "@/public/loading.png"
-
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import {

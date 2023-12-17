@@ -38,19 +38,18 @@ export default function Nav() {
     <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">
       <>
         <NavigationMenuList>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
-                <Image
-                  src={"student.svg"}
-                  width={100}
-                  height={100}
-                  className="h-10 w-10"
-                  alt="Unigrow"
-                ></Image>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
+          <NavigationMenuItem>
+            <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
+              <Image
+                src={"loading.gif"}
+                unoptimized={true}
+                width={100}
+                height={100}
+                className="h-10 w-10"
+                alt="Unigrow"
+              />
+            </Link>
+          </NavigationMenuItem>
           {navLinks.map(({ title, path, checkAuth }) => {
             if (!checkAuth || session?.user?.isOnboarded) {
               if (

@@ -14,8 +14,9 @@ import {
 import { ThemeToggle } from "./theme-toggle"
 import Link from "next/link"
 import loadingLogo from "@/public/loading.png"
-
+Image
 import { useSession, signOut } from "next-auth/react"
+import Image from "next/image"
 
 export default function ProfileDropdown() {
   const { data: session, status }: any = useSession()
@@ -25,11 +26,16 @@ export default function ProfileDropdown() {
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
             <AvatarImage
-              src={
-                session?.user?.avatar_url || session?.user?.image || loadingLogo
-              }
-              alt={session?.user?.name as string}
-            />
+              src={session?.user?.avatar_url || session?.user?.image}
+              asChild
+            >
+              <Image
+                src={session?.user?.avatar_url || session?.user?.image}
+                alt={session?.user?.name as string}
+                width={32}
+                height={32}
+              />
+            </AvatarImage>
             <AvatarFallback>{session?.user?.name}</AvatarFallback>
           </Avatar>
         </Button>
