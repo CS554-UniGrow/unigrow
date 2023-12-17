@@ -81,7 +81,6 @@ function useFetchTodo(user_id: string) {
     }
     fetchToDoData()
   }, [user_id])
-  console.log(todoData)
 
   return { todoData, todoError, todoLoading }
 }
