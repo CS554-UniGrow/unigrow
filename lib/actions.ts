@@ -87,15 +87,12 @@ export const overrideUpstashKeys = async (session: any) => {
 }
 
 export const addFriendRequest = async (email: string) => {
-  console.log("add friend request", { email }, { url: API.ADD_FRIEND })
   try {
     addFriendValidator.parse({ email })
-    const response = await axios.post(API.ADD_FRIEND, { email })
-    console.log("add friend response", { response })
+    const response = await axios.post("/api/friends/add", { email: { email } })
     return true
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log("add friend error", error.response?.status)
       return false
     }
     logger.error(error)

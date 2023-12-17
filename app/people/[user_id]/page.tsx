@@ -23,8 +23,10 @@ import {
   NavigationMenuList
 } from "@radix-ui/react-navigation-menu"
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
-import { addFriendRequest } from "@/lib/actions"
 import toast from "react-hot-toast"
+import { addFriendValidator } from "@/lib/validations/add-friend"
+import axios from "axios"
+import { chatHrefConstructor } from "@/lib/utils"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
@@ -52,6 +54,7 @@ function useFetchPerson(user_id: string) {
 }
 
 const User_Profile = () => {
+  const [isRequestSent, setIsRequestSent] = useState(false)
   const { data: session, status }: any = useSession()
   if (!session?.user?.isAuthenticated) {
     redirect("/signup")
@@ -64,21 +67,67 @@ const User_Profile = () => {
   const params = useParams()
   const { user_id } = params
   const { data, error, loading } = useFetchPerson(user_id as string)
-  console.log({ data, error, loading })
 
   if (error) {
     return <div>Error</div>
   }
+
   if (loading) {
     return <Loading />
   }
 
-  const handleAddFriend = async () => {
+  const addFriendRequest = async (email: string) => {
     try {
-      // TODO: Check for the response and show toast accordingly
-      const res = await addFriendRequest(data?.primary_email)
-    } catch (e) {
-      toast.error(`Error adding ${data?.name}`)
+      addFriendValidator.parse({ email })
+      const response = await axios.post("/api/friends/add", {
+        email: { email }
+      })
+      if (response?.data?.ok === "OK") {
+        toast.success("Friend request sent!")
+        setIsRequestSent(true)
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data)
+    }
+  }
+
+  const handleAddFriend = async () => {
+    addFriendRequest(data?.primary_email)
+  }
+
+  const addFriendButton = () => {
+    if (data?.isSelf) {
+      return null
+    } else if (data?.isAlreadyFriends) {
+      return (
+        <Link
+          href={`/chat/newChat/${chatHrefConstructor(
+            session.user._id,
+            user_id as string
+          )}`}
+        >
+          <Button>
+            Chat with {"  "}
+            <span className="mx-2 font-bold">
+              @{data?.primary_email?.split("@")[0]}
+            </span>
+          </Button>
+        </Link>
+      )
+    } else if (data?.isAlreadyAdded) {
+      return <Button disabled>Chat request sent</Button>
+    } else {
+      return isRequestSent ? (
+        <Button disabled>Chat request sent</Button>
+      ) : (
+        <Button onClick={handleAddFriend}>
+          Add {"  "}
+          <span className="mx-2 font-bold">
+            @{data?.primary_email?.split("@")[0]}
+          </span>
+          to chat
+        </Button>
+      )
     }
   }
 
@@ -103,24 +152,20 @@ const User_Profile = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-            {/* email logo */}
+          {!data?.isSelf && (
+            <div className={`grid grid-cols-1 gap-2 md:grid-cols-2`}>
+              {/* email logo */}
 
-            <Button
-              onClick={() => {
-                window.location.href = `mailto:${data?.primary_email}`
-              }}
-            >
-              <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
-            </Button>
-            <Button onClick={handleAddFriend}>
-              Add {"  "}
-              <span className="mx-2 font-bold">
-                @{data?.primary_email?.split("@")[0]}
-              </span>
-              to chat
-            </Button>
-          </div>
+              <Button
+                onClick={() => {
+                  window.location.href = `mailto:${data?.primary_email}`
+                }}
+              >
+                <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
+              </Button>
+              {addFriendButton()}
+            </div>
+          )}
 
           <div className="justify-items-center ">
             <h3 className="text-left font-medium ">Courses</h3>
