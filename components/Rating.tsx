@@ -72,11 +72,12 @@ const Rating = ({ courseId, courseCode }: any) => {
     fetchCurrentReview(courseId)
   }, [courseId])
 
+  console.log(prevReview)
   return (
     <div className="flex justify-center">
-      <h2>Leave a course Rating</h2>
-      {prevReview ? (
+      {prevReview.length > 0 ? (
         <>
+          <h2>Your Current Course Rating</h2>
           <RatingStars
             value={prevReview[0]?.rating}
             count={5}
@@ -88,6 +89,7 @@ const Rating = ({ courseId, courseCode }: any) => {
         </>
       ) : (
         <>
+          <h2>Leave a course Rating</h2>
           <RatingStars
             value={0}
             count={5}

@@ -6,26 +6,34 @@ import { ObjectId } from "mongodb"
 import { v4 as uuidv4 } from "uuid"
 
 async function findReviewByUIDAndCourseID(userId: string, courseId: string) {
-  // Access the restaurants collection
+  // Access the courses collection
   const courses = await courseCollection()
 
   // Use aggregation to find relevant reviews
   const reviews = await courses
     .aggregate([
       { $match: { _id: courseId } },
-      { $unwind: "$course_rating" },
+      { $unwind: "$course_ratings" },
       {
         $match: {
-          "course_rating.userId": userId
+          "course_ratings.user_id": userId
         }
       },
-      { $project: { review: "$reviews" } }
+      {
+        $project: {
+          rating: "$course_ratings.rating",
+          reviewDate: "$course_ratings.reviewDate"
+          // Add other fields you want to include in the result
+        }
+      }
     ])
     .toArray()
 
   // Return the matching review(s)
+  console.log(reviews)
   return reviews
 }
+
 async function updateOverallRating(courseId: string) {
   // calculate overallRating and updating overallRating key
   const courses = await courseCollection()
