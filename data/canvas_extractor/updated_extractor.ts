@@ -9,12 +9,17 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL
 
 async function uploadAndUpdateSyllabus(
+  apiKey: string,
   course: any,
   fileRef: any,
-  fileArrayBuffer: any,
+  fileResponse: any,
   coursesCollection: any
 ) {
   try {
+    let fileArrayBuffer = await fetch(fileResponse.data.url, {
+      ...getFetchOptions(apiKey),
+      cache: "no-store"
+    }).then((response) => response.arrayBuffer())
     const upload = await uploadBytes(fileRef, fileArrayBuffer, {
       customMetadata: {
         x_api_key: process.env.NEXT_API_SEED_SECRET as string
@@ -101,60 +106,61 @@ async function downloadAndStoreSyllabus(
       courseInMongo.course_syllabus !== undefined &&
       courseInMongo.course_syllabus !== ""
 
+    // fileResponse.data.filename.toLowerCase().includes("syllabus") ||
+    // fileResponse.data.display_name.toLowerCase().includes("syllabus")
     if (
       fileResponse.data.filename.toLowerCase().includes("syllabus") ||
       fileResponse.data.display_name.toLowerCase().includes("syllabus")
     ) {
-      let fileDownloaded = await fetch(fileResponse.data.url, {
-        ...getFetchOptions(apiKey),
-        cache: "no-store"
-      }).then((response) => response.arrayBuffer())
       if (!hasSyllabus) {
         await uploadAndUpdateSyllabus(
+          apiKey,
           course,
           fileRef,
-          fileDownloaded,
+          fileResponse,
           coursesCollection
         )
-      }
-    } else if (courseInMongo.course_syllabus !== "") {
-      logger.info(
-        `Syllabus already exists for ${course.course_code} and is stored at ${courseInMongo.course_syllabus}`
-      )
-
-      const courseInMongo_urlObject = new URL(courseInMongo.course_syllabus)
-      const courseInMongo_pathArray =
-        courseInMongo_urlObject.pathname.split("/")
-      const courseInMongo_fileName = decodeURIComponent(
-        courseInMongo_pathArray[courseInMongo_pathArray.length - 1]
-      ).split(" " || ".")
-
-      let course_semester = course.term_taken_in.split(" ")[1]
-      let course_year = course.term_taken_in.split(" ")[0]
-      let course_semester_index = semesters.indexOf(course_semester)
-      let course_year_index = parseInt(course_year)
-      let courseInMongo_semester = courseInMongo_fileName[2]
-      let courseInMongo_year = courseInMongo_fileName[1]
-      let courseInMongo_semester_index = semesters.indexOf(
-        courseInMongo_semester
-      )
-      let courseInMongo_year_index = parseInt(courseInMongo_year)
-
-      if (course_year_index > courseInMongo_year_index) {
-        await uploadAndUpdateSyllabus(
-          course,
-          fileRef,
-          fileDownloaded,
-          coursesCollection
+      } else if (hasSyllabus) {
+        logger.info(
+          `Syllabus already exists for ${course.course_code} and is stored at ${courseInMongo.course_syllabus}`
         )
-      } else if (course_year_index === courseInMongo_year_index) {
-        if (course_semester_index > courseInMongo_semester_index) {
+
+        const courseInMongo_urlObject = new URL(courseInMongo.course_syllabus)
+        const courseInMongo_pathArray =
+          courseInMongo_urlObject.pathname.split("/")
+        const courseInMongo_fileName = decodeURIComponent(
+          courseInMongo_pathArray[courseInMongo_pathArray.length - 1]
+        ).split(" " || ".")
+
+        let course_semester = course.term_taken_in.split(" ")[1]
+        let course_year = course.term_taken_in.split(" ")[0]
+        let course_semester_index = semesters.indexOf(course_semester)
+        let course_year_index = parseInt(course_year)
+        let courseInMongo_semester = courseInMongo_fileName[2]
+        let courseInMongo_year = courseInMongo_fileName[1]
+        let courseInMongo_semester_index = semesters.indexOf(
+          courseInMongo_semester
+        )
+        let courseInMongo_year_index = parseInt(courseInMongo_year)
+
+        if (course_year_index > courseInMongo_year_index) {
           await uploadAndUpdateSyllabus(
+            apiKey,
             course,
             fileRef,
-            fileDownloaded,
+            fileResponse,
             coursesCollection
           )
+        } else if (course_year_index === courseInMongo_year_index) {
+          if (course_semester_index > courseInMongo_semester_index) {
+            await uploadAndUpdateSyllabus(
+              apiKey,
+              course,
+              fileRef,
+              fileResponse,
+              coursesCollection
+            )
+          }
         }
       }
     }

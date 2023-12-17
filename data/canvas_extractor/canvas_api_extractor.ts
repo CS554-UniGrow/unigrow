@@ -81,6 +81,51 @@ async function updateCourseCollection(updatedCourseDetails: any, uid: string) {
         { $push: { course_professors: course.course_professors[0] } }
       )
     }
+    // { $push: { currently_enrolled: uid } }
+    //based on term_taken_in add uid to the currently_enrolled array or the previous_enrolled array
+    let term_taken_in = course.term_taken_in
+    let term_taken_in_array = term_taken_in.split(" ")
+    let year = parseInt(term_taken_in_array[0])
+    let semester = term_taken_in_array[1]
+    let semester_index = semesters.indexOf(semester)
+    let current_year = semester_mapper.current_year
+    let current_semester = semester_mapper.current_semester
+    let current_semester_index = semesters.indexOf(current_semester)
+    if (year < current_year) {
+      await coursesCollection.updateOne(
+        { course_code: course.course_code },
+        {
+          $push: { previously_enrolled: uid },
+          $pull: { currently_enrolled: uid }
+        }
+      )
+    } else if (year === current_year) {
+      if (semester_index > current_semester_index) {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          {
+            $push: { currently_enrolled: uid },
+            $pull: { previously_enrolled: uid }
+          }
+        )
+      } else if (semester_index == current_semester_index) {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          {
+            $push: { currently_enrolled: uid },
+            $pull: { previously_enrolled: uid }
+          }
+        )
+      } else {
+        await coursesCollection.updateOne(
+          { course_code: course.course_code },
+          {
+            $push: { previously_enrolled: uid },
+            $pull: { currently_enrolled: uid }
+          }
+        )
+      }
+    }
 
     logger.info("Course updated successfully for " + course.course_code)
   })
