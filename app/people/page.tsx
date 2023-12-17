@@ -1,7 +1,7 @@
 "use client"
 
 export const dynamic = "force-dynamic"
-import loadingLogo from "@/public/loading.gif"
+import loadingLogo from "@/public/loading.png"
 import { useEffect, useState } from "react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"

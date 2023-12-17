@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from "./theme-toggle"
 import Link from "next/link"
-import loadingLogo from "@/public/loading.gif"
+import loadingLogo from "@/public/loading.png"
 
 import { useSession, signOut } from "next-auth/react"
 

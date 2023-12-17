@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/card"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
-import loadingLogo from "@/public/loading.gif"
+import loadingLogo from "@/public/loading.png"
 
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
