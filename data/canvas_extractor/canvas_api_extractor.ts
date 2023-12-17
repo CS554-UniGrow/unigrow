@@ -1,7 +1,6 @@
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage"
 import logger from "@/lib/logger"
 import fs from "fs"
-import axios, { AxiosError } from "axios"
 import { courseList, semester_mapper, semesters } from "@/lib/constants"
 import { courses, users } from "@/config/mongo/mongoCollections"
 import path from "path"
@@ -10,6 +9,14 @@ import { storage } from "@/firebase"
 import { extractSyllabusFromStudentCourseDetails } from "./updated_extractor"
 let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL
 
+function getFetchOptions(apiKey: string) {
+  return {
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/pdf"
+    }
+  }
+}
 async function getUserProfileDetails({
   apiKey_hashed,
   uid,
@@ -23,15 +30,12 @@ async function getUserProfileDetails({
   let url = domain + "users/self/profile"
   // use UserProfile type with the axios call
   let response = {} as any
-  response = await axios
-    .get(url, {
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + apiKey
-      }
-    })
+  response = await fetch(url, {
+    ...getFetchOptions(apiKey),
+    cache: "no-store"
+  })
     .then((response) => {
-      return { ...response.data }
+      return response.json()
     })
     .catch((error) => {
       logger.error(error)
@@ -137,13 +141,13 @@ async function getUsersCourseDetails(apiKey: string, uid: string) {
       domain +
       "courses/?include[]=teachers&include[]=term&include[]=total_students&include[]=concluded"
 
-    let response = await axios.get(url, {
-      method: "get",
+    let response = await fetch(url, {
       headers: {
         Authorization: "Bearer " + apiKey
-      }
-    })
-    let result = response.data.map((course: any) => {
+      },
+      cache: "no-cache"
+    }).then((response) => response.json())
+    let result = response.map((course: any) => {
       const regex = /[A-Z]{2,4}\s\d{3}/g
       let course_code = course.name.match(regex)
       if (course_code === null || typeof course_code[0] !== "string") {
@@ -207,10 +211,16 @@ async function getAllUsersCourseDetails() {
   logger.info("Getting all users course details")
   let usersCollection = await users()
   let usersInDB = await usersCollection.find({}).toArray()
-  for (let user of usersInDB) {
-    const apiKey = decrypt(user.apiKey_hashed)
-    await getUsersCourseDetails(apiKey, user._id)
-  }
+
+  let result = await Promise.all(
+    usersInDB.map((user: any) =>
+      getUsersCourseDetails(decrypt(user.apiKey_hashed), user._id)
+    )
+  )
+  // for (let user of usersInDB) {
+  //   const apiKey = decrypt(user.apiKey_hashed)
+  //   await getUsersCourseDetails(apiKey, user._id)
+  // }
 }
 
 export {

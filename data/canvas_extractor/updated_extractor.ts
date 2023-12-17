@@ -2,8 +2,7 @@ import { courses } from "@/config/mongo/mongoCollections"
 import { storage } from "@/firebase"
 import { semesters } from "@/lib/constants"
 import logger from "@/lib/logger"
-import { T } from "@upstash/redis/zmscore-415f6c9f"
-import axios from "axios"
+
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 
 let domain = process.env.NEXT_PUBLIC_CANVAS_BASE_URL
@@ -55,10 +54,10 @@ async function downloadAndStoreSyllabus(
   apiKey: string
 ) {
   try {
-    const fileResponse = await axios.get(
-      `${domain}files/${content_id}`,
-      getAxiosOptions(apiKey)
-    )
+    const fileResponse = await fetch(`${domain}files/${content_id}`, {
+      ...getFetchOptions(apiKey),
+      cache: "no-store"
+    }).then((response) => response.json())
 
     if (!fileResponse.data) {
       throw new Error(
@@ -184,35 +183,26 @@ function getFetchOptions(apiKey: string) {
   }
 }
 
-function getAxiosOptions(apiKey: string) {
-  return {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/pdf"
-    }
-  }
-}
-
 async function processCourse(course: any, apiKey: string) {
   try {
-    const moduleResponse = await axios.get(
+    const moduleResponse = await fetch(
       `${domain}courses/${course.course_id}/modules?include[]=items&include[]=content_details`,
-      getAxiosOptions(apiKey)
-    )
-
-    if (!moduleResponse.data) {
+      {
+        ...getFetchOptions(apiKey),
+        cache: "no-store"
+      }
+    ).then((response) => response.json())
+    if (!moduleResponse) {
       throw new Error(
         `Failed to fetch modules for course ${course.course_code}`
       )
     }
 
-    const moduleData = moduleResponse.data
-
-    if (moduleData.length === 0) {
+    if (moduleResponse.length === 0) {
       return
     }
 
-    const contentIds = moduleData
+    const contentIds = moduleResponse
       .map((module: any) => module.items)
       .flat()
       .map((item: any) => item.content_id)
