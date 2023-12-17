@@ -1,5 +1,7 @@
 "use client"
 
+import { HelpCircle } from "lucide-react"
+
 import {
   Select,
   SelectContent,
@@ -228,6 +230,7 @@ const Questionnaire = () => {
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       ></iframe>
+                      <HelpCircle />
                     </div>
                   </FaqItem>
                 </FormDescription>
