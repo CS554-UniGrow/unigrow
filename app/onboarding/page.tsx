@@ -9,7 +9,7 @@ import { getSessionServer } from "@/lib/hooks"
 async function Onboarding() {
   const session = await getSessionServer("/onboarding")
 
-  if (session) {
+  if (session.user.isAuthenticated && !session.user.isOnboarded) {
     await overrideUpstashKeys(session)
   }
 
