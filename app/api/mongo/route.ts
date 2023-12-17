@@ -4,7 +4,7 @@ import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection"
 import { courses as courseCollection } from "@/config/mongo/mongoCollections"
 import { users as userCollection } from "@/config/mongo/mongoCollections"
 import { NextRequest, NextResponse } from "next/server"
-const rawData = fs.readFileSync("./scripts/course_data_extracted.json", "utf8")
+const rawData = fs.readFileSync("@/scripts/course_data_extracted.json", "utf8")
 const seedData = JSON.parse(rawData)
 
 async function seed() {
@@ -32,6 +32,9 @@ async function seed() {
 
 export async function GET(request: NextRequest, response: NextResponse) {
   const apiKey = request.headers.get("Authorization")
+  logger.info(apiKey)
+  logger.info(`Bearer ${process.env.NEXT_API_SEED_SECRET}`)
+
   if (apiKey == `Bearer ${process.env.NEXT_API_SEED_SECRET}`) {
     logger.info("Seeding data...")
     const message = await seed()
