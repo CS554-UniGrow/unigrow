@@ -3,7 +3,7 @@ import { options } from "@/app/api/auth/[...nextauth]/options"
 import { redirect } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
-
+import { signOut } from "next-auth/react"
 const UNAUTHENTICATED_REDIRECT = "/signup"
 const ONBOARDING_REDIRECT = "/onboarding"
 const PROTECTED_ROUTES = ["/dashboard"]
@@ -15,6 +15,8 @@ export const getSessionServer = async (pathname?: string) => {
 
   // If the user is not authenticated, redirect to login page
   if (!session) {
+    // TODO: Check if sign out clears the session
+    signOut()
     redirect(UNAUTHENTICATED_REDIRECT)
   }
 

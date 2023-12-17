@@ -3,36 +3,19 @@ export const dynamic = "force-dynamic"
 
 import { Mail } from "lucide-react"
 import { getCourseByDepartment } from "@/data/courses/course"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from "@/components/ui/accordion"
+
 import { departmentMapper } from "@/lib/constants"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Course } from "@/lib/types"
 import { useEffect, useState } from "react"
 import Loading from "@/components/ui/loading"
 
 import { useParams } from "next/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from "@/components/ui/card"
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
 import loadingLogo from "@/public/loading.png"
 
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { Label } from "@radix-ui/react-dropdown-menu"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -40,6 +23,8 @@ import {
   NavigationMenuList
 } from "@radix-ui/react-navigation-menu"
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
+import { addFriendRequest } from "@/lib/actions"
+import toast from "react-hot-toast"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
@@ -79,15 +64,27 @@ const User_Profile = () => {
   const params = useParams()
   const { user_id } = params
   const { data, error, loading } = useFetchPerson(user_id as string)
+  console.log({ data, error, loading })
+
   if (error) {
     return <div>Error</div>
   }
   if (loading) {
     return <Loading />
   }
+
+  const handleAddFriend = async () => {
+    try {
+      // TODO: Check for the response and show toast accordingly
+      const res = await addFriendRequest(data?.primary_email)
+    } catch (e) {
+      toast.error(`Error adding ${data?.name}`)
+    }
+  }
+
   return (
-    <div className="container mt-20 ">
-      <div className="relative mx-auto w-1/2  justify-items-center  rounded-lg border p-20 shadow">
+    <div className="container mt-20">
+      <div className="relative mx-auto max-w-xl justify-items-center rounded-lg border p-8 shadow lg:p-20">
         <div className="flex justify-center">
           <Image
             width={100}
@@ -106,7 +103,7 @@ const User_Profile = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {/* email logo */}
 
             <Button
@@ -116,11 +113,12 @@ const User_Profile = () => {
             >
               <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
             </Button>
-            <Button>
-              Chat with{" "}
-              <span className="font-bold">
-                @ {data?.primary_email?.split("@")[0]}
+            <Button onClick={handleAddFriend}>
+              Add {"  "}
+              <span className="mx-2 font-bold">
+                @{data?.primary_email?.split("@")[0]}
               </span>
+              to chat
             </Button>
           </div>
 
@@ -128,7 +126,7 @@ const User_Profile = () => {
             <h3 className="text-left font-medium ">Courses</h3>
             <br></br>
             <NavigationMenu>
-              <NavigationMenuList className="grid grid-cols-5 gap-5">
+              <NavigationMenuList className="grid grid-cols-3 gap-8 sm:grid-cols-5">
                 {data?.courses?.map((course: string) => (
                   <NavigationMenuItem key={course}>
                     <Link legacyBehavior passHref href={`/course/${course}`}>

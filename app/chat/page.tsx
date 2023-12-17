@@ -33,6 +33,8 @@ const page = async ({}) => {
     })
   )
 
+  console.log(friendsWithLastMessage)
+
   return (
     <div className="container py-12">
       <h1 className="mb-8 text-5xl font-bold">Recent chats</h1>

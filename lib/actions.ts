@@ -5,6 +5,11 @@ import { users } from "@/config/mongo/mongoCollections"
 import { getUserProfileDetails } from "@/data/canvas_extractor/canvas_api_extractor"
 import { encrypt } from "./utils"
 import { db } from "./db"
+import logger from "./logger"
+import { API } from "./constants"
+
+import axios, { Axios, AxiosError } from "axios"
+import { addFriendValidator } from "./validations/add-friend"
 
 export const checkCanvasToken = async (token: string) => {
   const response = await fetch(
@@ -56,16 +61,6 @@ export const overrideUpstashKeys = async (session: any) => {
   await db.set(`user:email:${session.user.email}`, `${session.user._id}`)
 
   await db.del(`user:${upStashID}`)
-  await db.set(
-    `user:${session.user._id}`,
-    JSON.stringify({
-      email: session.user.email,
-      name: session.user.name,
-      image: session.user.image,
-      id: session.user._id,
-      email_verified: session.user.email_verified
-    })
-  )
 
   await db.set(
     `user:${session.user._id}`,
@@ -81,6 +76,7 @@ export const overrideUpstashKeys = async (session: any) => {
   const upstashTokenDetails = (await db.get(
     `user:account:google:${session.user._id}`
   )) as any
+
   await db.set(
     `user:account:google:${session.user._id}`,
     JSON.stringify({ ...upstashTokenDetails, userId: session.user._id })
@@ -88,4 +84,20 @@ export const overrideUpstashKeys = async (session: any) => {
 
   await db.del(`user:account:by-user-id:${upStashID}`)
   await db.set(`user:account:by-user-id:${session.user._id}`, session.user._id)
+}
+
+export const addFriendRequest = async (email: string) => {
+  console.log("add friend request", { email }, { url: API.ADD_FRIEND })
+  try {
+    addFriendValidator.parse({ email })
+    const response = await axios.post(API.ADD_FRIEND, { email })
+    console.log("add friend response", { response })
+    return true
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      console.log("add friend error", error.response?.status)
+      return false
+    }
+    logger.error(error)
+  }
 }

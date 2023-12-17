@@ -76,6 +76,7 @@ type Department = {
   course_code: string
   department: string
 }
+
 export const departmentList: Department[] = [
   { course_code: "AAI", department: "Applied Artificial Intelligence" },
   { course_code: "ACC", department: "Accounting" },
@@ -2711,6 +2712,12 @@ export const semester_mapper = {
     dayjs().month() < 5
       ? semesters[3] // May
       : dayjs().month() < 8
-        ? semesters[0] // August
-        : semesters[3] // September to December
+      ? semesters[0] // August
+      : semesters[3] // September to December
+}
+
+const API_URL = "http://localhost:3000/api"
+
+export const API = {
+  ADD_FRIEND: API_URL + "/friends/add"
 }
