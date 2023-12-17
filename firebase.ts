@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { getAuth } from "firebase/auth";
+import { initializeApp } from "firebase/app"
+import { getAnalytics } from "firebase/analytics"
+import { getFirestore } from "firebase/firestore"
+import { getStorage } from "firebase/storage"
+import { getAuth } from "firebase/auth"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,13 +18,13 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
-};
+}
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig)
 // const analytics = getAnalytics(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export const db = getFirestore(app)
+export const storage = getStorage(app)
 
 // Authentication
-export const auth = getAuth(app);
+export const auth = getAuth(app)

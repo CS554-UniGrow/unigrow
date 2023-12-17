@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react";
+import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { forwardRef, ElementRef, ComponentPropsWithoutRef } from "react"
 
 import {
   NavigationMenu,
@@ -10,10 +10,10 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
+} from "@/components/ui/navigation-menu"
 
-import ProfileDropdown from "@/components/profileDropdown";
-import Image from "next/image";
+import ProfileDropdown from "@/components/profileDropdown"
+import Image from "next/image"
 
 const navLinks = [
   { title: "Home", path: "/", checkAuth: false },
@@ -29,37 +29,35 @@ const navLinks = [
     path: "/onboarding",
     checkAuth: false
   }
-];
+]
 
-import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react"
 
 export default function Nav() {
-  const { data: session }: any = useSession();
-
+  const { data: session }: any = useSession()
   return (
     <NavigationMenu className="border-b- fixed top-0 flex w-full items-center justify-between border-b-2 bg-white px-8 py-2 dark:bg-black">
       <>
         <NavigationMenuList>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
-                <Image
-                  src={"student.svg"}
-                  width={100}
-                  height={100}
-                  className="h-10 w-10"
-                  alt="Unigrow"
-                ></Image>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
+          <NavigationMenuItem>
+            <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
+              <Image
+                src={"loading.gif"}
+                unoptimized={true}
+                width={100}
+                height={100}
+                className="h-10 w-10"
+                alt="Unigrow"
+              />
+            </Link>
+          </NavigationMenuItem>
           {navLinks.map(({ title, path, checkAuth }) => {
             if (!checkAuth || session?.user?.isOnboarded) {
               if (
                 path === "/onboarding" &&
                 (session?.user?.isOnboarded || !session?.user?.isAuthenticated)
               ) {
-                return null;
+                return null
               }
             
               return (
@@ -74,7 +72,7 @@ export default function Nav() {
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
-              );
+              )
             }
 
             if (!checkAuth || session?.user?.isOnboarded) {
@@ -112,7 +110,7 @@ export default function Nav() {
         </NavigationMenuList>
       </>
     </NavigationMenu>
-  );
+  )
 }
 
 const ListItem = forwardRef<ElementRef<"a">, ComponentPropsWithoutRef<"a">>(
@@ -135,7 +133,7 @@ const ListItem = forwardRef<ElementRef<"a">, ComponentPropsWithoutRef<"a">>(
           </a>
         </NavigationMenuLink>
       </li>
-    );
+    )
   }
-);
-ListItem.displayName = "ListItem";
+)
+ListItem.displayName = "ListItem"

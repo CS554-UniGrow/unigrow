@@ -1,24 +1,24 @@
-"use client";
+"use client"
 
-import { Transition, Dialog } from "@headlessui/react";
-import { Menu, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { FC, Fragment, useEffect, useState } from "react";
-import { Icons } from "./Icons";
-import SignOutButton from "./SignOutButton";
-import Button, { buttonVariants } from "./ui/Button_2";
-import FriendRequestSidebarOptions from "./FriendRequestSidebarOptions";
-import SidebarChatList from "./SidebarChatList";
-import { Session } from "next-auth";
-import { SidebarOption } from "@/types/typings";
-import { usePathname } from "next/navigation";
+import { Transition, Dialog } from "@headlessui/react"
+import { Menu, X } from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { FC, Fragment, useEffect, useState } from "react"
+import { Icons } from "./Icons"
+import SignOutButton from "./SignOutButton"
+import Button, { buttonVariants } from "./ui/Button_2"
+import FriendRequestSidebarOptions from "./FriendRequestSidebarOptions"
+import SidebarChatList from "./SidebarChatList"
+import { Session } from "next-auth"
+import { SidebarOption } from "@/types/typings"
+import { usePathname } from "next/navigation"
 
 interface MobileChatLayoutProps {
-  friends: User[];
-  session: Session;
-  sidebarOptions: SidebarOption[];
-  unseenRequestCount: number;
+  friends: any[]
+  session: Session
+  sidebarOptions: SidebarOption[]
+  unseenRequestCount: number
 }
 
 const MobileChatLayout: FC<MobileChatLayoutProps> = ({
@@ -27,13 +27,13 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
   sidebarOptions,
   unseenRequestCount
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false)
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    setOpen(false)
+  }, [pathname])
 
   return (
     <div className="fixed inset-x-0 top-0 border-b border-zinc-200 bg-zinc-50 px-4 py-2">
@@ -100,7 +100,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                             <li>
                               <SidebarChatList
                                 friends={friends}
-                                sessionId={session.user.id}
+                                sessionId={session.user._id}
                               />
                             </li>
 
@@ -110,7 +110,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                               </div>
                               <ul role="list" className="-mx-2 mt-2 space-y-1">
                                 {sidebarOptions.map((option) => {
-                                  const Icon = Icons[option.Icon];
+                                  const Icon = Icons[option.Icon]
                                   return (
                                     <li key={option.name}>
                                       <Link
@@ -125,7 +125,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                                         </span>
                                       </Link>
                                     </li>
-                                  );
+                                  )
                                 })}
 
                                 <li>
@@ -133,7 +133,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                                     initialUnseenRequestCount={
                                       unseenRequestCount
                                     }
-                                    sessionId={session.user.id}
+                                    sessionId={session.user._id}
                                   />
                                 </li>
                               </ul>
@@ -181,7 +181,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
         </Dialog>
       </Transition.Root>
     </div>
-  );
-};
+  )
+}
 
-export default MobileChatLayout;
+export default MobileChatLayout

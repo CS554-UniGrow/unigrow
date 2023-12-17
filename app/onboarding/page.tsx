@@ -1,8 +1,17 @@
-import Questionnaire from "@/components/Questionnaire";
-import { getSessionServer } from "@/lib/hooks";
+export async function generateMetadata({ params }: any) {
+  return { title: `Unigrow | Onboarding` }
+}
+
+import Questionnaire from "@/components/Questionnaire"
+import { overrideUpstashKeys } from "@/lib/actions"
+import { getSessionServer } from "@/lib/hooks"
 
 async function Onboarding() {
-  const session = await getSessionServer("/onboarding");
+  const session = await getSessionServer("/onboarding")
+
+  if (session) {
+    await overrideUpstashKeys(session)
+  }
 
   return (
     <>
@@ -14,7 +23,7 @@ async function Onboarding() {
       </div>
       <Questionnaire />
     </>
-  );
+  )
 }
 
-export default Onboarding;
+export default Onboarding

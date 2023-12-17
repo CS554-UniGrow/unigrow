@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { useContext } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { useContext } from "react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +10,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import { ThemeToggle } from "./theme-toggle";
-import Link from "next/link";
-import loadingLogo from "@/public/loading.png";
+} from "@/components/ui/dropdown-menu"
+import { ThemeToggle } from "./theme-toggle"
+import Link from "next/link"
+import loadingLogo from "@/public/loading.png"
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react"
 
 export default function ProfileDropdown() {
-  const { data: session, status }: any = useSession();
+  const { data: session, status }: any = useSession()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -68,5 +68,5 @@ export default function ProfileDropdown() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
+  )
 }

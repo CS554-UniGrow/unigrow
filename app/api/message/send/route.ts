@@ -1,5 +1,5 @@
 import { fetchRedis } from "@/helpers/redis"
-import { options } from "../auth/[...nextauth]/options"
+import { options } from "../../auth/[...nextauth]/options"
 import { db } from "@/lib/db"
 import { pusherServer } from "@/lib/pusher"
 import { toPusherKey } from "@/lib/utils"
@@ -16,15 +16,15 @@ export async function POST(req: Request) {
 
     const [userId1, userId2] = chatId.split("--")
 
-    if (session.user.id !== userId1 && session.user.id !== userId2) {
+    if (session.user._id !== userId1 && session.user._id !== userId2) {
       return new Response("Unauthorized", { status: 401 })
     }
 
-    const friendId = session.user.id === userId1 ? userId2 : userId1
+    const friendId = session.user._id === userId1 ? userId2 : userId1
 
     const friendList = (await fetchRedis(
       "smembers",
-      `user:${session.user.id}:friends`
+      `user:${session.user._id}:friends`
     )) as string[]
     const isFriend = friendList.includes(friendId)
 
@@ -34,15 +34,15 @@ export async function POST(req: Request) {
 
     const rawSender = (await fetchRedis(
       "get",
-      `user:${session.user.id}`
+      `user:${session.user._id}`
     )) as string
-    const sender = JSON.parse(rawSender) as User
+    const sender = JSON.parse(rawSender) as any
 
     const timestamp = Date.now()
 
     const messageData: Message = {
       id: nanoid(),
-      senderId: session.user.id,
+      senderId: session.user._id,
       text,
       timestamp
     }

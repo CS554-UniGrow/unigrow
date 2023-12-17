@@ -1,74 +1,74 @@
-"use client";
-export const dynamic = "force-dynamic";
+"use client"
+export const dynamic = "force-dynamic"
 
-import { getCourseByDepartment } from "@/data/courses/course";
+import { getCourseByDepartment } from "@/data/courses/course"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
-} from "@/components/ui/accordion";
-import { departmentMapper } from "@/lib/constants";
+} from "@/components/ui/accordion"
+import { departmentMapper } from "@/lib/constants"
 
-import { Button } from "@/components/ui/button";
-import { Course } from "@/lib/types";
+import { Button } from "@/components/ui/button"
+import { Course } from "@/lib/types"
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
   CardFooter
-} from "@/components/ui/card";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { redirect, notFound } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Link2, Underline } from "lucide-react";
+} from "@/components/ui/card"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
+import { redirect, notFound } from "next/navigation"
+import { Input } from "@/components/ui/input"
+import { Link2, Underline } from "lucide-react"
 
 function useFetchCourse(code: string) {
-  const [data, setData] = useState([] as Course[]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([] as Course[])
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(true)
       await fetch(`/api/courses/department/${code}`)
         .then((res) => res.json())
         .then((data: Course[]) => {
-          setData(data);
-          setLoading(false);
+          setData(data)
+          setLoading(false)
         })
         .catch((error) => {
-          setError(error);
-          setLoading(false);
-        });
-    };
-    fetchData();
-  }, [code]);
+          setError(error)
+          setLoading(false)
+        })
+    }
+    fetchData()
+  }, [code])
 
-  return { data, error, loading };
+  return { data, error, loading }
 }
 
 const DepertmentCourses = ({ params }: { params: { code: string } }) => {
-  const { data: session, status }: any = useSession();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { data: session, status }: any = useSession()
+  const [searchQuery, setSearchQuery] = useState("")
 
   if (!session?.user?.isAuthenticated) {
-    redirect("/signup");
+    redirect("/signup")
   }
 
   if (!session?.user?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
-  const { code } = params;
+  const { code } = params
   if (departmentMapper[code.toUpperCase()] === undefined) {
-    notFound();
+    notFound()
   }
 
-  const { data, error, loading } = useFetchCourse(code);
+  const { data, error, loading } = useFetchCourse(code)
 
   const filteredData = data?.filter(
     (course: any) =>
@@ -85,10 +85,10 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
         .join(" ")
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
-  );
+  )
   const course_level_unique = [
     ...new Set(filteredData.map((course) => course.course_level))
-  ];
+  ]
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -310,7 +310,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
         </Accordion>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DepertmentCourses;
+export default DepertmentCourses

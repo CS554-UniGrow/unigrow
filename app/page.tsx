@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { options } from "./api/auth/[...nextauth]/options";
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import Link from "next/link"
+import { options } from "./api/auth/[...nextauth]/options"
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
 export default async function Home() {
-  const session: any = await getServerSession(options);
+  const session: any = await getServerSession(options)
   if (session?.user?.isAuthenticated) {
-    redirect("/dashboard");
+    redirect("/dashboard")
   }
 
   return (
@@ -165,5 +165,5 @@ export default async function Home() {
         </div>
        </footer>
     </div>
-  );
+  )
 }

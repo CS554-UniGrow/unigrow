@@ -1,37 +1,37 @@
-import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
-import { fetchRedis } from "@/helpers/redis";
-import { options } from "../api/auth/[...nextauth]/options";
-import { chatHrefConstructor } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
-import { getServerSession } from "next-auth";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
+import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id"
+import { fetchRedis } from "@/helpers/redis"
+import { options } from "../api/auth/[...nextauth]/options"
+import { chatHrefConstructor } from "@/lib/utils"
+import { ChevronRight } from "lucide-react"
+import { getServerSession } from "next-auth"
+import Image from "next/image"
+import Link from "next/link"
+import { notFound } from "next/navigation"
 
 const page = async ({}) => {
-  const session = await getServerSession(options);
-  if (!session) notFound();
+  const session = await getServerSession(options)
+  if (!session) notFound()
 
-  const friends = await getFriendsByUserId(session.user.id);
+  const friends = await getFriendsByUserId(session.user._id)
   const friendsWithLastMessage = await Promise.all(
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
         "zrange",
-        `chat:${chatHrefConstructor(session.user.id, friend.id)}:messages`,
+        `chat:${chatHrefConstructor(session.user._id, friend.id)}:messages`,
         -1,
         -1
-      )) as string[];
+      )) as string[]
 
       const lastMessage = lastMessageRaw
         ? (JSON.parse(lastMessageRaw) as Message)
-        : ({} as Message);
+        : ({} as Message)
 
       return {
         ...friend,
         lastMessage
-      };
+      }
     })
-  );
+  )
 
   return (
     <div className="container py-12">
@@ -50,7 +50,7 @@ const page = async ({}) => {
 
             <Link
               href={`/chat/newChat/${chatHrefConstructor(
-                session.user.id,
+                session.user._id,
                 friend.id
               )}`}
               className="relative sm:flex"
@@ -71,7 +71,7 @@ const page = async ({}) => {
                 <h4 className="text-lg font-semibold">{friend.name}</h4>
                 <p className="mt-1 max-w-md">
                   <span className="text-zinc-400">
-                    {friend.lastMessage?.senderId === session.user.id
+                    {friend.lastMessage?.senderId === session.user._id
                       ? "You: "
                       : ""}
                   </span>
@@ -83,7 +83,7 @@ const page = async ({}) => {
         ))
       )}
     </div>
-  );
-};
+  )
+}
 
-export default page;
+export default page

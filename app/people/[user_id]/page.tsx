@@ -1,23 +1,23 @@
-"use client";
-export const dynamic = "force-dynamic";
+"use client"
+export const dynamic = "force-dynamic"
 
-import { Mail } from "lucide-react";
-import { getCourseByDepartment } from "@/data/courses/course";
+import { Mail } from "lucide-react"
+import { getCourseByDepartment } from "@/data/courses/course"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
-} from "@/components/ui/accordion";
-import { departmentMapper } from "@/lib/constants";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Course } from "@/lib/types";
-import { useEffect, useState } from "react";
-import Loading from "@/components/ui/loading";
+} from "@/components/ui/accordion"
+import { departmentMapper } from "@/lib/constants"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { Course } from "@/lib/types"
+import { useEffect, useState } from "react"
+import Loading from "@/components/ui/loading"
 
-import { useParams } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useParams } from "next/navigation"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Card,
   CardContent,
@@ -25,65 +25,65 @@ import {
   CardFooter,
   CardHeader,
   CardTitle
-} from "@/components/ui/card";
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import loadingLogo from "@/public/loading.png";
+} from "@/components/ui/card"
+import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
+import loadingLogo from "@/public/loading.png"
 
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
-import { Label } from "@radix-ui/react-dropdown-menu";
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
+import { Label } from "@radix-ui/react-dropdown-menu"
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList
-} from "@radix-ui/react-navigation-menu";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+} from "@radix-ui/react-navigation-menu"
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 
 function useFetchPerson(user_id: string) {
-  const [data, setData] = useState({} as any);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({} as any)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
+      setLoading(true)
       await fetch(`/api/people/${user_id}`)
         .then((res) => res.json())
         .then((data: any) => {
-          setData(data);
-          setLoading(false);
+          setData(data)
+          setLoading(false)
         })
         .catch((error) => {
-          setError(error);
-          setLoading(false);
-        });
-    };
-    fetchData();
-  }, [user_id]);
+          setError(error)
+          setLoading(false)
+        })
+    }
+    fetchData()
+  }, [user_id])
 
-  return { data, error, loading };
+  return { data, error, loading }
 }
 
 const User_Profile = () => {
-  const { data: session, status }: any = useSession();
+  const { data: session, status }: any = useSession()
   if (!session?.user?.isAuthenticated) {
-    redirect("/signup");
+    redirect("/signup")
   }
 
   if (!session?.user?.isOnboarded) {
-    redirect("/onboarding");
+    redirect("/onboarding")
   }
 
-  const params = useParams();
-  const { user_id } = params;
-  const { data, error, loading } = useFetchPerson(user_id as string);
+  const params = useParams()
+  const { user_id } = params
+  const { data, error, loading } = useFetchPerson(user_id as string)
   if (error) {
-    return <div>Error</div>;
+    return <div>Error</div>
   }
   if (loading) {
-    return <Loading />;
+    return <Loading />
   }
   return (
     <div className="container mt-20 ">
@@ -111,7 +111,7 @@ const User_Profile = () => {
 
             <Button
               onClick={() => {
-                window.location.href = `mailto:${data?.primary_email}`;
+                window.location.href = `mailto:${data?.primary_email}`
               }}
             >
               <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
@@ -146,7 +146,7 @@ const User_Profile = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default User_Profile;
+export default User_Profile
