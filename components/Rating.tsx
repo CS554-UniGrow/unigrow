@@ -1,16 +1,16 @@
-"use client"
 import React, { useEffect, useState } from "react"
-import { Slider } from "@/components/ui/slider"
+import RatingStars from "react-rating-stars-component"
 import { useSession } from "next-auth/react"
 
 const Rating = ({ courseId, courseCode }: any) => {
-  const { data: session, status, update }: any = useSession()
-  const [rating, setRating] = useState([0])
+  const { data: session }: any = useSession()
+  const [rating, setRating] = useState(0)
   const [sliderUpdated, setSliderUpdated] = useState(false)
   const user_mongo_id = session?.user._id
+  const [prevReview, setPrevReview]: any = useState([])
 
-  const handleSliderChange = (value: any) => {
-    setRating(value) // Use the callback version of setRating
+  const handleSliderChange = (newRating: number) => {
+    setRating(newRating)
     setSliderUpdated(true)
   }
 
@@ -44,9 +44,12 @@ const Rating = ({ courseId, courseCode }: any) => {
       }
     }
 
-    updateRatingInDatabase(user_mongo_id, courseId, rating, courseCode)
-    setSliderUpdated(false)
-  }, [sliderUpdated, rating])
+    // Only update the rating in the database if the slider has been updated
+    if (sliderUpdated) {
+      updateRatingInDatabase(user_mongo_id, courseId, rating, courseCode)
+      setSliderUpdated(false)
+    }
+  }, [sliderUpdated, rating, user_mongo_id, courseId, courseCode])
 
   useEffect(() => {
     const fetchCurrentReview = async (courseId: string) => {
@@ -56,25 +59,45 @@ const Rating = ({ courseId, courseCode }: any) => {
         })
 
         if (!response.ok) {
-          throw new Error("Failed to update rating")
+          throw new Error("Failed to fetch current review")
         }
 
-        console.log(response)
+        const data = await response.json()
+        setPrevReview(data)
       } catch (error) {
-        console.error("Error updating rating:", error)
+        console.error("Error fetching current review:", error)
       }
     }
-  })
+
+    fetchCurrentReview(courseId)
+  }, [courseId])
+
   return (
     <div className="flex justify-center">
       <h2>Leave a course Rating</h2>
-      <Slider
-        defaultValue={[0]}
-        max={5}
-        step={0.5}
-        onValueChange={handleSliderChange}
-      />
-      <p>Current Rating: {rating}</p>
+      {prevReview ? (
+        <>
+          <RatingStars
+            value={prevReview[0]?.rating}
+            count={5}
+            onChange={handleSliderChange}
+            size={30}
+            activeColor="#ffd700"
+          />
+          <p>Current Rating: {rating}</p>
+        </>
+      ) : (
+        <>
+          <RatingStars
+            value={0}
+            count={5}
+            onChange={handleSliderChange}
+            size={30}
+            activeColor="#ffd700"
+          />
+          <p>Current Rating: {rating}</p>
+        </>
+      )}
     </div>
   )
 }

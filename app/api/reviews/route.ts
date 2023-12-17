@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest, params: { courseId: string }) {
   try {
     const session = await getSessionServer()
+    console.log(session)
     const user_id = session.user._id
     const course_id = params?.courseId
     console.log(user_id)
