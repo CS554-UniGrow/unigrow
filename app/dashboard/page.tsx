@@ -80,8 +80,6 @@ function useFetchTodo(user_id: string) {
         })
     }
     fetchToDoData()
-    console.log("data is in the state")
-    console.log(todoData)
   }, [user_id])
 
   return { todoData, todoError, todoLoading }
@@ -113,43 +111,51 @@ const Dashboard = () => {
   const user = session.user
 
   const user_id = user._id
+  const { peopleData, peopleError, peopleLoading } = useFetchPeople()
   const { data, error, loading } = useFetchPerson(user_id as string)
   const { todoData, todoError, todoLoading } = useFetchTodo(user_id as string)
-  const { peopleData, peopleError, peopleLoading } = useFetchPeople()
-
-  console.log(data)
 
   const filteredData = peopleData?.filter(
     (user: any) => user?.major === data?.major && user?.email != data?.email
   )
 
-  if (error || todoError) {
+  if (error || todoError || peopleError) {
     return <div>Error</div>
   }
-  if (loading && todoLoading) {
+  if (loading && todoLoading && peopleLoading) {
     return <Loading />
   }
   return (
-    <div>
-      <div className="text-6xl">Welcome to UniGrow, {user.name}</div>
-      <br />
-      <br />
-      <div className="text-3xl">Your Major</div>
-      <div text-3xl>
-        <p className="font-large text- text-center ">
-          {departmentMapper[data?.major]}
+    <div className="container mx-auto px-4 py-12">
+      <div className="mb-12 text-center">
+        <h1 className="mb-4 text-6xl font-bold">
+          Welcome to UniGrow, {user.name}
+        </h1>
+        <p className="mb-20 text-2xl">
+          Discover your academic tools and resources.
         </p>
       </div>
-      <div>
-        <p>Your Courses:</p>
+      <section className="mb-20">
+        <div className="flex justify-center">
+          <div className="max-w-md rounded-lg px-8 py-4 shadow-md">
+            <h3 className="mb-2 text-center text-xl font-semibold">Major</h3>
+            <p className="text-center text-lg">
+              {departmentMapper[data?.major]}
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="mb-20">
+        <h2 className="mb-8 text-center text-2xl font-bold">Your Courses</h2>
         <NavigationMenu>
-          <NavigationMenuList className="grid grid-cols-5 gap-5">
+          <NavigationMenuList className="grid grid-cols-1 gap-5 md:grid-cols-3 lg:grid-cols-5">
             {data?.courses?.map((course: string) => (
-              <NavigationMenuItem key={course}>
+              <NavigationMenuItem
+                key={course}
+                className="rounded-lg border p-4 shadow-md hover:shadow-lg"
+              >
                 <Link legacyBehavior passHref href={`/course/${course}`}>
-                  <NavigationMenuLink
-                    className={`${navigationMenuTriggerStyle()} rounded border`}
-                  >
+                  <NavigationMenuLink className="text-lg font-semibold">
                     {course}
                   </NavigationMenuLink>
                 </Link>
@@ -157,80 +163,119 @@ const Dashboard = () => {
             ))}
           </NavigationMenuList>
         </NavigationMenu>
-      </div>
-      <div className="text-3xl">Your TO-DO List:</div>
-      <div>
-        {todoData?.map((todo: any) => (
-          <div key={todo.assignment.id}>
-            <h3>{todo.context_name}</h3>
+      </section>
+      <section className="mb-20">
+        <h2 className="mb-8 text-center text-2xl font-bold">Your TO-DO List</h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {todoData?.map((todo: any) => (
             <div
-              dangerouslySetInnerHTML={{ __html: todo.assignment.description }}
-            />
-            <p>Due At: {new Date(todo.assignment.due_at).toLocaleString()}</p>
-            <a href={todo.html_url} target="_blank" rel="noopener noreferrer">
-              Go to Assignment
-            </a>
-          </div>
-        ))}
-      </div>
-      <div className="text-3xl">People who are doing your major:</div>
+              key={todo.assignment.id}
+              className="flex flex-col rounded-lg border p-4 shadow hover:shadow-lg"
+            >
+              <h3 className="mb-2 text-xl font-semibold">
+                {todo.context_name}
+              </h3>
+              <h2 className="mb-2 text-xl font-semibold">
+                {todo.assignment.name}
+              </h2>
 
-      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredData?.map((user: any) => (
-          <Card key={user._id}>
-            <CardHeader>
-              <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="flex items-center justify-between space-x-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
-                    <Link href={`/people/${user._id}/`}>
-                      <Avatar>
-                        <AvatarImage
-                          src={user?.avatar_url || user?.image || loadingLogo}
-                        />
-                        <AvatarFallback>{user?.name}</AvatarFallback>
-                      </Avatar>
-                    </Link>
-                    <div>
-                      <p className="text-sm ">{user?.primary_email}</p>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant="outline" className="ml-auto">
-                            Courses{" "}
-                            <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="p-0" align="start">
-                          <Command>
-                            <CommandInput placeholder="Search Course..." />
-                            <CommandList>
-                              <CommandEmpty>No courses found.</CommandEmpty>
-                              <CommandGroup>
-                                {user.courses.map((course: string) => (
-                                  <Link
-                                    key={user._id + course}
-                                    href={`/course/${course}`}
-                                  >
-                                    <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
-                                      <p>{course}</p>
-                                    </CommandItem>
-                                  </Link>
-                                ))}
-                              </CommandGroup>
-                            </CommandList>
-                          </Command>
-                        </PopoverContent>
-                      </Popover>
+              <div className="mb-2 text-lg">
+                Due At: {new Date(todo.assignment.due_at).toLocaleString()}
+              </div>
+              <a
+                href={todo.html_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto text-blue-600 hover:text-blue-800"
+              >
+                Go to Assignment
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section>
+        <h2 className="mb-8 text-center text-2xl font-bold">
+          People in Your Major
+        </h2>
+
+        <div className="mb-12 grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredData?.map((user: any) => (
+            <Card key={user._id}>
+              <CardHeader>
+                <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
+              </CardHeader>
+              <CardContent className="grid gap-6">
+                <div className="flex items-center justify-between space-x-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2">
+                      <Link href={`/people/${user._id}/`}>
+                        <Avatar>
+                          <AvatarImage
+                            src={user?.avatar_url || user?.image || loadingLogo}
+                          />
+                          <AvatarFallback>{user?.name}</AvatarFallback>
+                        </Avatar>
+                      </Link>
+                      <div>
+                        <p className="text-sm ">{user?.primary_email}</p>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button variant="outline" className="ml-auto">
+                              Courses{" "}
+                              <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="p-0" align="start">
+                            <Command>
+                              <CommandInput placeholder="Search Course..." />
+                              <CommandList>
+                                <CommandEmpty>No courses found.</CommandEmpty>
+                                <CommandGroup>
+                                  {user.courses.map((course: string) => (
+                                    <Link
+                                      key={user._id + course}
+                                      href={`/course/${course}`}
+                                    >
+                                      <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
+                                        <p>{course}</p>
+                                      </CommandItem>
+                                    </Link>
+                                  ))}
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <footer className="footer-section">
+        <div className="container mx-auto text-center">
+          <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <a href="/" className="text-base hover:text-blue-600">
+              Home
+            </a>
+            <a href="/faq" className="text-base hover:text-blue-600">
+              FAQ
+            </a>
+            <a href="/aboutus" className="text-base hover:text-blue-600">
+              About
+            </a>
+            <a href="/resources" className="text-base hover:text-blue-600">
+              Resources
+            </a>
+          </div>
+          <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
+        </div>
+      </footer>
 
       {/* Write code for "Discover people in your major" */}
     </div>

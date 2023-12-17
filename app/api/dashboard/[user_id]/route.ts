@@ -9,8 +9,6 @@ export async function GET(
   try {
     const user_id = params?.params?.user_id
     const data = await getCanvasToDo(user_id)
-    console.log("data received in Dashbaord Next Route")
-    console.log(data)
     return NextResponse.json(data)
   } catch (e) {
     logger.error(e)

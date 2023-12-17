@@ -7,8 +7,6 @@ export const getCanvasToken = async (uid: string) => {
   const user = await users()
   const currentUser = await user.findOne({ _id: uid })
   const apiKey = decrypt(currentUser.apiKey_hashed)
-  console.log("gets canvas token")
-  console.log(apiKey)
   return apiKey.trim()
 }
 export const getCanvasToDo = async (uid: string) => {
