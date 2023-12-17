@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 async function seed() {
   try {
-    const filePath = "./lib/course_data_extracted.json" // Adjust the path based on your project structure
+    const filePath = "./course_data_extracted.json" // Adjust the path based on your project structure
     const rawData = await fs.readFileSync(filePath, "utf8")
     const seedData = JSON.parse(rawData)
     const db = await dbConnection()
@@ -56,6 +56,6 @@ export async function GET(request: NextRequest, response: NextResponse) {
   } catch (error: any) {
     const message = `Error handling request: ${error.message}`
     logger.error(message)
-    return NextResponse.json({ message, completed: true }, { status: 500 })
+    return NextResponse.json({ message, completed: false }, { status: 500 })
   }
 }
