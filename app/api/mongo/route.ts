@@ -4,7 +4,10 @@ import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection"
 import { courses as courseCollection } from "@/config/mongo/mongoCollections"
 import { users as userCollection } from "@/config/mongo/mongoCollections"
 import { NextRequest, NextResponse } from "next/server"
-const rawData = fs.readFileSync("./scripts/course_data_extracted.json", "utf8")
+const rawData = fs.readFileSync(
+  "./scripts/course_data_extracted_new.json",
+  "utf8"
+)
 const seedData = JSON.parse(rawData)
 
 async function seed() {

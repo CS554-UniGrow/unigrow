@@ -100,6 +100,7 @@ export type Course = {
   department_code: string
   department: string
   download_size: number
+  courses_rating: []
 }
 
 export type User = {
