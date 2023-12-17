@@ -197,11 +197,8 @@ async function extractSyllabusFromStudentCourseDetails(
                 responseType: "arraybuffer"
               })
               // let directoryPath = "./public/data/syllabus/";
-              let fileName =
-                (course.course_code + " " + course.term_taken_in).replace(
-                  " ",
-                  "_"
-                ) + ".pdf"
+              let fileName = course.course_code + " " + course.term_taken_in
+              fileName = fileName.replace(" ", "_") + ".pdf"
               const fileRef = ref(
                 storage,
                 `syllabus/${course.course_code.replace(" ", "_")}/${fileName}`
@@ -223,6 +220,7 @@ async function extractSyllabusFromStudentCourseDetails(
                 courseInMongo!.course_syllabus === undefined ||
                 courseInMongo!.course_syllabus === null
               ) {
+                console.log({ content_id: content_id })
                 const upload = await uploadBytes(fileRef, file, {
                   customMetadata: {
                     x_api_key: process.env.NEXT_API_SEED_SECRET as string
@@ -276,6 +274,8 @@ async function extractSyllabusFromStudentCourseDetails(
                 )
                 let courseInMongo_year_index = parseInt(courseInMongo_year)
                 if (course_year_index > courseInMongo_year_index) {
+                  console.log({ content_id: content_id })
+
                   const upload = await uploadBytes(fileRef, file, {
                     customMetadata: {
                       x_api_key: process.env.NEXT_API_SEED_SECRET as string
@@ -306,6 +306,8 @@ async function extractSyllabusFromStudentCourseDetails(
                   )
                 } else if (course_year_index === courseInMongo_year_index) {
                   if (course_semester_index > courseInMongo_semester_index) {
+                    console.log({ content_id: content_id })
+
                     const upload = await uploadBytes(fileRef, file, {
                       customMetadata: {
                         x_api_key: process.env.NEXT_API_SEED_SECRET as string
