@@ -30,14 +30,23 @@ async function seed() {
   // }
 }
 
-export async function POST(request: NextRequest, response: NextResponse) {
-  const apiKey = request.headers.get("x-api-key")
-  if (apiKey == process.env.NEXT_API_SEED_SECRET) {
+export async function GET(request: NextRequest, response: NextResponse) {
+  const apiKey = request.headers.get("Authorization")
+  if (apiKey == `Bearer ${process.env.NEXT_API_SEED_SECRET}`) {
     logger.info("Seeding data...")
     const message = await seed()
     logger.info(message)
-    return NextResponse.json({ message: message })
+    return NextResponse.json(
+      { message: message, completed: true },
+      { status: 200 }
+    )
   } else {
-    return NextResponse.json({ message: "Invalid API key" })
+    return NextResponse.json(
+      {
+        message: "Invalid API key",
+        completed: true
+      },
+      { status: 403 }
+    )
   }
 }
