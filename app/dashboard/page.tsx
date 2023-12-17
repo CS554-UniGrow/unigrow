@@ -261,7 +261,7 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="text-center text-xl">
-            We couldn't find people in your major.
+            We couldn&apos;t find people in your major.
           </div>
         )}
       </section>
