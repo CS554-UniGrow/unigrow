@@ -7,7 +7,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion"
 import { courseList, departmentMapper } from "@/lib/constants"
-
+import Rating from "@/components/Rating"
 import { Button } from "@/components/ui/button"
 import { Course, UserProfile } from "@/lib/types"
 import { getCourseById } from "@/app/courses/data"
@@ -234,6 +234,10 @@ const CourseById = () => {
                     <Button>View on Website</Button>
                   </a>
                 </div>
+                <Rating
+                  courseId={data?._id}
+                  courseCode={data?.course_code}
+                ></Rating>
               </div>
             </AccordionContent>
           </AccordionItem>

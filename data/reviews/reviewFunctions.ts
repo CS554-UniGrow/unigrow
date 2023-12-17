@@ -191,6 +191,8 @@ const updateReview = async (
   //     (review: any) => review.user_id === userId
   //   )
   updateOverallRating(courseId)
+
+  return updatedInfo
 }
 
 export { createReview, updateReview, findReviewByUIDAndCourseID }

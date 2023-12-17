@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react"
 import RatingStars from "react-rating-stars-component"
 import { useSession } from "next-auth/react"
-import { Button } from "./ui/button"
+import { Button } from "@/components/ui/button"
 
 const Rating = ({ courseId, courseCode }: any) => {
   const { data: session }: any = useSession()
@@ -18,6 +18,7 @@ const Rating = ({ courseId, courseCode }: any) => {
     setRating(newRating)
     setSliderUpdated(true)
     await updateRatingInDatabase(user_mongo_id, courseId, newRating, courseCode)
+    setChangeRating(false)
   }
 
   const handleUpdateSlider = async (newRating: number) => {
@@ -84,7 +85,11 @@ const Rating = ({ courseId, courseCode }: any) => {
   }
 
   const handleChangeRating = () => {
-    setChangeRating(true)
+    if (changeRating === true) {
+      setChangeRating(false)
+    } else {
+      setChangeRating(true)
+    }
   }
 
   // useEffect(() => {
@@ -143,18 +148,21 @@ const Rating = ({ courseId, courseCode }: any) => {
     }
 
     fetchCurrentReview(courseId)
-  }, [courseId])
+  }, [courseId, sliderUpdated])
 
   return (
-    <div className="flex justify-center">
+    <div className="col-1 text-center">
       {prevReview.length > 0 ? (
         <>
-          <p>Current Rating: {prevReview[0]?.rating}</p>
-          <Button onClick={() => setChangeRating(true)}>Change Rating</Button>
-
+          <Button className="mx-36 mt-5" onClick={handleChangeRating}>
+            Change Rating
+          </Button>
+          <p className="mx-10 my-3 font-bold">
+            Current Rating given: {prevReview[0]?.rating}
+          </p>
           {changeRating && (
-            <>
-              <h2>Change Course Rating</h2>
+            <div className="">
+              <h2 className="my-2">Change Course Rating</h2>
               <RatingStars
                 value={0}
                 count={5}
@@ -162,12 +170,12 @@ const Rating = ({ courseId, courseCode }: any) => {
                 size={30}
                 activeColor="#ffd700"
               />
-            </>
+            </div>
           )}
         </>
       ) : (
         <>
-          <h2>Leave a course Rating</h2>
+          <h2 className="mx-10 my-3 font-bold">Leave a course Rating</h2>
           <RatingStars
             value={0}
             count={5}
