@@ -1,5 +1,5 @@
 import logger from "@/lib/logger"
-import fs from "fs/promises"
+import fs from "fs"
 import { dbConnection, closeConnection } from "@/config/mongo/mongoConnection"
 import {
   courses as courseCollection,
@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from "next/server"
 async function seed() {
   try {
     const filePath = "./lib/course_data_extracted.json" // Adjust the path based on your project structure
-    const rawData = await fs.readFile(filePath, "utf8")
+    const rawData = await fs.readFileSync(filePath, "utf8")
     const seedData = JSON.parse(rawData)
     const db = await dbConnection()
     logger.info("Connected to the database.")
@@ -29,10 +29,11 @@ async function seed() {
     const message = `Error seeding data: ${error.message}`
     logger.error(message)
     throw new Error(message) // Rethrow the error to be caught by the caller
-  } finally {
-    await closeConnection()
-    logger.info("Database connection closed.")
   }
+  // finally {
+  //   await closeConnection()
+  //   logger.info("Database connection closed.")
+  // }
 }
 
 export async function GET(request: NextRequest, response: NextResponse) {
