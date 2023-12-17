@@ -225,7 +225,7 @@ async function extractSyllabusFromStudentCourseDetails(
               ) {
                 const upload = await uploadBytes(fileRef, file, {
                   customMetadata: {
-                    x_api_key: process.env.NEXT_API_SEED_SECRET!
+                    x_api_key: process.env.NEXT_API_SEED_SECRET as string
                   },
                   contentType: "application/pdf"
                 })
@@ -278,7 +278,7 @@ async function extractSyllabusFromStudentCourseDetails(
                 if (course_year_index > courseInMongo_year_index) {
                   const upload = await uploadBytes(fileRef, file, {
                     customMetadata: {
-                      x_api_key: process.env.NEXT_API_SEED_SECRET!
+                      x_api_key: process.env.NEXT_API_SEED_SECRET as string
                     },
                     contentType: "application/pdf"
                   })
@@ -308,7 +308,7 @@ async function extractSyllabusFromStudentCourseDetails(
                   if (course_semester_index > courseInMongo_semester_index) {
                     const upload = await uploadBytes(fileRef, file, {
                       customMetadata: {
-                        x_api_key: process.env.NEXT_API_SEED_SECRET!
+                        x_api_key: process.env.NEXT_API_SEED_SECRET as string
                       },
                       contentType: "application/pdf"
                     })
