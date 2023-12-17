@@ -43,7 +43,7 @@
     "crypto": "^1.0.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
-    "firebase": "^10.5.2",
+    "firebase": "^10.6.0",
     "lucide-react": "^0.295.0",
     "mongodb": "^6.2.0",
     "nanoid": "^5.0.4",
