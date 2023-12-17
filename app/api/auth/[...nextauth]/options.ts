@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google"
 import { users } from "@/config/mongo/mongoCollections"
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter"
 import { db } from "@/lib/db"
-import { v4 as uuid } from "uuid"
 
 export const options: NextAuthOptions = {
   adapter: UpstashRedisAdapter(db),
