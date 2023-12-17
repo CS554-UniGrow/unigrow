@@ -1,3 +1,5 @@
+// To do, users should only be able to rate courses they have in their list
+
 "use client"
 import React, { useEffect, useState } from "react"
 import RatingStars from "react-rating-stars-component"
