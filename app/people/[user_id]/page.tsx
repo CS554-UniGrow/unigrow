@@ -25,6 +25,8 @@ import { addFriendValidator } from "@/lib/validations/add-friend"
 import axios from "axios"
 import { chatHrefConstructor } from "@/lib/utils"
 
+import AddFriendButton from "@/components/AddFriendButton"
+
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
   const [error, setError] = useState(null)
@@ -51,7 +53,6 @@ function useFetchPerson(user_id: string) {
 }
 
 const User_Profile = () => {
-  const [isRequestSent, setIsRequestSent] = useState(false)
   const { data: session, status }: any = useSession()
   if (!session?.user?.isAuthenticated) {
     redirect("/signup")
@@ -71,61 +72,6 @@ const User_Profile = () => {
 
   if (loading) {
     return <Loading />
-  }
-
-  const addFriendRequest = async (email: string) => {
-    try {
-      addFriendValidator.parse({ email })
-      const response = await axios.post("/api/friends/add", {
-        email: { email }
-      })
-      if (response?.data?.ok === "OK") {
-        toast.success("Friend request sent!")
-        setIsRequestSent(true)
-      }
-    } catch (error: any) {
-      toast.error(error?.response?.data)
-    }
-  }
-
-  const handleAddFriend = async () => {
-    addFriendRequest(data?.primary_email)
-  }
-
-  const addFriendButton = () => {
-    if (data?.isSelf) {
-      return null
-    } else if (data?.isAlreadyFriends) {
-      return (
-        <Link
-          href={`/chat/newChat/${chatHrefConstructor(
-            session.user._id,
-            user_id as string
-          )}`}
-        >
-          <Button>
-            Chat with {"  "}
-            <span className="mx-2 font-bold">
-              @{data?.primary_email?.split("@")[0]}
-            </span>
-          </Button>
-        </Link>
-      )
-    } else if (data?.isAlreadyAdded) {
-      return <Button disabled>Chat request sent</Button>
-    } else {
-      return isRequestSent ? (
-        <Button disabled>Chat request sent</Button>
-      ) : (
-        <Button onClick={handleAddFriend}>
-          Add {"  "}
-          <span className="mx-2 font-bold">
-            @{data?.primary_email?.split("@")[0]}
-          </span>
-          to chat
-        </Button>
-      )
-    }
   }
 
   return (
@@ -151,8 +97,6 @@ const User_Profile = () => {
 
           {!data?.isSelf && (
             <div className={`grid grid-cols-1 gap-2 md:grid-cols-2`}>
-              {/* email logo */}
-
               <Button
                 onClick={() => {
                   window.location.href = `mailto:${data?.primary_email}`
@@ -160,7 +104,13 @@ const User_Profile = () => {
               >
                 <Mail className="mr-2 h-4 w-4" /> {data?.primary_email}
               </Button>
-              {addFriendButton()}
+              <AddFriendButton
+                email={data?.primary_email}
+                isSelf={data?.isSelf}
+                isAlreadyAdded={data?.isAlreadyAdded}
+                isAlreadyFriends={data?.isAlreadyFriends}
+                userId={user_id as string}
+              />
             </div>
           )}
 

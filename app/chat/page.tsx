@@ -33,13 +33,11 @@ const page = async ({}) => {
     })
   )
 
-  console.log(friendsWithLastMessage)
-
   return (
-    <div className="container py-12">
+    <div className="container">
       <h1 className="mb-8 text-5xl font-bold">Recent chats</h1>
       {friendsWithLastMessage.length === 0 ? (
-        <p className="text-sm text-zinc-500">Nothing to show here...</p>
+        <p className="text-lg">Nothing to show here...</p>
       ) : (
         friendsWithLastMessage.map((friend) => (
           <div
@@ -47,7 +45,7 @@ const page = async ({}) => {
             className="relative rounded-md border border-zinc-200 bg-zinc-50 p-3"
           >
             <div className="absolute inset-y-0 right-4 flex items-center">
-              <ChevronRight className="h-7 w-7 text-zinc-400" />
+              <ChevronRight className="h-7 w-7" />
             </div>
 
             <Link

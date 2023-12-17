@@ -1,81 +1,88 @@
 "use client"
 
+import { chatHrefConstructor } from "@/lib/utils"
 import { addFriendValidator } from "@/lib/validations/add-friend"
-import axios, { AxiosError } from "axios"
-import { FC, useState } from "react"
-import Button from "./ui/Button_2"
-import { z } from "zod"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
+import Link from "next/link"
+import { useState } from "react"
+import toast from "react-hot-toast"
+import { Button } from "./ui/button"
+import { useSession } from "next-auth/react"
 
-interface AddFriendButtonProps {}
+type AddFriendButtonProps = {
+  email: string
+  isSelf: boolean
+  isAlreadyAdded: boolean
+  isAlreadyFriends: boolean
+  userId: string
+}
 
-type FormData = z.infer<typeof addFriendValidator>
+const AddFriendButton = ({
+  email,
+  isSelf,
+  isAlreadyAdded,
+  isAlreadyFriends,
+  userId
+}: AddFriendButtonProps) => {
+  const { data: session } = useSession()
+  const [isRequestSent, setIsRequestSent] = useState(isAlreadyAdded) // Initialize with isAlreadyAdded
+  const [isClicked, setIsClicked] = useState(isAlreadyAdded) // Initialize with isAlreadyAdded
 
-const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
-  const [showSuccessState, setShowSuccessState] = useState<boolean>(false)
-
-  const {
-    register,
-    handleSubmit,
-    setError,
-    formState: { errors }
-  } = useForm<FormData>({
-    resolver: zodResolver(addFriendValidator)
-  })
-
-  const addFriend = async (email: string) => {
+  const addFriendRequest = async (email: string) => {
     try {
       const validatedEmail = addFriendValidator.parse({ email })
-
-      await axios.post("/api/friends/add", {
-        email: validatedEmail
+      const response = await axios.post("/api/friends/add", {
+        email: validatedEmail // Corrected payload format
       })
-
-      setShowSuccessState(true)
+      if (response?.data?.ok === "OK") {
+        toast.success("Friend request sent!")
+      }
+      setIsRequestSent(true)
     } catch (error) {
-      if (error instanceof z.ZodError) {
-        setError("email", { message: error.message })
-        return
-      }
-
-      if (error instanceof AxiosError) {
-        setError("email", { message: error.response?.data })
-        return
-      }
-
-      setError("email", { message: "Something went wrong." })
+      toast.error(error?.response?.data || "An error occurred")
     }
   }
 
-  const onSubmit = (data: FormData) => {
-    addFriend(data.email)
+  const handleAddFriend = () => {
+    if (!isRequestSent) {
+      addFriendRequest(email)
+    }
   }
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm">
-      <label
-        htmlFor="email"
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
-        Add friend by E-Mail
-      </label>
+  const renderButton = () => {
+    if (isSelf) {
+      return null
+    } else if (isAlreadyFriends) {
+      return (
+        <Link
+          className="cursor-pointer"
+          href={`/chat/newChat/${chatHrefConstructor(
+            session?.user?._id,
+            userId
+          )}`}
+        >
+          <Button>
+            Chat with{" "}
+            <span className="mx-2 font-bold">@{email?.split("@")[0]}</span>
+          </Button>
+        </Link>
+      )
+    } else {
+      return (
+        <Button
+          className="cursor-pointer"
+          onClick={handleAddFriend}
+          disabled={isRequestSent}
+        >
+          {isRequestSent
+            ? "Chat request sent"
+            : `Add @${email?.split("@")[0]} to chat`}
+        </Button>
+      )
+    }
+  }
 
-      <div className="mt-2 flex gap-4">
-        <input
-          {...register("email")}
-          type="text"
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          placeholder="you@example.com"
-        />
-        <Button>Add</Button>
-      </div>
-      <p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>
-      {showSuccessState ? (
-        <p className="mt-1 text-sm text-green-600">Friend request sent!</p>
-      ) : null}
-    </form>
-  )
+  return renderButton()
 }
 
 export default AddFriendButton

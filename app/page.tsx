@@ -8,14 +8,17 @@ import { getServerSession } from "next-auth"
 
 export default async function Home() {
   const session: any = await getServerSession(options)
-  if (session?.user?.isAuthenticated) {
-    redirect("/dashboard")
-  }
+
+  // if (session?.user?.isOnboarded) {
+  //   redirect("/dashboard")
+  // }
+
+  // if (session?.user?.isAuthenticated) {
+  //   redirect("/onboarding")
+  // }
 
   return (
     <div>
-      {/* Hero Section */}
-
       <section className="hero-section container mx-auto py-24 text-center">
         <h1 className="mb-12 text-5xl font-bold">
           Empowering Your Academic Journey
