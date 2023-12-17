@@ -34,49 +34,35 @@ async function findReviewByUIDAndCourseID(userId: string, courseId: string) {
 }
 
 async function updateOverallRating(courseId: string) {
-  // calculate overallRating and updating overallRating key
+  // Access the courses collection
   const courses = await courseCollection()
-  const result = await courses
-    .aggregate([
-      { $match: { _id: courseId } },
-      {
-        $addFields: {
-          averageRating: {
-            $avg: "$course_ratings.rating"
-          }
-        }
-      },
-      {
-        $set: {
-          course_rating: { $ifNull: ["$averageRating", 0] }
-        }
-      },
-      { $project: { reviews: 0 } } // optional: exclude reviews from response
-    ])
-    .toArray()
 
-  if (result.length > 0) {
-    // Get the updated document
-    const updatedDocument = result[0]
-    console.log(result)
-    // Update the document in the collection
-    await courses.updateOne(
-      { _id: courseId },
-      { $set: { course_rating: updatedDocument.course_rating } }
-    )
+  // Find the document by courseId
+  const result = await courses.findOne({ _id: courseId })
+
+  if (!result) {
+    console.error("Course not found")
+    return
   }
 
-  if (result.length > 0) {
-    // Get the updated document
-    const updatedDocument = result[0]
+  // Extract ratings from course_ratings
+  const ratings = result.course_ratings.map((review: any) => review.rating)
 
-    // Update the document in the collection
-    await courses.updateOne(
-      { _id: courseId },
-      { $set: { overallCourseRating: updatedDocument.overallCourseRating } }
-    )
+  if (ratings.length === 0) {
+    console.error("No ratings available for the course")
+    return
   }
+
+  // Calculate average rating
+  const sum = ratings.reduce((acc: any, rating: any) => acc + rating, 0)
+  const avg = sum / ratings.length
+
+  console.log("Average Rating:", avg)
+
+  // Update the document in the collection with the average rating
+  await courses.updateOne({ _id: courseId }, { $set: { course_rating: avg } })
 }
+
 const createReview = async (
   courseId: string,
   userId: string,
@@ -124,9 +110,11 @@ const createReview = async (
     { returnDocument: "after" } // Return the updated document
   )
 
-  if (!updatedInfo.value) {
-    throw new Error("Could not add review")
-  }
+  //   if (!updatedInfo.value) {
+  //     throw new Error("Could not add review")
+  //   }
+
+  updateOverallRating(courseId)
 
   return newReview
 }
@@ -195,13 +183,14 @@ const updateReview = async (
     { returnDocument: "after" } // Return the updated document
   )
 
-  if (!updatedInfo.value) {
-    throw new Error("Could not update review")
-  }
+  //   if (!updatedInfo.value) {
+  //     throw new Error("Could not update review")
+  //   }
 
-  return updatedInfo.value.course_ratings.find(
-    (review: any) => review.user_id === userId
-  )
+  //   return updatedInfo.value.course_ratings.find(
+  //     (review: any) => review.user_id === userId
+  //   )
+  updateOverallRating(courseId)
 }
 
 export { createReview, updateReview, findReviewByUIDAndCourseID }
