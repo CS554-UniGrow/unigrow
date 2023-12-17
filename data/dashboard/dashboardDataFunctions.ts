@@ -18,12 +18,12 @@ export const getCanvasToDo = async (uid: string) => {
         Authorization: "Bearer " + token
       }
     })
-    console.log(response.status)
+    logger.info(response.status)
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
-      console.error("Axios Error:", axiosError.message)
+      logger.error("Axios Error:", axiosError.message)
       throw axiosError
     } else {
       throw new Error("An error occurred while fetching data")
