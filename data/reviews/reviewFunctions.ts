@@ -30,7 +30,6 @@ async function findReviewByUIDAndCourseID(userId: string, courseId: string) {
     .toArray()
 
   // Return the matching review(s)
-  console.log(reviews)
   return reviews
 }
 
