@@ -1,18 +1,19 @@
 import React from "react"
-import loadingLogo from "@/public/loading.png"
+import loadingLogo from "@/public/loading.gif"
 import Image from "next/image"
+
 const Loading = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-50">
-      <div className="flex items-center space-x-1 rounded-lg bg-gray-700 p-4 shadow-lg">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+      <div className="flex flex-col items-center space-y-2 rounded-lg bg-white p-4 shadow-lg">
         <Image
-          className="animate-spin"
           width={100}
           height={100}
           alt="Loading..."
           src={loadingLogo}
+          unoptimized={true}
         />
-        <p className="text-white">
+        <p className="text-gray-800">
           Loading... Please do not refresh or go back
         </p>
       </div>

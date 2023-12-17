@@ -25,7 +25,7 @@ import { useSession } from "next-auth/react"
 import { checkCanvasToken, handleSubmitAction } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import Loading from "./ui/loading"
+import Loading from "@/components/ui/loading"
 
 import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas"
 

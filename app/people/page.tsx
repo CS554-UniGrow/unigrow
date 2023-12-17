@@ -61,6 +61,7 @@ function useFetchPeople() {
 const People = () => {
   const { data, error, loading } = useFetchPeople()
   const [searchQuery, setSearchQuery] = useState("")
+
   if (error) {
     return <div>Error</div>
   }
