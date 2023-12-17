@@ -122,7 +122,7 @@ const Dashboard = () => {
   if (error || todoError || peopleError) {
     return <div>Error</div>
   }
-  if (loading && todoLoading && peopleLoading) {
+  if (loading || todoLoading || peopleLoading) {
     return <Loading />
   }
   return (
