@@ -5,14 +5,16 @@ import { ThemeProvider } from "@/components/theme-provider"
 import AuthProvider from "@/context/AuthProvider"
 import NextTopLoader from "nextjs-toploader"
 
+import { getServerSession } from "next-auth"
+import { options } from "./api/auth/[...nextauth]/options"
+import { Toaster } from "react-hot-toast"
+
+// add cron job here to call /test
+
 export const metadata: Metadata = {
   title: "Unigrow",
   description: "Stevens University Portal"
 }
-
-import { getServerSession } from "next-auth"
-import { options } from "./api/auth/[...nextauth]/options"
-import { Toaster } from "react-hot-toast"
 
 export default async function RootLayout({
   children
