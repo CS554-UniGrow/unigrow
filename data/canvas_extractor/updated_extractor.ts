@@ -190,7 +190,7 @@ async function processCourse(course: any, apiKey: string) {
   }
 }
 
-async function extractSyllabusFromStudentCourseDetails(
+export async function extractSyllabusFromStudentCourseDetails(
   apiKey: string,
   updatedCoursesToExtractSyllabus: any
 ) {
