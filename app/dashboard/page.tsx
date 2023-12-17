@@ -108,9 +108,9 @@ function useFetchPeople() {
 
 const Dashboard = () => {
   const { data: session, status }: any = useSession()
-  const user = session.user
+  const user = session?.user
 
-  const user_id = user._id
+  const user_id = user?._id
   const { peopleData, peopleError, peopleLoading } = useFetchPeople()
   const { data, error, loading } = useFetchPerson(user_id as string)
   const { todoData, todoError, todoLoading } = useFetchTodo(user_id as string)
@@ -122,7 +122,7 @@ const Dashboard = () => {
   if (error || todoError || peopleError) {
     return <div>Error</div>
   }
-  if (loading && todoLoading && peopleLoading) {
+  if (loading || todoLoading || peopleLoading) {
     return <Loading />
   }
   return (
