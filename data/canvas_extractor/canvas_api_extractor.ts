@@ -95,7 +95,7 @@ async function getUserProfileDetails({
     apiKey_hashed: apiKey_hashed,
     isOnboarded: true,
     refreshToken: refreshToken,
-    joining_term_complete: joining_term_complete.replace(" Semester"),
+    joining_term_complete: joining_term_complete.replace(" Semester", ""),
     joining_year: joining_term_complete.split(" ")[0],
     joining_semester: joining_term_complete.split(" ")[1]
   }
