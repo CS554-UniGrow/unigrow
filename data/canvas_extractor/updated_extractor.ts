@@ -105,11 +105,11 @@ async function downloadAndStoreSyllabus(
       courseInMongo.course_syllabus !== undefined &&
       courseInMongo.course_syllabus !== ""
 
-    // fileResponse.data.filename.toLowerCase().includes("syllabus") ||
-    // fileResponse.data.display_name.toLowerCase().includes("syllabus")
+    // fileResponse.data.filename?.toLowerCase().includes("syllabus") ||
+    // fileResponse.data.display_name?.toLowerCase().includes("syllabus")
     if (
-      fileResponse.filename.toLowerCase().includes("syllabus") ||
-      fileResponse.display_name.toLowerCase().includes("syllabus")
+      fileResponse.filename?.toLowerCase().includes("syllabus") ||
+      fileResponse.display_name?.toLowerCase().includes("syllabus")
     ) {
       if (!hasSyllabus) {
         await uploadAndUpdateSyllabus(

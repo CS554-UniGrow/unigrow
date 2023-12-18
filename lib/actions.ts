@@ -10,6 +10,7 @@ import { API } from "./constants"
 
 import axios, { Axios, AxiosError } from "axios"
 import { addFriendValidator } from "./validations/add-friend"
+import { ZodError, ZodIssue } from "zod"
 
 export const checkCanvasToken = async (token: string) => {
   const response = await fetch(
@@ -33,9 +34,18 @@ export const handleSubmitAction = async (
   })
 
   if (data) {
+    let isJoiningTermValid = joiningTerm === data?.joining_term_complete
+    if (!isJoiningTermValid) {
+      return {
+        message: "Joining Term invalid",
+        path: ["joiningTerm"],
+        status: 400
+      }
+    }
+
     const usersCollection = await users()
     const userExists = await usersCollection.findOne({ _id: uid })
-    if (userExists) {
+    if (userExists && data.login_id.trim() === userExists.login_id.trim()) {
       const updateInfo = await usersCollection.updateOne(
         { _id: uid },
         {
@@ -48,10 +58,23 @@ export const handleSubmitAction = async (
         }
       )
       if (updateInfo.modifiedCount === 0) {
-        throw "Could not update user"
+        return {
+          message: "Could not update user",
+          path: ["root"],
+          status: 500
+        }
+
+        // throw "Could not update user"
       }
     }
     return data
+  } else {
+    return {
+      message: "User Does Not Exist",
+      path: ["root"],
+      status: 500
+    }
+    // throw "User Does Not Exist"
   }
 }
 

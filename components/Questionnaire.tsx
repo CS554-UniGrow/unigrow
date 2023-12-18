@@ -18,7 +18,7 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form"
-import { departmentList, joiningTerms } from "@/lib/constants"
+import { departmentList } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -30,6 +30,8 @@ import React, { useState, ReactNode } from "react"
 import Loading from "@/components/ui/loading"
 
 import { questionnaireFormSchema, TQuestionnaire } from "@/lib/schemas"
+import { ZodError } from "zod"
+import { generateJoiningTerms } from "@/lib/utils"
 
 interface FaqItemProps {
   question: string
@@ -62,6 +64,10 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
 }
 
 const Questionnaire = () => {
+  // use semesters and year can only be current year -3 or current year + 3 (inclusive)
+  // joining terms needs to be dynamic
+  const joiningTerms = generateJoiningTerms()
+
   const { data: session, status, update }: any = useSession()
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -77,6 +83,7 @@ const Questionnaire = () => {
 
   const onSubmit = async (values: TQuestionnaire) => {
     setIsLoading(true)
+
     try {
       const isTokenValid = await checkCanvasToken(values.canvasToken)
 
@@ -85,21 +92,30 @@ const Questionnaire = () => {
           type: "manual",
           message: "Seems like you have entered an invalid token."
         })
-        setIsLoading(false)
-        return
+        return // No need to continue if token is not valid
       }
-      // values.canvasToken = encrypt(values.canvasToken);
+
       const result = await handleSubmitAction(
         values,
         session?.user._id,
         session?.user?.refreshToken
       )
-      await update({ isOnboarded: true, avatar_url: result?.avatar_url })
+      if (result.message && result.status && result.path) {
+        form.setError(result.path.join("."), {
+          type: "manual",
+          message: result.message
+        })
+        return new Response("Invalid request payload", {
+          status: result.status
+        })
+      }
 
-      setIsLoading(false)
+      await update({ isOnboarded: true, avatar_url: result?.avatar_url })
       router.push("/dashboard")
     } catch (e) {
-      setIsLoading(false)
+      // Handle errors
+    } finally {
+      setIsLoading(false) // Ensure this gets called in all scenarios
     }
   }
 

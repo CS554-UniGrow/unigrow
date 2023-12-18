@@ -58,3 +58,7 @@ export type UserWithAuth = User & {
   isAuthenticated: boolean
   lastSignedIn: string
 }
+export interface JoiningTerm {
+  term: string
+  value: string
+}
