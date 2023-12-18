@@ -14,7 +14,7 @@ import {
 
 import { ThemeToggle } from "./theme-toggle"
 import ProfileDropdown from "@/components/profileDropdown"
-import Image from "next/image"
+import logo from "@/public/loading_trans.gif"
 
 const navLinks = [
   { title: "Dashboard", path: "/dashboard", checkAuth: true },
@@ -32,6 +32,7 @@ const navLinks = [
 ]
 
 import { useSession } from "next-auth/react"
+import RoundImage from "@/components/ui/round_image"
 
 export default function Nav() {
   const { data: session }: any = useSession()
@@ -50,12 +51,11 @@ export default function Nav() {
                     : "/"
               }
             >
-              <Image
-                src={"loading.gif"}
-                unoptimized={true}
-                width={100}
-                height={100}
-                className="h-10 w-10"
+              <RoundImage
+                bg="bg-white"
+                src={logo.src}
+                width={10}
+                height={10}
                 alt="Unigrow"
               />
             </Link>
@@ -86,11 +86,22 @@ export default function Nav() {
             }
           })}
         </NavigationMenuList>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <ProfileDropdown />
-          </NavigationMenuItem>
-        </NavigationMenuList>
+
+        <div className="flex items-center space-x-4">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <div className="inline-block overflow-hidden rounded-full">
+                <ThemeToggle />
+              </div>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <ProfileDropdown />
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </div>
       </>
     </NavigationMenu>
   )

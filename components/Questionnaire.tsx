@@ -62,8 +62,17 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
     </div>
   )
 }
+interface QuestionnaireProps {
+  major?: string | undefined | null
+  joiningTerm?: string | undefined | null
+  manual?: boolean
+}
 
-const Questionnaire = () => {
+const Questionnaire = ({
+  major = null,
+  joiningTerm = null,
+  manual = false
+}: QuestionnaireProps) => {
   // use semesters and year can only be current year -3 or current year + 3 (inclusive)
   // joining terms needs to be dynamic
   const joiningTerms = generateJoiningTerms()
@@ -75,8 +84,8 @@ const Questionnaire = () => {
   const form = useForm<TQuestionnaire>({
     resolver: zodResolver(questionnaireFormSchema),
     defaultValues: {
-      major: "",
-      joiningTerm: "",
+      major: major ?? "",
+      joiningTerm: joiningTerm ?? "",
       canvasToken: ""
     }
   })
@@ -98,7 +107,8 @@ const Questionnaire = () => {
       const result = await handleSubmitAction(
         values,
         session?.user._id,
-        session?.user?.refreshToken
+        session?.user?.refreshToken,
+        manual
       )
       if (result.message && result.status && result.path) {
         form.setError(result.path.join("."), {
@@ -117,6 +127,9 @@ const Questionnaire = () => {
     } finally {
       setIsLoading(false) // Ensure this gets called in all scenarios
     }
+  }
+  if (true) {
+    return <Loading />
   }
 
   return (
@@ -137,6 +150,7 @@ const Questionnaire = () => {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={manual}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Major" />
@@ -167,6 +181,7 @@ const Questionnaire = () => {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={manual}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Joining Term" />

@@ -76,8 +76,14 @@ const User_Profile = () => {
   }
 
   return (
-    <div className="container mt-20">
-      <div className="relative mx-auto max-w-xl  rounded-lg border p-8 shadow lg:p-20">
+    <div
+      className={
+        data?.isSelf
+          ? "container mt-20 grid grid-cols-2 gap-6"
+          : "container mt-20"
+      }
+    >
+      <div className="relative mx-auto max-w-xl justify-items-center rounded-lg border p-8 shadow lg:p-20">
         <div className="flex justify-center">
           <Image
             width={100}
@@ -137,12 +143,13 @@ const User_Profile = () => {
         </div>
       </div>
 
-      {/* <Questionnaire
-      // user_id={user_id}
-      // isSelf={data?.isSelf}
-      // isAlreadyAdded={data?.isAlreadyAdded}
-      // isAlreadyFriends={data?.isAlreadyFriends}
-      /> */}
+      {data?.isSelf && (
+        <Questionnaire
+          major={data?.major}
+          joiningTerm={data?.joiningTerm}
+          manual={true}
+        />
+      )}
     </div>
   )
 }
