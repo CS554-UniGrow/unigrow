@@ -9,13 +9,13 @@ import { getServerSession } from "next-auth"
 export default async function Home() {
   const session: any = await getServerSession(options)
 
-  if (session?.user?.isAuthenticated && !session?.user?.isOnboarded) {
-    return redirect("/onboarding")
-  }
+  // if (session?.user?.isAuthenticated && !session?.user?.isOnboarded) {
+  //   return redirect("/onboarding")
+  // }
 
-  if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
-    return redirect("/dashboard")
-  }
+  // if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
+  //   return redirect("/dashboard")
+  // }
 
   return (
     <div>
