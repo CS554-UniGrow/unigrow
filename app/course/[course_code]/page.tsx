@@ -42,12 +42,41 @@ function useFetchCourse(course_code: string) {
   return { data, error, loading }
 }
 
+function fetchUserData(userId: string) {
+  const [userData, setUserData] = useState({} as any)
+  const [userError, setUserError] = useState(null)
+  const [userLoading, setUserLoading] = useState(false)
+  const { data: session, status }: any = useSession()
+  const user_id = session?.user?._id
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setUserLoading(true)
+      await fetch(`/api/people/${user_id}`)
+        .then((res) => res.json())
+        .then((data: any) => {
+          setUserData(data)
+          setUserLoading(false)
+        })
+        .catch((error) => {
+          setUserError(error)
+          setUserLoading(false)
+        })
+    }
+    fetchUserData()
+  }, [user_id])
+
+  return { userData, userError, userLoading }
+}
+
 const CourseById = () => {
   const params = useParams()
   const { data: session, status }: any = useSession()
   const course_code = params.course_code as string
 
   const { data, error, loading } = useFetchCourse(course_code as string)
+  const { userData, userError, userLoading } = fetchUserData(
+    session?.user?._id as string
+  )
 
   if (!session?.user?.isAuthenticated) {
     redirect("/signup")
@@ -67,6 +96,7 @@ const CourseById = () => {
   if (courseList[decodeURI(course_code)] == undefined) {
     notFound()
   }
+
   return (
     <div className="mx-auto max-w-4xl">
       {
@@ -133,13 +163,20 @@ const CourseById = () => {
                       )}
                     </dd>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <div className="sm:grid-cols-2 sm:gap-4">
                     <dt className="text-sm font-medium leading-6 ">
                       Course Rating
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                       {data?.course_rating || 0} / 5
                     </dd>
+                    {userData?.courses &&
+                    userData.courses.includes(data.course_code) ? (
+                      <ReviewRating
+                        courseId={data._id}
+                        courseCode={data.course_code}
+                      />
+                    ) : null}
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">
@@ -234,10 +271,13 @@ const CourseById = () => {
                     <Button>View on Website</Button>
                   </a>
                 </div>
-                <ReviewRating
-                  courseId={data?._id}
-                  courseCode={data?.course_code}
-                ></ReviewRating>
+                {/* {userData?.courses(
+                  (userCourse: any) => userCourse === data.course_code
+                ) ? ( */}
+
+                {/* ) : (
+                  ""
+                )} */}
               </div>
             </AccordionContent>
           </AccordionItem>

@@ -2,10 +2,10 @@
 
 "use client"
 import React, { useEffect, useState } from "react"
-import RatingStars from "react-rating-stars-component"
+//import RatingStars from "react-rating-stars-component"
 import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
-//import { Rating } from "@smastrom/react-rating"
+import { Rating } from "@smastrom/react-rating"
 import "@smastrom/react-rating/style.css"
 
 const ReviewRating = ({ courseId, courseCode }: any) => {
@@ -128,12 +128,12 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
           {changeRating && (
             <div className="">
               <h2 className="my-2">Change Course Rating</h2>
-              <RatingStars
+              <Rating
                 value={0}
-                count={5}
+                //count={5}
                 onChange={handleUpdateSlider}
-                size={30}
-                activeColor="#ffd700"
+                style={{ maxWidth: 300 }}
+                className="mx-auto h-12"
               />
             </div>
           )}
@@ -141,12 +141,13 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
       ) : (
         <>
           <h2 className="mx-10 my-3 font-bold">Leave a course Rating</h2>
-          <RatingStars
+          <Rating
             value={0}
-            count={5}
+            //count={5}
             onChange={handleSliderChange}
-            size={30}
-            activeColor="#ffd700"
+            style={{ maxWidth: 300 }}
+            //activeColor="#ffd700"
+            className="mx-auto h-12"
           />
           <p>Current Rating: {rating}</p>
         </>
