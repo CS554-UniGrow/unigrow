@@ -14,13 +14,11 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
   const [sliderUpdated, setSliderUpdated] = useState(false)
   const user_mongo_id = session?.user._id
   const [prevReview, setPrevReview]: any = useState([])
-  const [changeRating, setChangeRating]: any = useState(false)
 
   const handleSliderChange = async (newRating: number) => {
     setRating(newRating)
     setSliderUpdated(true)
     await updateRatingInDatabase(user_mongo_id, courseId, newRating, courseCode)
-    setChangeRating(false)
   }
 
   const handleUpdateSlider = async (newRating: number) => {
@@ -86,14 +84,6 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
     }
   }
 
-  const handleChangeRating = () => {
-    if (changeRating === true) {
-      setChangeRating(false)
-    } else {
-      setChangeRating(true)
-    }
-  }
-
   useEffect(() => {
     const fetchCurrentReview = async (courseId: string) => {
       try {
@@ -119,37 +109,28 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
     <div className="col-1 text-center">
       {prevReview.length > 0 ? (
         <>
-          <Button className="mx-36 mt-5" onClick={handleChangeRating}>
-            Change Rating
-          </Button>
-          <p className="mx-10 my-3 font-bold">
-            Current Rating given: {prevReview[0]?.rating}
-          </p>
-          {changeRating && (
+          {
             <div className="">
-              <h2 className="my-2">Change Course Rating</h2>
               <Rating
-                value={0}
+                value={prevReview[0].rating}
                 //count={5}
                 onChange={handleUpdateSlider}
                 style={{ maxWidth: 300 }}
                 className="mx-auto h-12"
               />
             </div>
-          )}
+          }
         </>
       ) : (
         <>
-          <h2 className="mx-10 my-3 font-bold">Leave a course Rating</h2>
           <Rating
             value={0}
             //count={5}
             onChange={handleSliderChange}
             style={{ maxWidth: 300 }}
             //activeColor="#ffd700"
-            className="mx-auto h-12"
+            className="mx-auto h-12 text-muted"
           />
-          <p>Current Rating: {rating}</p>
         </>
       )}
     </div>

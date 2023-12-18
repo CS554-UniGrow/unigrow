@@ -1,66 +1,106 @@
+# Project Title
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Technologies Used
+
+- Next Js for the application
+- Upstash for messaging
+- Pusher for notification
+- MongoDB as the primary storage
+- Next Auth with Google Provider
+- CRON scheduler
+
+## Live Demos
+
+- [Heroku Demo](https://unigrow-a732c2389a03.herokuapp.com/)
+- [Vercel Demo](https://unigrow.vercel.app/)
 
 ## Getting Started
 
-set the env variables for mongodb
-MONGO_CONNECTION_STRING
-MONGO_DB_NAME=UniGrow
+Set the following environment variables in the `.env` file at the root folder of the repository. Ensure all values are enclosed in quotes.
 
-to seed the project's mongodb do the following
-generate a md5 using a secret text https://www.md5hashgenerator.com/
-set the env variable NEXT_API_SEED_SECRET to the generated hash
-now hit the route /api/mongo/ with a post request and set the header x-api-key to the hash value
+### Pusher Environment Variables
 
-First, run the development server:
+These come from Pusher:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- NEXT_PUBLIC_PUSHER_APP_ID
+- NEXT_PUBLIC_PUSHER_APP_SECRET
+- NEXT_PUBLIC_PUSHER_APP_KEY
+- NEXT_PUBLIC_PUSHER_APP_TLS="true"
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Setup an account with [Pusher](https://www.pusher.com/).
+2. Create a new channels project with the closest region to you.
+3. Obtain app keys and set them as specified.
+4. Note the cluster string from the project and set it for the cluster attribute in `./lib/pusher.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Google Auth Provider Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_SECRET
+
+1. Create an account at [Google Cloud Console](https://console.cloud.google.com/apis/dashboard).
+2. Navigate to credentials, create credentials, and choose service management API.
+3. Select user data, add required scopes, and set authorized origins and redirect URIs.
+4. Obtain and set the client ID and client secret.
+
+### Upstash Environment Variables
+
+- NEXT_PUBLIC_UPSTASH_REDIS_REST_URL
+- NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN
+
+1. Create an account on Upstash.
+2. Create a new database, set details, and obtain credentials from the REST API section.
+3. Set the obtained values for Upstash environment variables.
+
+### Other Environment Variables
+
+- NEXT_PUBLIC_CANVAS_BASE_URL
+- NEXTAUTH_URL
+- NEXT_API_SEED_SECRET
+- NEXT_PUBLIC_HASHING_KEY
+- NEXTAUTH_SECRET
+- CRON_SECRET
+- MONGO_DB_NAME
+- MONGODB_URI
+
+1. Adjust the values based on your setup.
+2. Generate an MD5 hash for specified secrets.
+
+## Firebase Environment Variables
+
+These come from Firebase:
+
+- NEXT_PUBLIC_FIREBASE_API_KEY
+- NEXT_PUBLIC_FIREBASE_APP_ID
+- NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+- NEXT_PUBLIC_FIREBASE_DATABASE_URL
+- NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+- NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+- NEXT_PUBLIC_FIREBASE_PROJECT_ID
+- NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
 
 ## Firebase Setup
 
-1. Navigate to [Firebase Console](https://firebase.google.com/ "Firebase") and sign in.
-2. Click on **Add Project** and enter project name as CS554-Unigrow. Click on **Continue**.
-3. On the next screen you can choose if you want to enable analytics for your project.
-4. Click on **Create project** .
-5. Next, you need to create a web app. On your project homepage click on the web icon to create your web app:
-   ![Select Web](https://www.freecodecamp.org/news/content/images/2023/02/Screenshot-2023-02-15-at-5.40.33-PM.png "Create a firebase Web App.")
-6. Give your web app a name and click **Register app**.
-7. Copy the configuration file we are going to need it later. Click next until you are done.
-8. Create a `.env` file in the root directory of your Next.js project and add your Firebase configuration files (the ones you copied earlier). It should look like this:
-   ```
-   NEXT_PUBLIC_FIREBASE_API_KEY=api-key
-   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=auth-domain
-   NEXT_PUBLIC_FIREBASE_PROJECT_ID=project-id
-   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=storage-bucket
-   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=sender-id
-   NEXT_PUBLIC_FIREBASE_APP_ID=app-id
-   NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=analytic-id
-   ```
+Follow the steps to set up Firebase and configure your Next.js project.
 
-## Learn More
+1. Navigate to [Firebase Console](https://firebase.google.com/).
+2. Add a new project and create a web app.
+3. Copy the configuration to your `.env` file.
+4. Set the Firebase environment variables.
 
-To learn more about Next.js, take a look at the following resources:
+## Firebase Storage Rules
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Set the storage rules in the Firebase console.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Application Setup and Run
 
-## Deploy on Vercel
+1. Run `npm install`.
+2. Run the application in different modes:
+   - Development mode: `npm run dev`
+   - Production mode: `npm run prod:deploy`
+   - Production mode from scratch: `npm run prod:install:deploy`
+   - Create production image: `npm run build`
+   - Run production image: `npm run start`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Open http://localhost:3000 in your browser to see the result.
