@@ -69,7 +69,7 @@ const page = async ({}) => {
 
               <div>
                 <h4 className="text-lg font-semibold">{friend.name}</h4>
-                <p className="mt-1 max-w-md">
+                <p className="mt-1 max-w-md truncate">
                   <span className="text-zinc-400">
                     {friend.lastMessage?.senderId === session.user._id
                       ? "You: "

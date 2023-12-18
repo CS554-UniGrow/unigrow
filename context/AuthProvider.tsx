@@ -14,13 +14,12 @@ export default function AuthProvider({
   session: any
 }) {
   const pathname = usePathname()
-
-  if (
-    session?.user?.isAuthenticated &&
-    (pathname === "/signup" || pathname === "/")
-  ) {
-    redirect("/dashboard")
-  }
+  // if (
+  //   session?.user?.isAuthenticated &&
+  //   (pathname === "/signup" || pathname === "/")
+  // ) {
+  //   redirect("/dashboard")
+  // }
 
   if (!session?.user?.isAuthenticated && publicPaths.includes(pathname)) {
     return <SessionProvider session={session}>{children}</SessionProvider>
