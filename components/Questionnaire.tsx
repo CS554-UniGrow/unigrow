@@ -128,6 +128,9 @@ const Questionnaire = ({
       setIsLoading(false) // Ensure this gets called in all scenarios
     }
   }
+  if (true) {
+    return <Loading />
+  }
 
   return (
     <>
