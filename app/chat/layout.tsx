@@ -59,9 +59,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
       <div className="hidden h-full w-full max-w-[18rem] grow flex-col gap-y-5 overflow-y-auto px-6 md:flex">
         {friends.length > 0 ? (
-          <div className="text-xs font-semibold leading-6 text-gray-400">
-            Your chats
-          </div>
+          <div className="text-xs font-semibold leading-6">Your chats</div>
         ) : null}
 
         <nav className="flex flex-1 flex-col">
@@ -70,9 +68,7 @@ const Layout = async ({ children }: LayoutProps) => {
               <SidebarChatList sessionId={session.user._id} friends={friends} />
             </li>
             <li>
-              <div className="text-xs font-semibold leading-6 text-gray-400">
-                Overview
-              </div>
+              <div className="text-xs font-semibold leading-6">Overview</div>
 
               <ul role="list" className="-mx-2 space-y-1">
                 <li>

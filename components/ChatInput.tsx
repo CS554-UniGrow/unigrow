@@ -3,8 +3,8 @@
 import axios from "axios"
 import { FC, useRef, useState } from "react"
 import { toast } from "react-hot-toast"
-import TextareaAutosize from "react-textarea-autosize"
-import Button from "./ui/Button_2"
+import { Input } from "./ui/input"
+import { Button } from "./ui/button"
 
 interface ChatInputProps {
   chatPartner: any
@@ -34,7 +34,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   return (
     <div className="mb-2 border-t border-gray-200 px-4 py-3 sm:mb-0">
       <div className="relative flex-1 overflow-hidden rounded-lg p-3 shadow-sm ring-1 ring-inset ring-gray-300  ">
-        <TextareaAutosize
+        <Input
           ref={textareaRef}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
@@ -46,7 +46,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Message ${chatPartner.name}`}
-          className="block w-full resize-none border-0 bg-transparent text-gray-900 placeholder:pl-2 placeholder:text-gray-400 sm:py-1.5 sm:text-sm sm:leading-6"
+          className="block w-full resize-none border-0 placeholder:pl-2 placeholder:text-gray-400 focus:border-0 focus-visible:ring-0 active:border-0 sm:py-1.5 sm:text-sm sm:leading-6"
         />
 
         <div className="absolute bottom-0 right-0 flex justify-between px-3 py-3">
