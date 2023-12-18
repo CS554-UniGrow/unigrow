@@ -62,8 +62,17 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
     </div>
   )
 }
+interface QuestionnaireProps {
+  major: string | undefined | null
+  joiningTerm: string | undefined | null
+  canvasToken: string | undefined | null
+}
 
-const Questionnaire = () => {
+const Questionnaire = ({
+  major = null,
+  joiningTerm = null,
+  canvasToken = null
+}: QuestionnaireProps) => {
   // use semesters and year can only be current year -3 or current year + 3 (inclusive)
   // joining terms needs to be dynamic
   const joiningTerms = generateJoiningTerms()
@@ -75,9 +84,9 @@ const Questionnaire = () => {
   const form = useForm<TQuestionnaire>({
     resolver: zodResolver(questionnaireFormSchema),
     defaultValues: {
-      major: "",
-      joiningTerm: "",
-      canvasToken: ""
+      major: major ?? "",
+      joiningTerm: joiningTerm ?? "",
+      canvasToken: canvasToken ?? ""
     }
   })
 
