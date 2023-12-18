@@ -82,7 +82,7 @@ const User_Profile = () => {
           <Image
             width={100}
             height={100}
-            src={data?.avatar_url || data?.image || loadingLogo}
+            src={data?.avatar_url || data?.image || loadingLogo.src}
             alt=""
             className="absolute -top-20 mx-auto h-32 w-32 transform rounded-full border-4  shadow-md transition duration-200 hover:scale-110"
           />
@@ -137,12 +137,12 @@ const User_Profile = () => {
         </div>
       </div>
 
-      <Questionnaire
+      {/* <Questionnaire
       // user_id={user_id}
       // isSelf={data?.isSelf}
       // isAlreadyAdded={data?.isAlreadyAdded}
       // isAlreadyFriends={data?.isAlreadyFriends}
-      />
+      /> */}
     </div>
   )
 }
