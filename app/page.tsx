@@ -8,14 +8,17 @@ import { getServerSession } from "next-auth"
 
 export default async function Home() {
   const session: any = await getServerSession(options)
-  if (session?.user?.isAuthenticated) {
-    redirect("/dashboard")
-  }
+
+  // if (session?.user?.isAuthenticated && !session?.user?.isOnboarded) {
+  //   return redirect("/onboarding")
+  // }
+
+  // if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
+  //   return redirect("/dashboard")
+  // }
 
   return (
     <div>
-      {/* Hero Section */}
-
       <section className="hero-section container mx-auto py-24 text-center">
         <h1 className="mb-12 text-5xl font-bold">
           Empowering Your Academic Journey
@@ -153,19 +156,19 @@ export default async function Home() {
       py-8: Adds vertical padding.
       
       */}
-      <footer className="footer-section py-8 text-white">
+      <footer className="footer-section">
         <div className="container mx-auto text-center">
           <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <a href="/" className="text-base hover:text-white">
+            <a href="/" className="text-base hover:text-blue-600">
               Home
             </a>
-            <a href="/faq" className="text-base hover:text-white">
+            <a href="/faq" className="text-base hover:text-blue-600">
               FAQ
             </a>
-            <a href="/aboutus" className="text-base hover:text-white">
+            <a href="/aboutus" className="text-base hover:text-blue-600">
               About
             </a>
-            <a href="/resources" className="text-base hover:text-white">
+            <a href="/resources" className="text-base hover:text-blue-600">
               Resources
             </a>
           </div>

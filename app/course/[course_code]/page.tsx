@@ -78,14 +78,6 @@ const CourseById = () => {
     session?.user?._id as string
   )
 
-  if (!session?.user?.isAuthenticated) {
-    redirect("/signup")
-  }
-
-  if (!session?.user?.isOnboarded) {
-    redirect("/onboarding")
-  }
-
   if (error) {
     return <div>Error</div>
   }

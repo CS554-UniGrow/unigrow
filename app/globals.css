@@ -77,9 +77,8 @@
 }
 
 .hero-section {
-  /* Apply a background color as a fallback or overlay */
-  background-color: rgba(0, 0, 0, 0.5); /* A black overlay with 50% opacity */
-
+ 
+  
   /* Any other styles you want to apply to the hero section */
   display: flex;
   flex-direction: column;
@@ -89,8 +88,7 @@
 }
 
 .feature-card {
-  /* Apply a background color as a fallback or overlay */
-  background-color: rgba(0, 0, 0, 0.5); /* A black overlay with 50% opacity */
+  
 
   /* Any other styles you want to apply to the hero section */
   display: flex;

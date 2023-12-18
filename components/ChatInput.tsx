@@ -32,8 +32,8 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   }
 
   return (
-    <div className="mb-2 border-t border-gray-200 px-4 pt-4 sm:mb-0">
-      <div className="relative flex-1 overflow-hidden rounded-lg shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-indigo-600">
+    <div className="mb-2 border-t border-gray-200 px-4 py-3 sm:mb-0">
+      <div className="relative flex-1 overflow-hidden rounded-lg p-3 shadow-sm ring-1 ring-inset ring-gray-300  ">
         <TextareaAutosize
           ref={textareaRef}
           onKeyDown={(e) => {
@@ -46,20 +46,10 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Message ${chatPartner.name}`}
-          className="block w-full resize-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6"
+          className="block w-full resize-none border-0 bg-transparent text-gray-900 placeholder:pl-2 placeholder:text-gray-400 sm:py-1.5 sm:text-sm sm:leading-6"
         />
 
-        <div
-          onClick={() => textareaRef.current?.focus()}
-          className="py-2"
-          aria-hidden="true"
-        >
-          <div className="py-px">
-            <div className="h-9" />
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 right-0 flex justify-between py-2 pl-3 pr-2">
+        <div className="absolute bottom-0 right-0 flex justify-between px-3 py-3">
           <div className="flex-shrin-0">
             <Button isLoading={isLoading} onClick={sendMessage} type="submit">
               Post

@@ -40,7 +40,16 @@ export default function Nav() {
       <>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <Link href={session?.user?.isAuthenticated ? "/dashboard" : "/"}>
+            <Link
+              href={
+                session?.user?.isAuthenticated && session?.user?.isOnboarded
+                  ? "/dashboard"
+                  : session?.user?.isAuthenticated &&
+                      !session?.user?.isOnboarded
+                    ? "/onboarding"
+                    : "/"
+              }
+            >
               <Image
                 src={"loading.gif"}
                 unoptimized={true}
@@ -51,6 +60,7 @@ export default function Nav() {
               />
             </Link>
           </NavigationMenuItem>
+
           {navLinks.map(({ title, path, checkAuth }) => {
             if (!checkAuth || session?.user?.isOnboarded) {
               if (
@@ -59,6 +69,7 @@ export default function Nav() {
               ) {
                 return null
               }
+
               return (
                 <NavigationMenuItem key={title}>
                   <Link href={path} legacyBehavior passHref>
