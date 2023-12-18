@@ -9,13 +9,13 @@ import { getServerSession } from "next-auth"
 export default async function Home() {
   const session: any = await getServerSession(options)
 
-  // if (session?.user?.isOnboarded) {
-  //   redirect("/dashboard")
-  // }
+  if (session?.user?.isAuthenticated && !session?.user?.isOnboarded) {
+    return redirect("/onboarding")
+  }
 
-  // if (session?.user?.isAuthenticated) {
-  //   redirect("/onboarding")
-  // }
+  if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
+    return redirect("/dashboard")
+  }
 
   return (
     <div>
@@ -158,15 +158,23 @@ export default async function Home() {
       */}
       <footer className="footer-section">
         <div className="container mx-auto text-center">
-            <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            <a href="/" className="text-base hover:text-blue-600">Home</a>
-            <a href="/faq" className="text-base hover:text-blue-600">FAQ</a>
-            <a href="/aboutus" className="text-base hover:text-blue-600">About</a>
-            <a href="/resources" className="text-base hover:text-blue-600">Resources</a>
-            </div>
-            <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
+          <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <a href="/" className="text-base hover:text-blue-600">
+              Home
+            </a>
+            <a href="/faq" className="text-base hover:text-blue-600">
+              FAQ
+            </a>
+            <a href="/aboutus" className="text-base hover:text-blue-600">
+              About
+            </a>
+            <a href="/resources" className="text-base hover:text-blue-600">
+              Resources
+            </a>
+          </div>
+          <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
         </div>
-       </footer>
+      </footer>
     </div>
   )
 }
