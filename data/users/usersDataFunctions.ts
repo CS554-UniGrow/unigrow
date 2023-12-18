@@ -19,7 +19,8 @@ export const getUserById = async (uid: string) => {
         isOnboarded: 1,
         joiningTerm: 1,
         primary_email: 1,
-        _id: 1
+        _id: 1,
+        joining_term_complete: 1
       }
     }
   )

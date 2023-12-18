@@ -147,7 +147,7 @@ const User_Profile = () => {
         <Questionnaire
           major={data?.major}
           joiningTerm={data?.joiningTerm}
-          canvasToken={data?.canvasToken}
+          manual={true}
         />
       )}
     </div>

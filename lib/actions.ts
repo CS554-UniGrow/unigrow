@@ -23,7 +23,8 @@ export const checkCanvasToken = async (token: string) => {
 export const handleSubmitAction = async (
   values: TQuestionnaire,
   uid: string,
-  refreshToken: string
+  refreshToken: string,
+  manual: boolean = false
 ) => {
   let { major, joiningTerm, canvasToken } = values
   canvasToken = encrypt(canvasToken)
@@ -36,9 +37,23 @@ export const handleSubmitAction = async (
   if (data) {
     let isJoiningTermValid = joiningTerm === data?.joining_term_complete
     if (!isJoiningTermValid) {
+      if (manual) {
+        return {
+          message: "You cant change your joining term",
+          path: ["joiningTerm"],
+          status: 400
+        }
+      }
       return {
         message: "Joining Term invalid",
         path: ["joiningTerm"],
+        status: 400
+      }
+    }
+    if (manual == true && data.major !== major) {
+      return {
+        message: "You cannot change your major",
+        path: ["major"],
         status: 400
       }
     }

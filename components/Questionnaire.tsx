@@ -63,15 +63,15 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
   )
 }
 interface QuestionnaireProps {
-  major: string | undefined | null
-  joiningTerm: string | undefined | null
-  canvasToken: string | undefined | null
+  major?: string | undefined | null
+  joiningTerm?: string | undefined | null
+  manual?: boolean
 }
 
 const Questionnaire = ({
   major = null,
   joiningTerm = null,
-  canvasToken = null
+  manual = false
 }: QuestionnaireProps) => {
   // use semesters and year can only be current year -3 or current year + 3 (inclusive)
   // joining terms needs to be dynamic
@@ -86,7 +86,7 @@ const Questionnaire = ({
     defaultValues: {
       major: major ?? "",
       joiningTerm: joiningTerm ?? "",
-      canvasToken: canvasToken ?? ""
+      canvasToken: ""
     }
   })
 
@@ -107,7 +107,8 @@ const Questionnaire = ({
       const result = await handleSubmitAction(
         values,
         session?.user._id,
-        session?.user?.refreshToken
+        session?.user?.refreshToken,
+        manual
       )
       if (result.message && result.status && result.path) {
         form.setError(result.path.join("."), {
@@ -146,6 +147,7 @@ const Questionnaire = ({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={manual}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Major" />
@@ -176,6 +178,7 @@ const Questionnaire = ({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={manual}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Joining Term" />
