@@ -35,7 +35,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
     <div className="mb-2 border-t border-gray-200 px-4 py-3 sm:mb-0">
       <div className="relative flex-1 overflow-hidden rounded-lg p-3 shadow-sm ring-1 ring-inset ring-gray-300  ">
         <Input
-          ref={textareaRef}
+          ref={textareaRef as any}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
               e.preventDefault()
