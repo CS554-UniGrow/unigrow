@@ -53,9 +53,9 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
         throw new Error("Failed to update rating")
       }
 
-      console.log(response)
+      // console.log(response)
     } catch (error) {
-      console.error("Error updating rating:", error)
+      // console.error("Error updating rating:", error)
     }
   }
 
@@ -80,9 +80,9 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
         throw new Error("Failed to update rating")
       }
 
-      console.log(response)
+      // console.log(response)
     } catch (error) {
-      console.error("Error updating rating:", error)
+      // console.error("Error updating rating:", error)
     }
   }
 
@@ -108,7 +108,7 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
         const data = await response.json()
         setPrevReview(data)
       } catch (error) {
-        console.error("Error fetching current review:", error)
+        // console.error("Error fetching current review:", error)
       }
     }
 

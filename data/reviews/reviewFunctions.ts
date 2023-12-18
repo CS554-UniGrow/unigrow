@@ -57,8 +57,6 @@ async function updateOverallRating(courseId: string) {
   const sum = ratings.reduce((acc: any, rating: any) => acc + rating, 0)
   const avg = sum / ratings.length
 
-  console.log("Average Rating:", avg)
-
   // Update the document in the collection with the average rating
   await courses.updateOne({ _id: courseId }, { $set: { course_rating: avg } })
 }

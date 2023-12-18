@@ -42,7 +42,7 @@ function useFetchCourse(course_code: string) {
   return { data, error, loading }
 }
 
-function fetchUserData(userId: string) {
+function useFetchUserData(userId: string) {
   const [userData, setUserData] = useState({} as any)
   const [userError, setUserError] = useState(null)
   const [userLoading, setUserLoading] = useState(false)
@@ -74,7 +74,7 @@ const CourseById = () => {
   const course_code = params.course_code as string
 
   const { data, error, loading } = useFetchCourse(course_code as string)
-  const { userData, userError, userLoading } = fetchUserData(
+  const { userData, userError, userLoading } = useFetchUserData(
     session?.user?._id as string
   )
 
