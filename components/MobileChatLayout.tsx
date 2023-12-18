@@ -6,7 +6,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { FC, Fragment, useEffect, useState } from "react"
 import { Icons } from "./Icons"
-import SignOutButton from "./SignOutButton"
 import Button, { buttonVariants } from "./ui/Button_2"
 import FriendRequestSidebarOptions from "./FriendRequestSidebarOptions"
 import SidebarChatList from "./SidebarChatList"
@@ -65,7 +64,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                   leaveTo="-translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-hidden bg-white py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-hidden py-6 shadow-xl">
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-gray-900">
@@ -74,7 +73,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
-                              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              className="rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                               onClick={() => setOpen(false)}
                             >
                               <span className="sr-only">Close panel</span>
@@ -105,7 +104,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                             </li>
 
                             <li>
-                              <div className="text-xs font-semibold leading-6 text-gray-400">
+                              <div className="text-xs font-semibold leading-6">
                                 Overview
                               </div>
                               <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -164,13 +163,9 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                                   </span>
                                 </div>
                               </div>
-
-                              <SignOutButton className="aspect-square h-full" />
                             </li>
                           </ul>
                         </nav>
-
-                        {/* content end */}
                       </div>
                     </div>
                   </Dialog.Panel>

@@ -62,8 +62,8 @@ export async function POST(req: Request) {
       "new_message",
       {
         ...message,
-        senderImg: sender.image,
-        senderName: sender.name
+        senderImg: sender?.avatar_url || sender?.image,
+        senderName: sender?.name
       }
     )
 

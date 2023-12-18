@@ -42,7 +42,6 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
               sendMessage()
             }
           }}
-          rows={1}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Message ${chatPartner.name}`}
@@ -51,7 +50,7 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
 
         <div className="absolute bottom-0 right-0 flex justify-between px-3 py-3">
           <div className="flex-shrin-0">
-            <Button isLoading={isLoading} onClick={sendMessage} type="submit">
+            <Button onClick={sendMessage} type="submit">
               Post
             </Button>
           </div>

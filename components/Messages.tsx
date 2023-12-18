@@ -53,15 +53,15 @@ const Messages: FC<MessagesProps> = ({
       <div ref={scrollDownRef} />
 
       {messages.map((message, index) => {
-        const isCurrentUser = message.senderId === sessionId
+        const isCurrentUser = message?.senderId === sessionId
 
         const hasNextMessageFromSameUser =
-          messages[index - 1]?.senderId === messages[index].senderId
+          messages[index - 1]?.senderId === messages[index]?.senderId
 
         return (
           <div
             className="chat-message"
-            key={`${message.id}-${message.timestamp}`}
+            key={`${message?.id}-${message?.timestamp}`}
           >
             <div
               className={cn("flex items-end", {
@@ -104,7 +104,7 @@ const Messages: FC<MessagesProps> = ({
                 <Image
                   fill
                   src={
-                    isCurrentUser ? (sessionImg as string) : chatPartner.image
+                    isCurrentUser ? (sessionImg as string) : chatPartner?.image
                   }
                   alt="Profile picture"
                   referrerPolicy="no-referrer"

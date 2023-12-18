@@ -36,7 +36,7 @@ export async function POST(req: Request) {
       "get",
       `user:${session.user.id}`
     )) as string
-    const sender = JSON.parse(rawSender) as User
+    const sender = JSON.parse(rawSender)
 
     const timestamp = Date.now()
 
@@ -62,8 +62,8 @@ export async function POST(req: Request) {
       "new_message",
       {
         ...message,
-        senderImg: sender.image,
-        senderName: sender.name
+        senderImg: sender?.avatar_url || sender?.image,
+        senderName: sender?.name
       }
     )
 

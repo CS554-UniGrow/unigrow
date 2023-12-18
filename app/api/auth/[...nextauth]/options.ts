@@ -18,11 +18,25 @@ export const options: NextAuthOptions = {
         }
       },
       async profile(profile) {
+        let avatar_url = undefined
+        try {
+          const usersCollection = await users()
+          const userExists = await usersCollection.findOne({
+            email: profile?.email,
+            _id: profile?.sub
+          })
+
+          if (userExists) {
+            avatar_url = userExists?.avatar_url
+          }
+        } catch (e) {}
+
         return {
           id: profile.sub,
           name: profile?.name,
           email: profile?.email,
-          image: profile?.picture
+          image: profile?.picture,
+          avatar_url: avatar_url
         }
       }
     })

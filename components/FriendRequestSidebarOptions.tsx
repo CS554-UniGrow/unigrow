@@ -55,7 +55,7 @@ const FriendRequestSidebarOptions: FC<FriendRequestSidebarOptionsProps> = ({
       <div className="border-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-gray-200 text-[0.625rem] font-medium text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600">
         <User className="h-6 w-6" />
       </div>
-      <p className="truncate text-lg">Chat requests</p>
+      <p className="truncate text-lg">Chat Requests</p>
 
       {unseenRequestCount > 0 ? (
         <div className="text-md flex h-5 w-5 items-center justify-center rounded-full ">

@@ -67,7 +67,7 @@ export const overrideUpstashKeys = async (session: any) => {
     JSON.stringify({
       email: session.user.email,
       name: session.user.name,
-      image: session.user.image,
+      image: session?.user?.avatar_url || session?.user?.image,
       id: session.user._id,
       email_verified: session.user.email_verified
     })
