@@ -10,7 +10,7 @@ const Loading = () => {
           width={100}
           height={100}
           alt="Loading..."
-          src={loadingLogo}
+          src={loadingLogo.src}
           unoptimized={true}
         />
         <p className="text-gray-800">

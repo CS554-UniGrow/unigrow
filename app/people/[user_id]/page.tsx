@@ -26,6 +26,7 @@ import axios from "axios"
 import { chatHrefConstructor } from "@/lib/utils"
 
 import AddFriendButton from "@/components/AddFriendButton"
+import Questionnaire from "@/components/Questionnaire"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
@@ -76,7 +77,7 @@ const User_Profile = () => {
 
   return (
     <div className="container mt-20">
-      <div className="relative mx-auto max-w-xl justify-items-center rounded-lg border p-8 shadow lg:p-20">
+      <div className="relative mx-auto max-w-xl  rounded-lg border p-8 shadow lg:p-20">
         <div className="flex justify-center">
           <Image
             width={100}
@@ -135,6 +136,13 @@ const User_Profile = () => {
           </div>
         </div>
       </div>
+
+      <Questionnaire
+      // user_id={user_id}
+      // isSelf={data?.isSelf}
+      // isAlreadyAdded={data?.isAlreadyAdded}
+      // isAlreadyFriends={data?.isAlreadyFriends}
+      />
     </div>
   )
 }
