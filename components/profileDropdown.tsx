@@ -14,64 +14,92 @@ import {
 import { ThemeToggle } from "./theme-toggle"
 import Link from "next/link"
 import loadingLogo from "@/public/loading.png"
-Image
-import { useSession, signOut } from "next-auth/react"
-import Image from "next/image"
 
+import { useSession, signOut } from "next-auth/react"
+const text = "User not signed in"
 export default function ProfileDropdown() {
   const { data: session, status }: any = useSession()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarImage
-              src={session?.user?.avatar_url || session?.user?.image}
-              asChild
-            >
-              <Image
-                src={session?.user?.avatar_url || session?.user?.image}
+        {session?.user ? (
+          <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src={
+                  session?.user?.avatar_url ||
+                  session?.user?.image ||
+                  loadingLogo
+                }
                 alt={session?.user?.name as string}
-                width={32}
-                height={32}
               />
-            </AvatarImage>
-            <AvatarFallback>{session?.user?.name}</AvatarFallback>
-          </Avatar>
-        </Button>
+              <AvatarFallback>{session?.user?.name}</AvatarFallback>
+            </Avatar>
+          </Button>
+        ) : (
+          <Button
+            variant="destructive"
+            className="relative h-8 w-8 rounded-full"
+          >
+            <Avatar className="h-8 w-8">
+              <AvatarImage
+                src={
+                  session?.user?.avatar_url ||
+                  session?.user?.image ||
+                  loadingLogo
+                }
+                alt={session?.user?.name as string}
+              />
+              <AvatarFallback>{session?.user?.name}</AvatarFallback>
+            </Avatar>
+          </Button>
+        )}
       </DropdownMenuTrigger>
+
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="flex justify-between font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {session?.user?.name}
+              {session?.user?.name || text}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
-              {session?.user?.email}
+              {session?.user?.email || ""}
             </p>
           </div>
           <ThemeToggle />
         </DropdownMenuLabel>
+
         <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <Link href={`/people/${session?.user._id}`}>
-            <DropdownMenuItem>
-              Profile
-              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </DropdownMenuItem>
+        {session?.user && (
+          <DropdownMenuGroup>
+            <Link href={`/people/${session?.user._id}`}>
+              <DropdownMenuItem>
+                Profile
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+        )}
+
+        <DropdownMenuSeparator />
+
+        {session?.user ? (
+          <DropdownMenuItem
+            onClick={() =>
+              signOut({
+                callbackUrl: "/signup"
+              })
+            }
+          >
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        ) : (
+          <Link href="/signup">
+            <DropdownMenuItem>Log In</DropdownMenuItem>
           </Link>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() =>
-            signOut({
-              callbackUrl: "/signup"
-            })
-          }
-        >
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

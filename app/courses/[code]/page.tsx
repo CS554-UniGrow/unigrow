@@ -9,6 +9,7 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion"
 import { departmentMapper } from "@/lib/constants"
+import ReviewRating from "@/components/ReviewRating"
 
 import { Button } from "@/components/ui/button"
 import { Course } from "@/lib/types"
@@ -28,6 +29,7 @@ import { Link2, Underline } from "lucide-react"
 
 function useFetchCourse(code: string) {
   const [data, setData] = useState([] as Course[])
+  const [userData, setUserData] = useState([] as User[])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -51,10 +53,39 @@ function useFetchCourse(code: string) {
   return { data, error, loading }
 }
 
+function useFetchUserData(userId: string) {
+  const [userData, setUserData] = useState({} as any)
+  const [userError, setUserError] = useState(null)
+  const [userLoading, setUserLoading] = useState(false)
+  const { data: session, status }: any = useSession()
+  const user_id = session?.user?._id
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setUserLoading(true)
+      await fetch(`/api/people/${user_id}`)
+        .then((res) => res.json())
+        .then((data: any) => {
+          setUserData(data)
+          setUserLoading(false)
+        })
+        .catch((error) => {
+          setUserError(error)
+          setUserLoading(false)
+        })
+    }
+    fetchUserData()
+  }, [user_id])
+
+  return { userData, userError, userLoading }
+}
+
 const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   const { data: session, status }: any = useSession()
-  const [searchQuery, setSearchQuery] = useState("")
 
+  const [searchQuery, setSearchQuery] = useState("")
+  const { userData, userError, userLoading } = useFetchUserData(
+    session?.user?._id as string
+  )
   if (!session?.user?.isAuthenticated) {
     redirect("/signup")
   }
@@ -197,13 +228,22 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                                   )}
                                 </dd>
                               </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                              <div className="sm:grid-cols-2 sm:gap-4">
                                 <dt className="text-sm font-medium leading-6 ">
                                   Course Rating
                                 </dt>
                                 <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                                   {course?.course_rating || 0} / 5
                                 </dd>
+                                {userData?.courses &&
+                                userData.courses.includes(
+                                  course.course_code
+                                ) ? (
+                                  <ReviewRating
+                                    courseId={course._id}
+                                    courseCode={course.course_code}
+                                  />
+                                ) : null}
                               </div>
                               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 ">
@@ -306,6 +346,13 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                                 <Button>View on Stevens Website</Button>
                               </a>
                             </div>
+                            {/* {userData?.courses(
+                              (userCourse: any) =>
+                                userCourse === course.course_code
+                            ) ? ( */}
+                            {/* ) : (
+                              ""
+                            )} */}
                           </div>
                         </AccordionContent>
                       </AccordionItem>
