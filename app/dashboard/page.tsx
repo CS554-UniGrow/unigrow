@@ -215,7 +215,9 @@ const Dashboard = () => {
                           <Avatar>
                             <AvatarImage
                               src={
-                                user?.avatar_url || user?.image || loadingLogo
+                                user?.avatar_url ||
+                                user?.image ||
+                                loadingLogo.src
                               }
                             />
                             <AvatarFallback>{user?.name}</AvatarFallback>

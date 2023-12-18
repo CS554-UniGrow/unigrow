@@ -30,7 +30,7 @@ export default function ProfileDropdown() {
                 src={
                   session?.user?.avatar_url ||
                   session?.user?.image ||
-                  loadingLogo
+                  loadingLogo.src
                 }
                 alt={session?.user?.name as string}
               />
@@ -47,7 +47,7 @@ export default function ProfileDropdown() {
                 src={
                   session?.user?.avatar_url ||
                   session?.user?.image ||
-                  loadingLogo
+                  loadingLogo.src
                 }
                 alt={session?.user?.name as string}
               />
