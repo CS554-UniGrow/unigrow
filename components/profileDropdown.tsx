@@ -16,7 +16,7 @@ import Link from "next/link"
 import loadingLogo from "@/public/loading.png"
 
 import { useSession, signOut } from "next-auth/react"
-const text = "User not signed in"
+const text = "Please Login to Continue"
 export default function ProfileDropdown() {
   const { data: session, status }: any = useSession()
 
@@ -67,10 +67,9 @@ export default function ProfileDropdown() {
               {session?.user?.email || ""}
             </p>
           </div>
-          <ThemeToggle />
         </DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
+        {session?.user && <DropdownMenuSeparator />}
         {session?.user && (
           <DropdownMenuGroup>
             <Link href={`/people/${session?.user._id}`}>

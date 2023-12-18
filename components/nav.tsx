@@ -86,11 +86,20 @@ export default function Nav() {
             }
           })}
         </NavigationMenuList>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <ProfileDropdown />
-          </NavigationMenuItem>
-        </NavigationMenuList>
+
+        <div className="flex items-center space-x-4">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <ThemeToggle />
+            </NavigationMenuItem>
+          </NavigationMenuList>
+
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <ProfileDropdown />
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </div>
       </>
     </NavigationMenu>
   )
