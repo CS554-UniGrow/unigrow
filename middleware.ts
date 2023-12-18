@@ -2,7 +2,13 @@ import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
 import { NextResponse } from "next/server"
 
-const sensitiveRoutes = ["/dashboard", "/courses", "/people", "/chat"]
+const sensitiveRoutes = [
+  "/dashboard",
+  "/courses",
+  "/people",
+  "/chat",
+  "/course"
+]
 
 export default withAuth(
   async function middleware(req) {
@@ -40,6 +46,7 @@ export default withAuth(
     ) {
       return NextResponse.redirect(new URL("/onboarding", req.url))
     }
+    // return NextResponse.next()
   },
 
   {

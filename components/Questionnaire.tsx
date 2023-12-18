@@ -36,7 +36,6 @@ interface FaqItemProps {
   answer?: string
   children?: ReactNode
 }
-
 const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -44,12 +43,17 @@ const FaqItem: React.FC<FaqItemProps> = ({ question, answer, children }) => {
 
   return (
     <div className="faq-question py-4">
-      <h3
-        className="mb-8 cursor-pointer text-base font-semibold"
-        onClick={toggleOpen}
-      >
-        {question}
-      </h3>
+      <div className="flex items-center justify-between gap-4 text-base">
+        <div className="flex items-center">
+          <span className="mr-4">
+            <HelpCircle />
+          </span>
+          <h3 className="cursor-pointer font-semibold" onClick={toggleOpen}>
+            {question}
+          </h3>
+        </div>
+      </div>
+      <br></br>
       {isOpen && (
         <div className="text-base">{children ? children : <p>{answer}</p>}</div>
       )}
@@ -186,56 +190,56 @@ const Questionnaire = () => {
               </FormItem>
             )}
           />
-          <FaqItem question="How to Obtain My Canvas Token">
-            <p>
-              Getting your Canvas key is simple. You can also watch our
-              step-by-step guide on YouTube for detailed instructions.
-            </p>
+          <div className="flex flex-row">
+            <FaqItem question="How to Obtain My Canvas Token">
+              <p>
+                Getting your Canvas key is simple. You can also watch our
+                step-by-step guide on YouTube for detailed instructions.
+              </p>
 
-            <ol className="list-decimal pl-6">
-              <li>
-                Log into Canvas at{" "}
-                <a
-                  href="https://sit.instructure.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800"
-                >
-                  https://sit.instructure.com
-                </a>
-                .
-              </li>
-              <li>
-                Click &quot;Account&quot; in the left menu, then select
-                &quot;Settings.&quot;
-              </li>
-              <li>
-                Scroll down to &quot;Approved Integration&quot; and click on
-                &quot;New Access Token.&quot;
-              </li>
-              <li>
-                Fill in the &quot;Purpose&quot; field and, for added security,
-                set an expiry date for your token.
-              </li>
-              <li>
-                Click &quot;Generate Token,&quot; then copy and securely save
-                your newly generated token.
-              </li>
-            </ol>
-            {/* Embed a YouTube video */}
-            <div className="video-container my-4">
-              <iframe
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/_yt8rfD7MTk"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-              <HelpCircle />
-            </div>
-          </FaqItem>
+              <ol className="list-decimal pl-6">
+                <li>
+                  Log into Canvas at{" "}
+                  <a
+                    href="https://sit.instructure.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    https://sit.instructure.com
+                  </a>
+                  .
+                </li>
+                <li>
+                  Click &quot;Account&quot; in the left menu, then select
+                  &quot;Settings.&quot;
+                </li>
+                <li>
+                  Scroll down to &quot;Approved Integration&quot; and click on
+                  &quot;New Access Token.&quot;
+                </li>
+                <li>
+                  Fill in the &quot;Purpose&quot; field and, for added security,
+                  set an expiry date for your token.
+                </li>
+                <li>
+                  Click &quot;Generate Token,&quot; then copy and securely save
+                  your newly generated token.
+                </li>
+              </ol>
+              <div className="video-container my-4">
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/_yt8rfD7MTk"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </FaqItem>
+          </div>
 
           <Button type="submit" className="w-full">
             Submit
