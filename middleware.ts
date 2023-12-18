@@ -46,7 +46,7 @@ export default withAuth(
     ) {
       return NextResponse.redirect(new URL("/onboarding", req.url))
     }
-    return NextResponse.next()
+    // return NextResponse.next()
   },
 
   {
