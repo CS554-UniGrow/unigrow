@@ -214,7 +214,7 @@ async function getAllUsersCourseDetails() {
 
   let result = await Promise.all(
     usersInDB.map((user: any) =>
-      getUsersCourseDetails(decrypt(user.apiKey_hashed), user._id)
+      getUsersCourseDetails(decrypt(user?.apiKey_hashed), user?._id)
     )
   )
   // for (let user of usersInDB) {

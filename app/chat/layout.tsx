@@ -47,7 +47,7 @@ const Layout = async ({ children }: LayoutProps) => {
   ).length
 
   return (
-    <div className="flex h-full w-full ">
+    <div className="flex h-full w-full">
       <div className="md:hidden">
         <MobileChatLayout
           friends={friends}
@@ -57,7 +57,7 @@ const Layout = async ({ children }: LayoutProps) => {
         />
       </div>
 
-      <div className="hidden h-full w-full max-w-[20rem] grow flex-col gap-y-5 overflow-y-auto px-6 md:flex">
+      <div className="hidden h-full w-full max-w-[18rem] grow flex-col gap-y-5 overflow-y-auto px-6 md:flex">
         {friends.length > 0 ? (
           <div className="text-xs font-semibold leading-6 text-gray-400">
             Your chats
@@ -74,7 +74,7 @@ const Layout = async ({ children }: LayoutProps) => {
                 Overview
               </div>
 
-              <ul role="list" className="mt- -mx-2 space-y-1">
+              <ul role="list" className="-mx-2 space-y-1">
                 <li>
                   <FriendRequestSidebarOptions
                     sessionId={session.user._id}
@@ -87,9 +87,7 @@ const Layout = async ({ children }: LayoutProps) => {
         </nav>
       </div>
 
-      <aside className="container max-h-screen w-full py-16 md:py-12">
-        {children}
-      </aside>
+      <aside className="container max-h-screen w-full">{children}</aside>
     </div>
   )
 }
