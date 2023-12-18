@@ -39,8 +39,6 @@ async function seed() {
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
     const apiKey = request.headers.get("Authorization")
-    logger.info(apiKey)
-    logger.info(`Bearer ${process.env.NEXT_API_SEED_SECRET}`)
 
     if (apiKey === `Bearer ${process.env.NEXT_API_SEED_SECRET}`) {
       logger.info("Seeding data...")

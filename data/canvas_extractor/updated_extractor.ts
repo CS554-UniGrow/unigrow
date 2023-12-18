@@ -15,7 +15,7 @@ async function uploadAndUpdateSyllabus(
   coursesCollection: any
 ) {
   try {
-    let fileArrayBuffer = await fetch(fileResponse.data.url, {
+    let fileArrayBuffer = await fetch(fileResponse.url, {
       ...getFetchOptions(apiKey),
       cache: "no-store"
     }).then((response) => response.arrayBuffer())
@@ -59,7 +59,7 @@ async function downloadAndStoreSyllabus(
       cache: "no-store"
     }).then((response) => response.json())
 
-    if (!fileResponse.data) {
+    if (!fileResponse) {
       throw new Error(
         `Failed to download syllabus for course ${course.course_code}`
       )
@@ -108,8 +108,8 @@ async function downloadAndStoreSyllabus(
     // fileResponse.data.filename.toLowerCase().includes("syllabus") ||
     // fileResponse.data.display_name.toLowerCase().includes("syllabus")
     if (
-      fileResponse.data.filename.toLowerCase().includes("syllabus") ||
-      fileResponse.data.display_name.toLowerCase().includes("syllabus")
+      fileResponse.filename.toLowerCase().includes("syllabus") ||
+      fileResponse.display_name.toLowerCase().includes("syllabus")
     ) {
       if (!hasSyllabus) {
         await uploadAndUpdateSyllabus(
