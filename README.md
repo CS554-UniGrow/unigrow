@@ -129,7 +129,7 @@ To reseed the MongoDB database with fresh data, you can use the `/api/mongo` rou
 
      Example:
      ```plaintext
-     POST /api/mongo/
+     GET /api/mongo/
      ```
 
 4. **Response:**
