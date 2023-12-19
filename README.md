@@ -104,3 +104,47 @@ Follow the steps to set up Firebase and configure your Next.js project.
    - Run production image: `npm run start`
 
 Open http://localhost:3000 in your browser to see the result.
+
+
+## Reseed MongoDB Data
+
+To reseed the MongoDB database with fresh data, you can use the `/api/mongo` route. Follow the steps below to perform the reseeding process:
+
+1. **Route: `/api/mongo/`**
+
+   - This endpoint is specifically designed for reseeding the MongoDB database.
+
+2. **Authorization:**
+
+   - Ensure that you include a valid bearer token in the Authorization header when making requests to this endpoint. Use the Next API seed secret specified for seeding.
+
+     Example:
+     ```plaintext
+     Authorization: Bearer $NEXT_API_SEED_SECRET
+     ```
+
+3. **How to Reseed Data:**
+
+   - Make a `POST` request to this endpoint to trigger the reseeding process.
+
+     Example:
+     ```plaintext
+     POST /api/mongo/
+     ```
+
+4. **Response:**
+
+   - The endpoint will respond with a message indicating the success of the reseeding process.
+
+     Example:
+     ```json
+     {
+       "message": "MongoDB data reseeded successfully"
+     }
+     ```
+
+5. **Note:**
+
+   - Ensure that you have the necessary permissions and a valid Next API seed secret in your environment variables.
+
+Remember to replace placeholders like `$NEXT_API_SEED_SECRET` with the actual environment variable or secret used for seeding in your project. Adjust the language and structure as needed.
