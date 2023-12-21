@@ -92,10 +92,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                         ) : null}
 
                         <nav className="flex flex-1 flex-col">
-                          <ul
-                            role="list"
-                            className="flex flex-1 flex-col gap-y-7"
-                          >
+                          <ul className="flex flex-1 flex-col gap-y-7">
                             <li>
                               <SidebarChatList
                                 friends={friends}
@@ -107,7 +104,7 @@ const MobileChatLayout: FC<MobileChatLayoutProps> = ({
                               <div className="text-xs font-semibold leading-6">
                                 Overview
                               </div>
-                              <ul role="list" className="-mx-2 mt-2 space-y-1">
+                              <ul className="-mx-2 mt-2 space-y-1">
                                 {sidebarOptions.map((option) => {
                                   const Icon = Icons[option.Icon]
                                   return (

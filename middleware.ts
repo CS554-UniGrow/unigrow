@@ -38,6 +38,11 @@ export default withAuth(
     ) {
       return NextResponse.redirect(new URL("/signout", req.url))
     }
+
+    if (!isAuth && pathname === "/onboarding") {
+      return NextResponse.redirect(new URL("/signup", req.url))
+    }
+
     if (
       isAccessingSensitiveRoute &&
       !pathname.startsWith("/signup") &&
