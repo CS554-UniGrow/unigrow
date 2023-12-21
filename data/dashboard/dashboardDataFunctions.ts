@@ -2,7 +2,6 @@ import { users } from "@/config/mongo/mongoCollections"
 import logger from "@/lib/logger"
 import { decrypt } from "@/lib/utils"
 import axios, { AxiosError } from "axios"
-import { logout } from "@/app/signup/data"
 import { redirect } from "next/navigation"
 
 export const getCanvasToken = async (uid: string) => {

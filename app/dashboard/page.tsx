@@ -34,7 +34,6 @@ import {
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { ChevronDownIcon } from "@radix-ui/react-icons"
-import { logout } from "../signup/data"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
