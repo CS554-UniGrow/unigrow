@@ -118,7 +118,6 @@ const People = () => {
                         </PopoverTrigger>
                         <PopoverContent className="p-0" align="start">
                           <Command>
-                            <CommandInput placeholder="Search Course..." />
                             <CommandList>
                               <CommandEmpty>No courses found.</CommandEmpty>
                               <CommandGroup>
