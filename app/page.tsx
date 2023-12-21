@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { options } from "./api/auth/[...nextauth]/options"
-import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
+
+export const dynamic = "force-dynamic"
 
 export default async function Home() {
   const session: any = await getServerSession(options)
@@ -28,9 +28,9 @@ export default async function Home() {
           fingertips. Connect, explore, and grow with our comprehensive suite of
           tools.
         </p>
-        <Link href="/signup">
-          <Button className="cta-button">Join Our Community</Button>
-        </Link>
+        <Button asChild>
+          <Link href="/signup">Join Our Community</Link>
+        </Button>
       </section>
 
       {/* Detailed Features Section */}
@@ -93,9 +93,9 @@ export default async function Home() {
             educational success. With UniGrow, your academic aspirations are
             within reach.
           </p>
-          <Link href="/aboutus">
-            <Button className="cta-button">Learn More</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/aboutus">Learn More</Link>
+          </Button>
         </div>
       </section>
 
@@ -144,11 +144,37 @@ export default async function Home() {
             Ready to take the next step in your academic career? Become a part
             of a thriving community that&apos;s all about growth and success.
           </p>
-          <Link href="/signup">
-            <Button className="cta-button">Start Your Journey</Button>
-          </Link>
+          <Button asChild>
+            <Link href="/signup">Start Your Journey</Link>
+          </Button>
         </div>
       </section>
+
+      {/* Footer Section 
+      bg-gray-800: Sets the background color of the footer.
+      text-white: Sets the text color to white.
+      py-8: Adds vertical padding.
+      
+      */}
+      <footer className="footer-section">
+        <div className="container mx-auto text-center">
+          <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Link href="/" className="text-base hover:text-blue-600">
+              Home
+            </Link>
+            <Link href="/faq" className="text-base hover:text-blue-600">
+              FAQ
+            </Link>
+            <Link href="/aboutus" className="text-base hover:text-blue-600">
+              About
+            </Link>
+            <Link href="/resources" className="text-base hover:text-blue-600">
+              Resources
+            </Link>
+          </div>
+          <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   )
 }

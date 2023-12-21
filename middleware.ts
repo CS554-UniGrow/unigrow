@@ -1,6 +1,5 @@
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
-import { getSession, signOut } from "next-auth/react"
 import { NextResponse } from "next/server"
 
 const sensitiveRoutes = [
@@ -24,6 +23,7 @@ export default withAuth(
     const isAccessingSensitiveRoute = sensitiveRoutes.some((route) =>
       pathname.startsWith(route)
     )
+
     if (pathname.startsWith("/signout") && !isAuth) {
       return NextResponse.redirect(new URL("/signup", req.url))
     }
@@ -38,6 +38,11 @@ export default withAuth(
     ) {
       return NextResponse.redirect(new URL("/signout", req.url))
     }
+
+    if (!isAuth && pathname === "/onboarding") {
+      return NextResponse.redirect(new URL("/signup", req.url))
+    }
+
     if (
       isAccessingSensitiveRoute &&
       !pathname.startsWith("/signup") &&
@@ -47,14 +52,14 @@ export default withAuth(
     }
 
     // check if user in mongo based on session uid
+
     if (isAuth && isAuth._id && isAuth.email && isAuth.expiresAt) {
-      let expirytimestamp = new Date(
+      let expiryTimestampUTC = new Date(
         (isAuth.expiresAt as number) * 1000
-      ).toLocaleString("en-US", { timeZone: "America/New_York" })
+      ).toISOString()
       if (
-        !expirytimestamp ||
-        expirytimestamp <
-          new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
+        !expiryTimestampUTC ||
+        expiryTimestampUTC < new Date().toISOString()
       ) {
         return NextResponse.redirect(new URL("/signout", req.url))
       }

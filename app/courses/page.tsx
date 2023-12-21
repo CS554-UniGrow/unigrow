@@ -61,11 +61,13 @@ const Departments = () => {
             </CardHeader>
             <CardContent></CardContent>
             <CardFooter>
-              <Link href={`/courses/${department?.course_code.toLowerCase()}`}>
-                <Button className="text-sm">
+              <Button asChild className="text-sm">
+                <Link
+                  href={`/courses/${department?.course_code.toLowerCase()}`}
+                >
                   View Courses in {department?.course_code}
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}

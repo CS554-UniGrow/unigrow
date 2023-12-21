@@ -133,12 +133,11 @@ const CourseById = () => {
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                       {data?.course_prereqs?.map((prereq) => (
-                        <Link
-                          href={`/course/${encodeURI(prereq)}`}
-                          key={prereq}
-                        >
-                          <Button className="mr-4">{prereq}</Button>
-                        </Link>
+                        <Button key={prereq} asChild className="mr-4">
+                          <Link href={`/course/${encodeURI(prereq)}`}>
+                            {prereq}
+                          </Link>
+                        </Button>
                       ))}{" "}
                       {data?.course_prereqs?.length === 0 && <span>-</span>}
                     </dd>
@@ -206,10 +205,7 @@ const CourseById = () => {
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">Syllabus</dt>
                     <dd className="mt-2 text-sm  sm:col-span-2 sm:mt-0">
-                      <ul
-                        role="list"
-                        className="divide-y divide-gray-100 rounded-md border border-gray-200"
-                      >
+                      <ul className="divide-y divide-gray-100 rounded-md border border-gray-200">
                         <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
                           <div className="flex w-0 flex-1 items-center">
                             <div className="ml-4 flex min-w-0 flex-1 gap-2">
@@ -258,13 +254,15 @@ const CourseById = () => {
                   </div>
                 </dl>
                 <div className="flex justify-center">
-                  <a
-                    target="_blank"
-                    href={data?.stevens_course_link}
-                    rel="noopener noreferrer"
-                  >
-                    <Button>View on Website</Button>
-                  </a>
+                  <Button asChild>
+                    <a
+                      target="_blank"
+                      href={data?.stevens_course_link}
+                      rel="noopener noreferrer"
+                    >
+                      View on Website
+                    </a>
+                  </Button>
                 </div>
                 {/* {userData?.courses(
                   (userCourse: any) => userCourse === data.course_code

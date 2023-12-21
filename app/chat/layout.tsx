@@ -18,8 +18,8 @@ interface LayoutProps {
 
 // Done after the video and optional: add page metadata
 export const metadata = {
-  title: "Unigrow Chat App Section",
-  description: "Your dashboard"
+  title: "Unigrow: Chat",
+  description: "Chat with your friends"
 }
 
 const sidebarOptions: SidebarOption[] = [
@@ -61,14 +61,14 @@ const Layout = async ({ children }: LayoutProps) => {
         ) : null}
 
         <nav className="flex flex-1 flex-col">
-          <ul role="list" className="flex flex-1 flex-col gap-y-7">
+          <ul className="flex flex-1 flex-col gap-y-7">
             <li>
               <SidebarChatList sessionId={session.user._id} friends={friends} />
             </li>
             <li>
               <div className="text-xs font-semibold leading-6">Overview</div>
 
-              <ul role="list" className="-mx-2 space-y-1">
+              <ul className="-mx-2 space-y-1">
                 <li>
                   <FriendRequestSidebarOptions
                     sessionId={session.user._id}
