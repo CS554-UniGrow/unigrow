@@ -1,6 +1,5 @@
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
-import { getSession, signOut } from "next-auth/react"
 import { NextResponse } from "next/server"
 
 const sensitiveRoutes = [
@@ -25,7 +24,6 @@ export default withAuth(
       pathname.startsWith(route)
     )
 
-    console.log({ isAuth, isLoginPage, isHomePage, isAccessingSensitiveRoute })
     if (pathname.startsWith("/signout") && !isAuth) {
       return NextResponse.redirect(new URL("/signup", req.url))
     }
@@ -54,18 +52,18 @@ export default withAuth(
     }
 
     // check if user in mongo based on session uid
-    // if (isAuth && isAuth._id && isAuth.email && isAuth.expiresAt) {
-    //   let expirytimestamp = new Date(
-    //     (isAuth.expiresAt as number) * 1000
-    //   ).toLocaleString("en-US", { timeZone: "America/New_York" })
-    //   if (
-    //     !expirytimestamp ||
-    //     expirytimestamp <
-    //       new Date().toLocaleString("en-US", { timeZone: "America/New_York" })
-    //   ) {
-    //     return NextResponse.redirect(new URL("/signout", req.url))
-    //   }
-    // }
+
+    if (isAuth && isAuth._id && isAuth.email && isAuth.expiresAt) {
+      let expiryTimestampUTC = new Date(
+        (isAuth.expiresAt as number) * 1000
+      ).toISOString()
+      if (
+        !expiryTimestampUTC ||
+        expiryTimestampUTC < new Date().toISOString()
+      ) {
+        return NextResponse.redirect(new URL("/signout", req.url))
+      }
+    }
 
     if (isLoginPage || isHomePage) {
       if (isAuth) {
