@@ -83,7 +83,8 @@ const People = () => {
           type="text"
           placeholder="Search by name or course code..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value.trim())}
+          maxLength={40}
         />
       </div>
 

@@ -132,7 +132,8 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
             type="text"
             placeholder="Search by Course name or course code..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value.trim())}
+            maxLength={40}
           />
         </div>
       </div>
