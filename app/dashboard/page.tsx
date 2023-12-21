@@ -110,7 +110,6 @@ const Dashboard = () => {
   const { data: session, status }: any = useSession()
 
   if (!session) {
-    alert("Could not find cookies please sign in again")
     redirect("/signout")
   }
   const user = session?.user
