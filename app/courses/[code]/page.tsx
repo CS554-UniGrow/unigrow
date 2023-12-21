@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react"
 import { redirect, notFound } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Link2, Underline } from "lucide-react"
+import Loading from "@/app/loading"
 
 function useFetchCourse(code: string) {
   const [data, setData] = useState([] as Course[])
@@ -53,39 +54,11 @@ function useFetchCourse(code: string) {
   return { data, error, loading }
 }
 
-function useFetchUserData(userId: string) {
-  const [userData, setUserData] = useState({} as any)
-  const [userError, setUserError] = useState(null)
-  const [userLoading, setUserLoading] = useState(false)
-  const { data: session, status }: any = useSession()
-  const user_id = session?.user?._id
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setUserLoading(true)
-      await fetch(`/api/people/${user_id}`)
-        .then((res) => res.json())
-        .then((data: any) => {
-          setUserData(data)
-          setUserLoading(false)
-        })
-        .catch((error) => {
-          setUserError(error)
-          setUserLoading(false)
-        })
-    }
-    fetchUserData()
-  }, [user_id])
-
-  return { userData, userError, userLoading }
-}
-
 const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   const { data: session, status }: any = useSession()
 
   const [searchQuery, setSearchQuery] = useState("")
-  const { userData, userError, userLoading } = useFetchUserData(
-    session?.user?._id as string
-  )
+
   if (!session?.user?.isAuthenticated) {
     redirect("/signup")
   }
@@ -120,6 +93,14 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
     ...new Set(filteredData.map((course) => course.course_level))
   ]
 
+  if (error) {
+    return <div>Error</div>
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
   return (
     <div className="mx-auto max-w-4xl">
       <div className="header flex flex-col gap-8">
@@ -143,217 +124,20 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
             <AccordionItem key={course_level} value={course_level}>
               <AccordionTrigger>Course Level : {course_level}</AccordionTrigger>
               <AccordionContent>
-                {filteredData.map((course) => (
-                  <Accordion type="single" key={course.course_code} collapsible>
-                    {course.course_level === course_level ? (
-                      <AccordionItem value={course.course_code}>
-                        <AccordionTrigger>
-                          {course.course_code} - {course.course_title}{" "}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="mt-6 rounded-lg border-2 border-gray-100 p-2 dark:border-slate-600">
-                            <dl className="divide-y divide-gray-100 dark:divide-slate-700">
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Professor Name
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_professors.map(
-                                    (professor) => (
-                                      <span
-                                        className="mr-4"
-                                        key={professor.display_name}
-                                      >
-                                        {professor.display_name}
-                                      </span>
-                                    )
-                                  )}{" "}
-                                  {course?.course_professors.length === 0 && (
-                                    <span>-</span>
-                                  )}
-                                </dd>
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Description
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_description || <span>-</span>}
-                                </dd>
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Credits
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_credits}
-                                </dd>
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Course Prerequisites
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_prereqs?.map((prereq) => (
-                                    <Link
-                                      href={`/course/${encodeURI(prereq)}`}
-                                      key={prereq}
-                                    >
-                                      <Button className="mr-4">{prereq}</Button>
-                                    </Link>
-                                  ))}{" "}
-                                  {course?.course_prereqs.length === 0 && (
-                                    <span>-</span>
-                                  )}
-                                </dd>
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Semester Offered
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_offered_in.map((semester) => (
-                                    <span className="mr-4" key={semester}>
-                                      {semester}
-                                    </span>
-                                  ))}{" "}
-                                  {course?.course_offered_in.length === 0 && (
-                                    <span>Fall Spring Summer </span>
-                                  )}
-                                </dd>
-                              </div>
-                              <div className="sm:grid-cols-2 sm:gap-4">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Course Rating
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  {course?.course_rating || 0} / 5
-                                </dd>
-                                {userData?.courses &&
-                                userData.courses.includes(
-                                  course.course_code
-                                ) ? (
-                                  <ReviewRating
-                                    courseId={course._id}
-                                    courseCode={course.course_code}
-                                  />
-                                ) : null}
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Students Enrolled Currently
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  <span className="mr-4">
-                                    {(course?.currently_enrolled?.length ??
-                                      0) != 0 &&
-                                      course?.currently_enrolled?.length}
-                                    {(course?.currently_enrolled?.length ??
-                                      0) === 0 && "-"}
-                                  </span>
-                                </dd>
-                              </div>
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Students Enrolled Previously
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                                  <span className="mr-4">
-                                    {(course?.previously_enrolled?.length ??
-                                      0) +
-                                      (course?.currently_enrolled?.length ??
-                                        0) !=
-                                      0 &&
-                                      course?.previously_enrolled?.length +
-                                        course?.currently_enrolled?.length}
-                                    {(course?.previously_enrolled?.length ??
-                                      0) +
-                                      (course?.currently_enrolled?.length ??
-                                        0) ===
-                                      0 && "-"}
-                                  </span>
-                                </dd>
-                              </div>
-
-                              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 ">
-                                  Syllabus
-                                </dt>
-                                <dd className="mt-2 text-sm  sm:col-span-2 sm:mt-0">
-                                  <ul
-                                    role="list"
-                                    className="divide-y divide-gray-100 rounded-md border border-gray-200"
-                                  >
-                                    <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                      <div className="flex w-0 flex-1 items-center">
-                                        <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                          <span className="flex-shrink-0 text-gray-400">
-                                            {course?.course_syllabus != "" &&
-                                              course?.download_size != 0 && (
-                                                <>{course?.download_size}KB</>
-                                              )}
-                                          </span>
-
-                                          {course?.course_syllabus != "" &&
-                                          course?.download_size != 0 ? (
-                                            <div className="ml-4 flex-shrink-0">
-                                              <a
-                                                href={`${course.course_syllabus}`}
-                                                target="_blank"
-                                                className="flex font-medium hover:text-indigo-500"
-                                              >
-                                                <svg
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                                  width="24"
-                                                  height="24"
-                                                  viewBox="0 0 24 24"
-                                                  fill="none"
-                                                  stroke="currentColor"
-                                                  strokeWidth="2"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                  className="lucide lucide-arrow-down-to-line"
-                                                >
-                                                  <path d="M12 17V3" />
-                                                  <path d="m6 11 6 6 6-6" />
-                                                  <path d="M19 21H5" />
-                                                </svg>
-                                                Download
-                                              </a>
-                                            </div>
-                                          ) : (
-                                            <p>No Syllabus Available Yet!</p>
-                                          )}
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
-                                </dd>
-                              </div>
-                            </dl>
-                            <div className="flex justify-center">
-                              <a
-                                target="_blank"
-                                href={course.stevens_course_link}
-                                rel="noopener noreferrer"
-                              >
-                                <Button>View on Stevens Website</Button>
-                              </a>
-                            </div>
-                            {/* {userData?.courses(
-                              (userCourse: any) =>
-                                userCourse === course.course_code
-                            ) ? ( */}
-                            {/* ) : (
-                              ""
-                            )} */}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    ) : null}
-                  </Accordion>
-                ))}
-                <br></br>
+                <div className="grid grid-cols-1 border p-2">
+                  {filteredData
+                    .filter((course) => course.course_level === course_level)
+                    .map((course) => (
+                      <Link
+                        className="flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline "
+                        href={`/course/${encodeURI(course.course_code)}`}
+                        key={course.course_code}
+                      >
+                        {course.course_code} {course.course_title}
+                      </Link>
+                    ))}
+                  <br />
+                </div>
               </AccordionContent>
             </AccordionItem>
           ))}

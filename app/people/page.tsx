@@ -31,16 +31,6 @@ function useFetchPeople() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const { data: session, status }: any = useSession()
-
-  if (!session?.user?.isAuthenticated) {
-    redirect("/signup")
-  }
-
-  if (!session?.user?.isOnboarded) {
-    redirect("/onboarding")
-  }
-
   useEffect(() => {
     setLoading(true)
     fetch("/api/people", { cache: "no-store" })
@@ -59,6 +49,15 @@ function useFetchPeople() {
 }
 
 const People = () => {
+  const { data: session, status }: any = useSession()
+
+  if (!session?.user?.isAuthenticated) {
+    redirect("/signup")
+  }
+
+  if (!session?.user?.isOnboarded) {
+    redirect("/onboarding")
+  }
   const { data, error, loading } = useFetchPeople()
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -118,7 +117,6 @@ const People = () => {
                         </PopoverTrigger>
                         <PopoverContent className="p-0" align="start">
                           <Command>
-                            <CommandInput placeholder="Search Course..." />
                             <CommandList>
                               <CommandEmpty>No courses found.</CommandEmpty>
                               <CommandGroup>
