@@ -19,63 +19,37 @@ import { useSession } from "next-auth/react"
 
 function useFetchCourse(course_code: string) {
   const [data, setData] = useState({} as Course)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null as any)
   const [loading, setLoading] = useState(false)
+  const [rating, setRating] = useState(0)
+
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const response = await fetch(`/api/course/${course_code}`)
+      const data = await response.json()
+      setData(data)
+      setRating(data?.course_rating)
+      setLoading(false)
+    } catch (error) {
+      setError(error)
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      await fetch(`/api/course/${course_code}`)
-        .then((res) => res.json())
-        .then((data: Course) => {
-          setData(data)
-          setLoading(false)
-        })
-        .catch((error) => {
-          setError(error)
-          setLoading(false)
-        })
-    }
     fetchData()
-  }, [course_code])
+  }, [course_code, rating])
 
-  return { data, error, loading }
-}
-
-function useFetchUserData(userId: string) {
-  const [userData, setUserData] = useState({} as any)
-  const [userError, setUserError] = useState(null)
-  const [userLoading, setUserLoading] = useState(false)
-  const { data: session, status }: any = useSession()
-  const user_id = session?.user?._id
-  useEffect(() => {
-    const fetchUserData = async () => {
-      setUserLoading(true)
-      await fetch(`/api/people/${user_id}`)
-        .then((res) => res.json())
-        .then((data: any) => {
-          setUserData(data)
-          setUserLoading(false)
-        })
-        .catch((error) => {
-          setUserError(error)
-          setUserLoading(false)
-        })
-    }
-    fetchUserData()
-  }, [user_id])
-
-  return { userData, userError, userLoading }
+  return { data, error, loading, rating, fetchData }
 }
 
 const CourseById = () => {
   const params = useParams()
   const { data: session, status }: any = useSession()
   const course_code = params.course_code as string
-
-  const { data, error, loading } = useFetchCourse(course_code as string)
-  const { userData, userError, userLoading } = useFetchUserData(
-    session?.user?._id as string
+  const { data, error, loading, rating, fetchData } = useFetchCourse(
+    course_code as string
   )
 
   if (error) {
@@ -157,20 +131,23 @@ const CourseById = () => {
                       )}
                     </dd>
                   </div>
-                  <div className="sm:grid-cols-2 sm:gap-4">
-                    <dt className="text-sm font-medium leading-6 ">
+                  <div className="grid grid-cols-3 items-center gap-4 px-0 px-4 py-6">
+                    <dt className="col-span-1 text-sm font-medium leading-6">
                       Course Rating
                     </dt>
-                    <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
-                      {data?.course_rating || 0} / 5
+                    <dd className="col-span-1 mt-1 text-sm leading-6">
+                      {rating || 0} / 5
                     </dd>
-                    {userData?.courses &&
-                    userData.courses.includes(data.course_code) ? (
-                      <ReviewRating
-                        courseId={data._id}
-                        courseCode={data.course_code}
-                      />
-                    ) : null}
+                    <div className="col-span-1 flex justify-end">
+                      {data?.currently_enrolled?.includes(session.user._id) ||
+                      data?.previously_enrolled?.includes(session.user._id) ? (
+                        <ReviewRating
+                          courseId={data._id}
+                          courseCode={data.course_code}
+                          fetchData={fetchData}
+                        />
+                      ) : null}
+                    </div>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">
@@ -264,13 +241,6 @@ const CourseById = () => {
                     </a>
                   </Button>
                 </div>
-                {/* {userData?.courses(
-                  (userCourse: any) => userCourse === data.course_code
-                ) ? ( */}
-
-                {/* ) : (
-                  ""
-                )} */}
               </div>
             </AccordionContent>
           </AccordionItem>
