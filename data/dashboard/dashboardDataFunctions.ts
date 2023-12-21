@@ -11,7 +11,6 @@ export const getCanvasToken = async (uid: string) => {
     const apiKey = decrypt(currentUser.apiKey_hashed)
     return apiKey.trim()
   } catch (e) {
-    alert("Cookies not found. Please sign up again")
     redirect("/signout")
   }
 }
