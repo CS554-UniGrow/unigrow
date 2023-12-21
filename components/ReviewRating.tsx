@@ -14,7 +14,6 @@ const ReviewRating = ({ courseId, courseCode, fetchData }: any) => {
   const [sliderUpdated, setSliderUpdated] = useState(false)
   const user_mongo_id = session?.user._id
   const [prevReview, setPrevReview]: any = useState([])
-  console.log("fetchData:", fetchData)
   const handleSliderChange = async (newRating: number) => {
     setRating(newRating)
     setSliderUpdated(true)
