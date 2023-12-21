@@ -34,7 +34,6 @@ export const getSessionServer = async (pathname?: string) => {
 export const useSessionClient = () => {
   const router = useRouter()
   const session = useSession()
-
   if (!session) {
     redirect(UNAUTHENTICATED_REDIRECT)
   }

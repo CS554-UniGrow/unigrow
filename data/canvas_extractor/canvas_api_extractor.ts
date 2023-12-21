@@ -57,28 +57,28 @@ async function getUserProfileDetails({
   //   course_professors: [ [Object] ]
   // },
 
-  let joining_term_complete = data.sort((a: any, b: any) => {
-    const a_term = a.term_taken_in.split(" ")
-    const b_term = b.term_taken_in.split(" ")
-    const a_year = parseInt(a_term[0])
-    const b_year = parseInt(b_term[0])
-    const a_semester = a_term[1]
-    const b_semester = b_term[1]
-    if (a_year < b_year) {
-      return -1
-    } else if (a_year > b_year) {
-      return 1
-    } else {
-      if (semesters.indexOf(a_semester) < semesters.indexOf(b_semester)) {
-        return -1
-      } else if (
-        semesters.indexOf(a_semester) > semesters.indexOf(b_semester)
-      ) {
-        return 1
-      }
-      return 0
-    }
-  })[0].term_taken_in
+  // let joining_term_complete = data.sort((a: any, b: any) => {
+  //   const a_term = a.term_taken_in.split(" ")
+  //   const b_term = b.term_taken_in.split(" ")
+  //   const a_year = parseInt(a_term[0])
+  //   const b_year = parseInt(b_term[0])
+  //   const a_semester = a_term[1]
+  //   const b_semester = b_term[1]
+  //   if (a_year < b_year) {
+  //     return -1
+  //   } else if (a_year > b_year) {
+  //     return 1
+  //   } else {
+  //     if (semesters.indexOf(a_semester) < semesters.indexOf(b_semester)) {
+  //       return -1
+  //     } else if (
+  //       semesters.indexOf(a_semester) > semesters.indexOf(b_semester)
+  //     ) {
+  //       return 1
+  //     }
+  //     return 0
+  //   }
+  // })[0].term_taken_in
 
   // map the response to the UserProfile type
   response = {
@@ -94,10 +94,10 @@ async function getUserProfileDetails({
     }),
     apiKey_hashed: apiKey_hashed,
     isOnboarded: true,
-    refreshToken: refreshToken,
-    joining_term_complete: joining_term_complete.replace(" Semester", ""),
-    joining_year: joining_term_complete.split(" ")[0],
-    joining_semester: joining_term_complete.split(" ")[1]
+    refreshToken: refreshToken
+    // joining_term_complete: joining_term_complete.replace(" Semester", ""),
+    // joining_year: joining_term_complete.split(" ")[0],
+    // joining_semester: joining_term_complete.split(" ")[1]
   }
   // insert user profile details into the database
   let usersCollection = await users()

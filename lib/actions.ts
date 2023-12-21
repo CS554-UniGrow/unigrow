@@ -35,19 +35,14 @@ export const handleSubmitAction = async (
   })
 
   if (data) {
-    let isJoiningTermValid = joiningTerm === data?.joining_term_complete
-    if (!isJoiningTermValid) {
-      if (manual) {
+    if (manual) {
+      let isJoiningTermValid = joiningTerm === data?.joiningTerm
+      if (!isJoiningTermValid) {
         return {
           message: "You cant change your joining term",
           path: ["joiningTerm"],
           status: 400
         }
-      }
-      return {
-        message: "Joining Term invalid",
-        path: ["joiningTerm"],
-        status: 400
       }
     }
     if (manual == true && data.major !== major) {
