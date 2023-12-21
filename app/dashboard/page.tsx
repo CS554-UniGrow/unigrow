@@ -273,26 +273,6 @@ const Dashboard = () => {
         )}
       </section>
 
-      <footer className="footer-section">
-        <div className="container mx-auto text-center">
-          <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <a href="/" className="text-base hover:text-blue-600">
-              Home
-            </a>
-            <a href="/faq" className="text-base hover:text-blue-600">
-              FAQ
-            </a>
-            <a href="/aboutus" className="text-base hover:text-blue-600">
-              About
-            </a>
-            <a href="/resources" className="text-base hover:text-blue-600">
-              Resources
-            </a>
-          </div>
-          <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
-        </div>
-      </footer>
-
       {/* Write code for "Discover people in your major" */}
     </div>
   )
