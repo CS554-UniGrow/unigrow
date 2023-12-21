@@ -115,7 +115,6 @@ const Dashboard = () => {
     redirect("/signout")
   }
   const user = session?.user
-
   const user_id = user?._id
   const { peopleData, peopleError, peopleLoading } = useFetchPeople()
   const { data, error, loading } = useFetchPerson(user_id as string)
