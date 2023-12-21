@@ -8,13 +8,12 @@ import { Button } from "@/components/ui/button"
 import { Rating } from "@smastrom/react-rating"
 import "@smastrom/react-rating/style.css"
 
-const ReviewRating = ({ courseId, courseCode }: any) => {
+const ReviewRating = ({ courseId, courseCode, fetchData }: any) => {
   const { data: session }: any = useSession()
   const [rating, setRating] = useState(0)
   const [sliderUpdated, setSliderUpdated] = useState(false)
   const user_mongo_id = session?.user._id
   const [prevReview, setPrevReview]: any = useState([])
-
   const handleSliderChange = async (newRating: number) => {
     setRating(newRating)
     setSliderUpdated(true)
@@ -55,6 +54,7 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
     } catch (error) {
       // console.error("Error updating rating:", error)
     }
+    fetchData()
   }
 
   const UpdateReview = async (
@@ -82,6 +82,7 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
     } catch (error) {
       // console.error("Error updating rating:", error)
     }
+    fetchData()
   }
 
   useEffect(() => {
@@ -110,7 +111,7 @@ const ReviewRating = ({ courseId, courseCode }: any) => {
       {prevReview.length > 0 ? (
         <>
           {
-            <div className="">
+            <div className="mr-8">
               <Rating
                 value={prevReview[0].rating}
                 //count={5}
