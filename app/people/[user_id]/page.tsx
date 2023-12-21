@@ -128,7 +128,11 @@ const User_Profile = () => {
               <NavigationMenuList className="grid grid-cols-3 gap-8 sm:grid-cols-5">
                 {data?.courses?.map((course: string) => (
                   <NavigationMenuItem key={course}>
-                    <Link legacyBehavior passHref href={`/course/${course}`}>
+                    <Link
+                      legacyBehavior
+                      passHref
+                      href={`/course/${encodeURI(course)}`}
+                    >
                       <NavigationMenuLink
                         className={`${navigationMenuTriggerStyle()} rounded border`}
                       >
