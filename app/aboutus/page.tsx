@@ -85,7 +85,7 @@ export default function About() {
                 href="https://www.linkedin.com/in/dhruv-vaghela/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className= "hover:text-blue-800"
+                className="hover:text-blue-800"
               >
                 LinkedIn Profile
               </a>
@@ -98,7 +98,7 @@ export default function About() {
                 href="https://www.linkedin.com/in/sanjeet-jain/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className= "hover:text-blue-800"
+                className="hover:text-blue-800"
               >
                 LinkedIn Profile
               </a>
@@ -110,7 +110,7 @@ export default function About() {
                 href="https://www.linkedin.com/in/yashbaleri/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className= "hover:text-blue-800"
+                className="hover:text-blue-800"
               >
                 LinkedIn Profile
               </a>
@@ -122,7 +122,7 @@ export default function About() {
                 href="https://www.linkedin.com/in/yuvaraj-nagi-91702b173/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className= "hover:text-blue-800"
+                className="hover:text-blue-800"
               >
                 LinkedIn Profile
               </a>
@@ -134,9 +134,7 @@ export default function About() {
       {/* Our Story */}
       <section className="our-story-section container mx-auto my-8 p-8 text-center">
         <div className="container mx-auto">
-          <h2 className="mb-8 text-center text-3xl font-bold">
-            Our Story
-          </h2>
+          <h2 className="mb-8 text-center text-3xl font-bold">Our Story</h2>
           <p className="mb-6 text-xl">
             Born from the simple need to demystify course selection, UniGrow was
             conceived by students, for students.
@@ -148,17 +146,6 @@ export default function About() {
           </p>
         </div>
       </section>
-      <footer className="footer-section">
-        <div className="container mx-auto text-center">
-            <div className="footer-links grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            <a href="/" className="text-base hover:text-blue-600">Home</a>
-            <a href="/faq" className="text-base hover:text-blue-600">FAQ</a>
-            <a href="/aboutus" className="text-base hover:text-blue-600">About</a>
-            <a href="/resources" className="text-base hover:text-blue-600">Resources</a>
-            </div>
-            <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
-        </div>
-       </footer>
     </main>
   )
 }

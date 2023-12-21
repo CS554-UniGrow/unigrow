@@ -77,8 +77,6 @@
 }
 
 .hero-section {
- 
-  
   /* Any other styles you want to apply to the hero section */
   display: flex;
   flex-direction: column;
@@ -88,8 +86,6 @@
 }
 
 .feature-card {
-  
-
   /* Any other styles you want to apply to the hero section */
   display: flex;
   padding: 10%;
