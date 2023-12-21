@@ -102,6 +102,7 @@ const People = () => {
                       <Avatar>
                         <AvatarImage
                           src={user?.avatar_url || user?.image || loadingLogo}
+                          alt={user?.name as string}
                         />
                         <AvatarFallback>{user?.name}</AvatarFallback>
                       </Avatar>
