@@ -43,7 +43,8 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
             }
           }}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value.trim())}
+          maxLength={180}
           placeholder={`Message ${chatPartner.name}`}
           className="block w-full resize-none border-0 placeholder:pl-2 placeholder:text-gray-400 focus:border-0 focus-visible:ring-0 active:border-0 sm:py-1.5 sm:text-sm sm:leading-6"
         />

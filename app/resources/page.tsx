@@ -144,12 +144,14 @@ const Resources: React.FC = () => {
               name="name"
               placeholder="Your Name"
               className="mb-4 w-full p-2"
+              maxLength={20}
             />
             <input
               type="email"
               name="_replyto"
               placeholder="Your Email"
               className="mb-4 w-full p-2"
+              maxLength={40}
             />
             <textarea
               name="message"
