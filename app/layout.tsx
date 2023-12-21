@@ -30,7 +30,7 @@ export default async function RootLayout({
           <ThemeProvider attribute="class" disableTransitionOnChange>
             <Toaster position="top-center" reverseOrder={false} />
             <div className="flex min-h-screen flex-col">
-              <NextTopLoader showSpinner={false} shadow={false} />
+              {/* <NextTopLoader showSpinner={false} shadow={false} /> */}
               <Nav />
 
               <div className="mt-16 flex-1 p-10">{children}</div>
