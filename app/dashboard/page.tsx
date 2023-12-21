@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
 import { ChevronDownIcon } from "@radix-ui/react-icons"
+import { logout } from "../signup/data"
 
 function useFetchPerson(user_id: string) {
   const [data, setData] = useState({} as any)
@@ -108,6 +109,11 @@ function useFetchPeople() {
 
 const Dashboard = () => {
   const { data: session, status }: any = useSession()
+
+  if (!session) {
+    alert("Could not find cookies please sign in again")
+    redirect("/signout")
+  }
   const user = session?.user
 
   const user_id = user?._id
@@ -262,7 +268,7 @@ const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center text-xl">
+          <div className="mb-12 text-center text-xl">
             We couldn&apos;t find people in your major.
           </div>
         )}

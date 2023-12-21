@@ -2,13 +2,21 @@ import { users } from "@/config/mongo/mongoCollections"
 import logger from "@/lib/logger"
 import { decrypt } from "@/lib/utils"
 import axios, { AxiosError } from "axios"
+import { logout } from "@/app/signup/data"
+import { redirect } from "next/navigation"
 
 export const getCanvasToken = async (uid: string) => {
   const user = await users()
-  const currentUser = await user.findOne({ _id: uid })
-  const apiKey = decrypt(currentUser.apiKey_hashed)
-  return apiKey.trim()
+  try {
+    const currentUser = await user.findOne({ _id: uid })
+    const apiKey = decrypt(currentUser.apiKey_hashed)
+    return apiKey.trim()
+  } catch (e) {
+    alert("Cookies not found. Please sign up again")
+    redirect("/signout")
+  }
 }
+
 export const getCanvasToDo = async (uid: string) => {
   const token = await getCanvasToken(uid)
   const url = `${process.env.NEXT_PUBLIC_CANVAS_BASE_URL}users/self/todo`
