@@ -133,7 +133,10 @@ const CourseById = () => {
                     </dt>
                     <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                       {data?.course_prereqs?.map((prereq) => (
-                        <Link href={`/course/${prereq}`} key={prereq}>
+                        <Link
+                          href={`/course/${encodeURI(prereq)}`}
+                          key={prereq}
+                        >
                           <Button className="mr-4">{prereq}</Button>
                         </Link>
                       ))}{" "}

@@ -152,12 +152,6 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                         </AccordionTrigger>
                         <AccordionContent>
                           <div className="mt-6 rounded-lg border-2 border-gray-100 p-2 dark:border-slate-600">
-                            <Link href={`/course/${course.course_code}`}>
-                              <div className="flex gap-2">
-                                Open in New Tab
-                                <Link2></Link2>
-                              </div>
-                            </Link>
                             <dl className="divide-y divide-gray-100 dark:divide-slate-700">
                               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 ">
@@ -202,7 +196,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
                                 <dd className="mt-1 text-sm leading-6  sm:col-span-2 sm:mt-0">
                                   {course?.course_prereqs?.map((prereq) => (
                                     <Link
-                                      href={`/course/${prereq}`}
+                                      href={`/course/${encodeURI(prereq)}`}
                                       key={prereq}
                                     >
                                       <Button className="mr-4">{prereq}</Button>

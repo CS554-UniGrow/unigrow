@@ -11,10 +11,10 @@ import { Toaster } from "react-hot-toast"
 
 // add cron job here to call /test
 
-export const metadata: Metadata = {
-  title: "Unigrow",
-  description: "Stevens University Portal"
-}
+// export const metadata: Metadata = {
+//   title: "Unigrow",
+//   description: "Stevens University Portal"
+// }
 
 export default async function RootLayout({
   children
@@ -25,6 +25,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Stevens University Portal" />
+        <title>Unigrow</title>
+      </head>
       <body>
         <AuthProvider session={session}>
           <ThemeProvider attribute="class" disableTransitionOnChange>
