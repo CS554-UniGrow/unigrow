@@ -108,8 +108,8 @@ async function downloadAndStoreSyllabus(
     // fileResponse.data.filenametoLowerCase().includes("syllabus") ||
     // fileResponse.data.display_nametoLowerCase().includes("syllabus")
     if (
-      fileResponse.filenametoLowerCase().includes("syllabus") ||
-      fileResponse.display_nametoLowerCase().includes("syllabus")
+      fileResponse.filename.toLowerCase().includes("syllabus") ||
+      fileResponse.display_name.toLowerCase().includes("syllabus")
     ) {
       if (!hasSyllabus) {
         await uploadAndUpdateSyllabus(
