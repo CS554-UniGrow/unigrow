@@ -16,12 +16,6 @@ interface LayoutProps {
   children: ReactNode
 }
 
-// Done after the video and optional: add page metadata
-export const metadata = {
-  title: "Unigrow: Chat",
-  description: "Chat with your friends"
-}
-
 const sidebarOptions: SidebarOption[] = [
   {
     id: 1,

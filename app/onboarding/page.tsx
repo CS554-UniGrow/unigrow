@@ -1,7 +1,3 @@
-export async function generateMetadata({ params }: any) {
-  return { title: `Unigrow | Onboarding` }
-}
-
 import Questionnaire from "@/components/Questionnaire"
 import { overrideUpstashKeys } from "@/lib/actions"
 import { getSessionServer } from "@/lib/hooks"

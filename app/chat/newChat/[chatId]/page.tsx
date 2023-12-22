@@ -8,27 +8,6 @@ import { getServerSession } from "next-auth"
 import Image from "next/image"
 import { notFound } from "next/navigation"
 
-// The following generateMetadata functiion was written after the video and is purely optional
-export async function generateMetadata({
-  params
-}: {
-  params: { chatId: string }
-}) {
-  const session = await getServerSession(options)
-  if (!session) notFound()
-  const [userId1, userId2] = params.chatId.split("--")
-  const { user } = session
-
-  const chatPartnerId = user._id === userId1 ? userId2 : userId1
-  const chatPartnerRaw = (await fetchRedis(
-    "get",
-    `user:${chatPartnerId}`
-  )) as string
-  const chatPartner = JSON.parse(chatPartnerRaw) as any
-
-  return { title: `Unigrow | ${chatPartner?.name} chat` }
-}
-
 interface PageProps {
   params: {
     chatId: string
