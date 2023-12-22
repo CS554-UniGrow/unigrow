@@ -98,7 +98,7 @@ const People = () => {
         {filteredData?.map((user: any) => (
           <Card key={user._id}>
             <CardHeader>
-              <Link href={`/people/${user._id}/`}>{session?.user?.name}</Link>
+              <Link href={`/people/${user._id}/`}>{user?.name}</Link>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex items-center justify-between space-x-4">
