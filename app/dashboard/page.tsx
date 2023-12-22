@@ -132,7 +132,7 @@ const Dashboard = () => {
     <div className="container mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <h1 className="mb-4 text-6xl font-bold">
-          Welcome to UniGrow, {user.name}
+          Welcome to UniGrow, {user?.name}
         </h1>
         <p className="mb-20 text-2xl">
           Discover your academic tools and resources.
@@ -208,9 +208,9 @@ const Dashboard = () => {
         {filteredData?.length > 0 ? (
           <div className="mb-12 grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData?.map((user: any) => (
-              <Card key={user._id}>
+              <Card key={user?._id}>
                 <CardHeader>
-                  <Link href={`/people/${user._id}/`}>
+                  <Link href={`/people/${user?._id}/`}>
                     {user?.sortable_name}
                   </Link>
                 </CardHeader>
@@ -218,7 +218,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between space-x-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2">
-                        <Link href={`/people/${user._id}/`}>
+                        <Link href={`/people/${user?._id}/`}>
                           <Avatar>
                             <AvatarImage
                               src={
