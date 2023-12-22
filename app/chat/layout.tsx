@@ -86,7 +86,7 @@ const Layout = async ({ children }: LayoutProps) => {
         </nav>
       </div>
 
-      <aside className="container max-h-screen w-full">{children}</aside>
+      <div className="container max-h-screen w-full">{children}</div>
     </div>
   )
 }

@@ -150,7 +150,7 @@ const Questionnaire = ({
                     disabled={manual}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Major" />
+                      <SelectValue id="major" placeholder="Major" />
                     </SelectTrigger>
                     <SelectContent>
                       {departmentList.map(({ course_code, department }) => (
@@ -173,7 +173,7 @@ const Questionnaire = ({
             name="joiningTerm"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Joining Term</FormLabel>
+                <FormLabel htmlFor="joiningTerm">Joining Term</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -204,9 +204,13 @@ const Questionnaire = ({
             name="canvasToken"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Canvas Token</FormLabel>
+                <FormLabel htmlFor="canvasToken">Canvas Token</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your Canvas Token" {...field} />
+                  <Input
+                    id="canvasToken"
+                    placeholder="Enter your Canvas Token"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
                   Generate your Canvas access token. Accessing the Canvas API
@@ -261,7 +265,6 @@ const Questionnaire = ({
                   height="315"
                   src="https://www.youtube.com/embed/_yt8rfD7MTk"
                   title="YouTube video player"
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>

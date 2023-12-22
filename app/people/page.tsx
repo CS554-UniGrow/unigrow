@@ -9,7 +9,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList
 } from "@/components/ui/command"
@@ -111,7 +110,11 @@ const People = () => {
                       <p className="text-sm ">{user?.primary_email}</p>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" className="ml-auto">
+                          <Button
+                            variant="outline"
+                            className="ml-auto"
+                            aria-controls="radix-:R1arbdj9:"
+                          >
                             Courses{" "}
                             <ChevronDownIcon className="ml-2 h-4 w-4 text-muted-foreground" />
                           </Button>
