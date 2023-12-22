@@ -54,7 +54,7 @@ const CourseById = () => {
   )
 
   if (error) {
-    return <Error />
+    return <Error error={error} />
   }
   if (loading) {
     return <Loading />
