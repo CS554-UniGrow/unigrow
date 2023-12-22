@@ -16,6 +16,7 @@ import { useEffect, useState } from "react"
 import Loading from "@/components/ui/loading"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
+import Error from "@/components/Error"
 
 function useFetchCourse(course_code: string) {
   const [data, setData] = useState({} as Course)
@@ -53,7 +54,7 @@ const CourseById = () => {
   )
 
   if (error) {
-    return <div>Error</div>
+    return <Error error={error} />
   }
   if (loading) {
     return <Loading />

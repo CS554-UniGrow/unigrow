@@ -1,5 +1,6 @@
 "use client"
 
+import Error from "@/components/Error"
 import People from "../people/page"
 import { getSessionServer } from "@/lib/hooks"
 import { useSession } from "next-auth/react"
@@ -123,7 +124,7 @@ const Dashboard = () => {
   )
 
   if (error || todoError || peopleError) {
-    return <div>Error</div>
+    return <Error error={error} />
   }
   if (loading || todoLoading || peopleLoading) {
     return <Loading />
