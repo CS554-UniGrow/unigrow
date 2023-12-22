@@ -6,6 +6,7 @@ import {
   users as userCollection
 } from "@/config/mongo/mongoCollections"
 import { NextRequest, NextResponse } from "next/server"
+import { db as redisClient } from "@/lib/db"
 
 async function seed() {
   try {
@@ -21,9 +22,11 @@ async function seed() {
     await courses.deleteMany({})
     await users.deleteMany({})
     logger.info("Collections cleared.")
+    // clear redis upstash
+    await redisClient.flushall()
+    logger.info("REDIS UPSTASH cleared.")
 
     await courses.insertMany(seedData)
-
     return "Data seeded successfully."
   } catch (error: any) {
     const message = `Error seeding data: ${error.message}`
