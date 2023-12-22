@@ -103,22 +103,20 @@ function useFetchPeople() {
         setPeopleLoading(false)
       })
   }, [])
-
   return { peopleData, peopleError, peopleLoading }
 }
 
 const Dashboard = () => {
   const { data: session, status }: any = useSession()
-
   if (!session) {
     redirect("/signout")
   }
   const user = session?.user
   const user_id = user?._id
   const { peopleData, peopleError, peopleLoading } = useFetchPeople()
-  const { data, error, loading } = useFetchPerson(user_id as string)
+  let { data, error, loading } = useFetchPerson(user_id as string)
   const { todoData, todoError, todoLoading } = useFetchTodo(user_id as string)
-
+  error = error || todoError || peopleError
   const filteredData = peopleData?.filter(
     (user: any) => user?.major === data?.major && user?.email != data?.email
   )
@@ -133,7 +131,7 @@ const Dashboard = () => {
     <div className="container mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <h1 className="mb-4 text-6xl font-bold">
-          Welcome to UniGrow, {user.name}
+          Welcome to UniGrow, {user?.name}
         </h1>
         <p className="mb-20 text-2xl">
           Discover your academic tools and resources.
@@ -209,9 +207,9 @@ const Dashboard = () => {
         {filteredData?.length > 0 ? (
           <div className="mb-12 grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredData?.map((user: any) => (
-              <Card key={user._id}>
+              <Card key={user?._id}>
                 <CardHeader>
-                  <Link href={`/people/${user._id}/`}>
+                  <Link href={`/people/${user?._id}/`}>
                     {user?.sortable_name}
                   </Link>
                 </CardHeader>
@@ -219,7 +217,7 @@ const Dashboard = () => {
                   <div className="flex items-center justify-between space-x-4">
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-2">
-                        <Link href={`/people/${user._id}/`}>
+                        <Link href={`/people/${user?._id}/`}>
                           <Avatar>
                             <AvatarImage
                               src={
@@ -233,7 +231,7 @@ const Dashboard = () => {
                         </Link>
                         <div>
                           <p className="text-sm ">{user?.primary_email}</p>
-                          <Popover>
+                          <Popover key={user?._id}>
                             <PopoverTrigger asChild>
                               <Button variant="outline" className="ml-auto">
                                 Courses{" "}
@@ -242,13 +240,12 @@ const Dashboard = () => {
                             </PopoverTrigger>
                             <PopoverContent className="p-0" align="start">
                               <Command>
-                                <CommandInput placeholder="Search Course..." />
                                 <CommandList>
                                   <CommandEmpty>No courses found.</CommandEmpty>
                                   <CommandGroup>
-                                    {user.courses.map((course: string) => (
+                                    {user?.courses?.map((course: string) => (
                                       <Link
-                                        key={user._id + course}
+                                        key={user?._id + course}
                                         href={`/course/${encodeURI(course)}`}
                                       >
                                         <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">

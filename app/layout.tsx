@@ -27,6 +27,7 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {/* <meta httpEquiv="Content-Type" content="text/html" /> */}
         {/* <meta name="description" content="Stevens University Portal" /> */}
         <title>Unigrow</title>
       </head>
@@ -38,11 +39,11 @@ export default async function RootLayout({
               {/* <NextTopLoader showSpinner={false} shadow={false} /> */}
               <Nav />
 
-              <div className="mt-16 flex-1 p-10">{children}</div>
+              <div className="mt-14 flex-1 p-8">{children}</div>
             </div>
           </ThemeProvider>
         </AuthProvider>
-        <footer className="footer-section">
+        {/* <footer className="footer-section">
           <div className="container mx-auto text-center">
             <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <a href="/" className="text-base hover:text-blue-600">
@@ -60,7 +61,7 @@ export default async function RootLayout({
             </div>
             <p>© {new Date().getFullYear()} UniGrow. All rights reserved.</p>
           </div>
-        </footer>
+        </footer> */}
       </body>
     </html>
   )

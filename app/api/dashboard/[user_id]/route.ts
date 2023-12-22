@@ -12,6 +12,6 @@ export async function GET(
     return NextResponse.json(data)
   } catch (e) {
     logger.error(e)
-    return NextResponse.json({ error: "Internal Server Error" })
+    throw e
   }
 }
