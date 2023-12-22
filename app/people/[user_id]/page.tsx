@@ -66,10 +66,8 @@ const User_Profile = () => {
   const params = useParams()
   const { user_id } = params
   const { data, error, loading } = useFetchPerson(user_id as string)
-  //console.log(error)
   if (error) {
-    console.log(error)
-    return <Error error={error} />
+    return <Error />
   }
 
   if (loading) {

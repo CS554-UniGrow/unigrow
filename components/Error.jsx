@@ -4,12 +4,11 @@ import React from "react"
 import Link from "next/link"
 import { Button } from "./ui/button"
 
-const Error = ({ error }) => {
+const Error = () => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="mb-12 text-center">
         <h1>Error! Something went wrong</h1>
-        <h2>{error}</h2>
       </div>
       <div>
         <div className="container mx-auto px-4 py-12 text-center">

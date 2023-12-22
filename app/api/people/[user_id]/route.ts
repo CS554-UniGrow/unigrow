@@ -12,7 +12,7 @@ export async function GET(
   params: { params: { user_id: string } }
 ) {
   try {
-    throw "Error cdsacscds"
+    throw new Error("test")
     const user_id = params?.params?.user_id
     const data = await getUserById(user_id)
 
@@ -40,7 +40,6 @@ export async function GET(
     return NextResponse.json(data)
   } catch (e) {
     logger.error(e)
-    //return NextResponse.json({ error: "Internal Server Error" })
-    throw e
+    throw new Error("Internal Server Error")
   }
 }
