@@ -80,7 +80,7 @@ const page = async ({ params }: PageProps) => {
   const initialMessages = await getChatMessages(chatId)
 
   return (
-    <div className="flex h-full min-h-[calc(100vh-14rem)] flex-1 flex-col justify-between">
+    <div className="flex h-full max-h-[calc(100vh-8rem)] flex-1 flex-col justify-between">
       <div className="flex justify-between border-b-2 border-gray-200 py-3 sm:items-center ">
         <div className="relative flex items-center space-x-4">
           <div className="relative">
@@ -104,7 +104,7 @@ const page = async ({ params }: PageProps) => {
           </div>
         </div>
       </div>
-      <div>
+      <div className="overflow-y-auto">
         <Messages
           chatId={chatId}
           chatPartner={chatPartner}
@@ -112,8 +112,8 @@ const page = async ({ params }: PageProps) => {
           sessionId={session?.user?._id}
           initialMessages={initialMessages}
         />
-        <ChatInput chatId={chatId} chatPartner={chatPartner} />
       </div>
+      <ChatInput chatId={chatId} chatPartner={chatPartner} />
     </div>
   )
 }
