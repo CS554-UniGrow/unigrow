@@ -132,23 +132,25 @@ const CourseById = () => {
                       )}
                     </dd>
                   </div>
-                  <div className="grid grid-cols-3 items-center gap-4 px-0 px-4 py-6">
+                  <div className="grid grid-cols-3 items-center gap-4 px-4 py-6">
                     <dt className="col-span-1 text-sm font-medium leading-6">
                       Course Rating
                     </dt>
                     <dd className="col-span-1 mt-1 text-sm leading-6">
                       {rating || 0} / 5
+                      <div className="col-span-1 flex justify-end">
+                        {data?.currently_enrolled?.includes(session.user._id) ||
+                        data?.previously_enrolled?.includes(
+                          session.user._id
+                        ) ? (
+                          <ReviewRating
+                            courseId={data._id}
+                            courseCode={data.course_code}
+                            fetchData={fetchData}
+                          />
+                        ) : null}
+                      </div>
                     </dd>
-                    <div className="col-span-1 flex justify-end">
-                      {data?.currently_enrolled?.includes(session.user._id) ||
-                      data?.previously_enrolled?.includes(session.user._id) ? (
-                        <ReviewRating
-                          courseId={data._id}
-                          courseCode={data.course_code}
-                          fetchData={fetchData}
-                        />
-                      ) : null}
-                    </div>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 ">

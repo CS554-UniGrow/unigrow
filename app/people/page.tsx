@@ -77,8 +77,8 @@ const People = () => {
 
   return (
     <div>
-      <h3 className="text-4xl">People using our application</h3>
-      <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="flex max-w-md flex-col space-y-4 p-4">
+        <h3 className="text-xl">Search for Students</h3>
         <Input
           type="text"
           placeholder="Search by name or course code..."
@@ -93,7 +93,7 @@ const People = () => {
         {filteredData?.map((user: any) => (
           <Card key={user._id}>
             <CardHeader>
-              <Link href={`/people/${user._id}/`}>{user?.sortable_name}</Link>
+              <Link href={`/people/${user._id}/`}>{session?.user?.name}</Link>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex items-center justify-between space-x-4">
