@@ -33,7 +33,12 @@ function useFetchPeople() {
 
   useEffect(() => {
     setLoading(true)
-    fetch("/api/people", { cache: "no-store" })
+    fetch("/api/people", {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_API_SEED_SECRET}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data)
@@ -62,7 +67,7 @@ const People = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   if (error) {
-    return <Error />
+    return <Error error={error} />
   }
   if (loading) {
     return <Loading />
