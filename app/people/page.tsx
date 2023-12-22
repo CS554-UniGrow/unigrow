@@ -24,6 +24,7 @@ import Link from "next/link"
 import { Input } from "@/components/ui/input"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
+import Error from "@/components/Error"
 
 function useFetchPeople() {
   const [data, setData] = useState([])
@@ -61,7 +62,7 @@ const People = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   if (error) {
-    return <div>Error</div>
+    return <Error />
   }
   if (loading) {
     return <Loading />

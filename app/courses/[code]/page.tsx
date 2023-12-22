@@ -1,6 +1,6 @@
 "use client"
 export const dynamic = "force-dynamic"
-
+import Error from "@/components/Error"
 import { getCourseByDepartment } from "@/data/courses/course"
 import {
   Accordion,
@@ -94,7 +94,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   ]
 
   if (error) {
-    return <div>Error</div>
+    return <Error />
   }
 
   if (loading) {

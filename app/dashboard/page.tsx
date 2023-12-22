@@ -1,5 +1,6 @@
 "use client"
 
+import Error from "@/components/Error"
 import People from "../people/page"
 import { getSessionServer } from "@/lib/hooks"
 import { useSession } from "next-auth/react"
@@ -120,8 +121,8 @@ const Dashboard = () => {
     (user: any) => user?.major === data?.major && user?.email != data?.email
   )
 
-  if (error || error || peopleError) {
-    return <div>Error</div>
+  if (error || todoError || peopleError) {
+    return <Error />
   }
   if (loading || todoLoading || peopleLoading) {
     return <Loading />
