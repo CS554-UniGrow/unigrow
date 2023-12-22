@@ -16,11 +16,11 @@ const Error = () => {
           <p>Try signing out and signing in again</p>
           <p>Try clearing your browser cache and reload the website</p>
         </div>
+        <Button asChild>
+          <Link href="/signout">Login Again</Link>
+        </Button>
       </div>
 
-      <Link href="/dashboard">
-        <Button>Dashboard</Button>
-      </Link>
       {/* <Link href="/signup">
         <Button>Signup</Button>
       </Link> */}
