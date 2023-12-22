@@ -72,9 +72,10 @@ const People = () => {
   if (loading) {
     return <Loading />
   }
+
   const filteredData = data?.filter(
     (user: any) =>
-      user?.sortable_name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
+      user?.name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
       user?.courses?.some((course: string) =>
         course.toLowerCase().includes(searchQuery.toLowerCase())
       )
