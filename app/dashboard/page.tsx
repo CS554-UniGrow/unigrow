@@ -230,7 +230,7 @@ const Dashboard = () => {
                         </Link>
                         <div>
                           <p className="text-sm ">{user?.primary_email}</p>
-                          <Popover>
+                          <Popover key={user?._id}>
                             <PopoverTrigger asChild>
                               <Button variant="outline" className="ml-auto">
                                 Courses{" "}
@@ -239,7 +239,6 @@ const Dashboard = () => {
                             </PopoverTrigger>
                             <PopoverContent className="p-0" align="start">
                               <Command>
-                                <CommandInput placeholder="Search Course..." />
                                 <CommandList>
                                   <CommandEmpty>No courses found.</CommandEmpty>
                                   <CommandGroup>
