@@ -121,7 +121,11 @@ const Questionnaire = ({
       }
 
       await update({ isOnboarded: true, avatar_url: result?.avatar_url })
-      router.push("/dashboard")
+      if (!manual) {
+        router.push("/dashboard")
+      } else {
+        form.reset()
+      }
     } catch (e) {
       // Handle errors
     } finally {

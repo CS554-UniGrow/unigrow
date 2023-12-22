@@ -44,12 +44,12 @@ export const handleSubmitAction = async (
           status: 400
         }
       }
-    }
-    if (manual == true && data.major !== major) {
-      return {
-        message: "You cannot change your major",
-        path: ["major"],
-        status: 400
+      if (data.major !== major) {
+        return {
+          message: "You cannot change your major",
+          path: ["major"],
+          status: 400
+        }
       }
     }
 
