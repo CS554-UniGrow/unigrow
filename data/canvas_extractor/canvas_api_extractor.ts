@@ -108,7 +108,12 @@ async function getUserProfileDetails({
   })
 
   const res = await usersCollection.updateOne({ _id: uid }, { $set: response })
-  return response
+  userInDB = await usersCollection.findOne({
+    id: response.id,
+    login_id: response.login_id,
+    primary_email: response.primary_email
+  })
+  return userInDB
 }
 
 async function updateCourseCollection(updatedCourseDetails: any, uid: string) {
