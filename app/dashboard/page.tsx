@@ -102,27 +102,25 @@ function useFetchPeople() {
         setPeopleLoading(false)
       })
   }, [])
-
   return { peopleData, peopleError, peopleLoading }
 }
 
 const Dashboard = () => {
   const { data: session, status }: any = useSession()
-
   if (!session) {
     redirect("/signout")
   }
   const user = session?.user
   const user_id = user?._id
   const { peopleData, peopleError, peopleLoading } = useFetchPeople()
-  const { data, error, loading } = useFetchPerson(user_id as string)
+  let { data, error, loading } = useFetchPerson(user_id as string)
   const { todoData, todoError, todoLoading } = useFetchTodo(user_id as string)
-
+  error = error || todoError || peopleError
   const filteredData = peopleData?.filter(
     (user: any) => user?.major === data?.major && user?.email != data?.email
   )
 
-  if (error || todoError || peopleError) {
+  if (error || error || peopleError) {
     return <div>Error</div>
   }
   if (loading || todoLoading || peopleLoading) {
