@@ -12,7 +12,6 @@ export async function GET(
   params: { params: { user_id: string } }
 ) {
   try {
-    throw new Error("test")
     const user_id = params?.params?.user_id
     const data = await getUserById(user_id)
 
