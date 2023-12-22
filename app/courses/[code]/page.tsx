@@ -94,7 +94,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   ]
 
   if (error) {
-    return <Error />
+    return <Error error={error} />
   }
 
   if (loading) {
