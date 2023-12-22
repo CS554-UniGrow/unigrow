@@ -94,7 +94,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
   ]
 
   if (error) {
-    return <Error />
+    return <Error error={error} />
   }
 
   if (loading) {
@@ -113,7 +113,7 @@ const DepertmentCourses = ({ params }: { params: { code: string } }) => {
             type="text"
             placeholder="Search by Course name or course code..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value.trim())}
+            onChange={(e) => setSearchQuery(e.target.value)}
             maxLength={40}
           />
         </div>

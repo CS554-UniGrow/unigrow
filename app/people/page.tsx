@@ -33,7 +33,12 @@ function useFetchPeople() {
 
   useEffect(() => {
     setLoading(true)
-    fetch("/api/people", { cache: "no-store" })
+    fetch("/api/people", {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_API_SEED_SECRET}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data)
@@ -62,14 +67,15 @@ const People = () => {
   const [searchQuery, setSearchQuery] = useState("")
 
   if (error) {
-    return <Error />
+    return <Error error={error} />
   }
   if (loading) {
     return <Loading />
   }
+
   const filteredData = data?.filter(
     (user: any) =>
-      user?.sortable_name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
+      user?.name?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
       user?.courses?.some((course: string) =>
         course.toLowerCase().includes(searchQuery.toLowerCase())
       )
@@ -83,7 +89,7 @@ const People = () => {
           type="text"
           placeholder="Search by name or course code..."
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value.trim())}
+          onChange={(e) => setSearchQuery(e.target.value)}
           maxLength={40}
         />
       </div>
@@ -93,7 +99,7 @@ const People = () => {
         {filteredData?.map((user: any) => (
           <Card key={user._id}>
             <CardHeader>
-              <Link href={`/people/${user._id}/`}>{session?.user?.name}</Link>
+              <Link href={`/people/${user._id}/`}>{user?.name}</Link>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex items-center justify-between space-x-4">

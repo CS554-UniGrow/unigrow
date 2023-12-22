@@ -41,7 +41,6 @@ async function updateOverallRating(courseId: string) {
   const result = await courses.findOne({ _id: courseId })
 
   if (!result) {
-    console.error("Course not found")
     return
   }
 
@@ -49,7 +48,6 @@ async function updateOverallRating(courseId: string) {
   const ratings = result.course_ratings.map((review: any) => review.rating)
 
   if (ratings.length === 0) {
-    console.error("No ratings available for the course")
     return
   }
 
