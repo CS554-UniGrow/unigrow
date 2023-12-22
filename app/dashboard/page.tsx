@@ -245,9 +245,9 @@ const Dashboard = () => {
                                 <CommandList>
                                   <CommandEmpty>No courses found.</CommandEmpty>
                                   <CommandGroup>
-                                    {user.courses.map((course: string) => (
+                                    {user?.courses?.map((course: string) => (
                                       <Link
-                                        key={user._id + course}
+                                        key={user?._id + course}
                                         href={`/course/${encodeURI(course)}`}
                                       >
                                         <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">
