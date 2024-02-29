@@ -45,7 +45,7 @@
     "crypto": "^1.0.1",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
-    "firebase": "^10.7.0",
+    "firebase": "^10.8.1",
     "lucide-react": "^0.295.0",
     "mongodb": "^6.3.0",
     "nanoid": "^5.0.4",
