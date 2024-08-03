@@ -1,6 +1,6 @@
-# Project Title
+# Unigrow
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Our mission is to create a campus ecosystem characterized by free-flowing information, collaborative spirit, and easy access to academic resources. Our platform goes beyond being a mere tool; it serves as a gateway to unlock your potential. Through seamless integration with Canvas, we offer immediate access to course syllabi, support real-time discussions, and provide a comprehensive database of peer-generated course ratings and reviews. Join us on this educational journey, embrace the possibilities, and become a member of a dynamic community committed to achieving academic success. With UniGrow, your academic goals are achievable.
 
 ## Technologies Used
 
