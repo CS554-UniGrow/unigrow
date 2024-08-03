@@ -36,7 +36,7 @@ export default function Faq() {
   return (
     <main className="faq-page">
       {/* FAQ Header */}
-      <section className="faq-header-section container mx-auto py-24 text-center">
+      <section className="faq-header-section container mx-auto mb-16 mt-10 text-center">
         <h1 className="mb-6 text-5xl font-bold">Frequently Asked Questions</h1>
         <p className="text-xl">
           Everything you need to know to get started and navigate UniGrow with
