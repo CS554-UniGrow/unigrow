@@ -20,10 +20,6 @@ import {
   NavigationMenuList
 } from "@radix-ui/react-navigation-menu"
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
-import toast from "react-hot-toast"
-import { addFriendValidator } from "@/lib/validations/add-friend"
-import axios from "axios"
-import { chatHrefConstructor } from "@/lib/utils"
 import Error from "@/components/Error"
 import AddFriendButton from "@/components/AddFriendButton"
 import Questionnaire from "@/components/Questionnaire"

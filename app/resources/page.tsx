@@ -7,7 +7,7 @@ const Resources: React.FC = () => {
   return (
     <main className="resources-page">
       {/* Resource Centre Header */}
-      <section className="resource-centre-header container mx-auto py-24 text-center ">
+      <section className="resource-centre-header container mx-auto my-10 mb-16 text-center ">
         <h1 className="mb-6 text-5xl font-bold">Resource Centre</h1>
         <p className="text-xl">
           Explore a wealth of resources and get in touch with us for any
@@ -143,14 +143,14 @@ const Resources: React.FC = () => {
               type="text"
               name="name"
               placeholder="Your Name"
-              className="mb-4 w-full p-2"
+              className="mb-4 w-full rounded-lg border border-gray-300 p-2"
               maxLength={20}
             />
             <input
               type="email"
               name="_replyto"
               placeholder="Your Email"
-              className="mb-4 w-full p-2"
+              className="mb-4 w-full rounded-lg border border-gray-300 p-2"
               maxLength={40}
             />
             <textarea

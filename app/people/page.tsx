@@ -97,15 +97,15 @@ const People = () => {
       {/* Display filtered data */}
       <div className="grid grid-cols-1 gap-5 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredData?.map((user: any) => (
-          <Card key={user._id}>
+          <Card key={user?._id}>
             <CardHeader>
-              <Link href={`/people/${user._id}/`}>{user?.name}</Link>
+              <Link href={`/people/${user?._id}/`}>{user?.name}</Link>
             </CardHeader>
             <CardContent className="grid gap-6">
               <div className="flex items-center justify-between space-x-4">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
-                    <Link href={`/people/${user._id}/`}>
+                    <Link href={`/people/${user?._id}/`}>
                       <Avatar>
                         <AvatarImage
                           src={user?.avatar_url || user?.image || loadingLogo}
@@ -132,9 +132,9 @@ const People = () => {
                             <CommandList>
                               <CommandEmpty>No courses found.</CommandEmpty>
                               <CommandGroup>
-                                {user.courses?.map((course: string) => (
+                                {user?.courses?.map((course: string) => (
                                   <Link
-                                    key={user._id + course}
+                                    key={user?._id + course}
                                     href={`/course/${encodeURI(course)}`}
                                   >
                                     <CommandItem className="teamaspace-y-1 flex flex-col items-start px-4 py-2">

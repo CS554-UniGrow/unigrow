@@ -1,7 +1,6 @@
 "use client"
 export const dynamic = "force-dynamic"
 import Error from "@/components/Error"
-import { getCourseByDepartment } from "@/data/courses/course"
 import {
   Accordion,
   AccordionContent,
@@ -9,28 +8,16 @@ import {
   AccordionTrigger
 } from "@/components/ui/accordion"
 import { departmentMapper } from "@/lib/constants"
-import ReviewRating from "@/components/ReviewRating"
-
-import { Button } from "@/components/ui/button"
 import { Course } from "@/lib/types"
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter
-} from "@/components/ui/card"
 import Link from "next/link"
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { redirect, notFound } from "next/navigation"
 import { Input } from "@/components/ui/input"
-import { Link2, Underline } from "lucide-react"
 import Loading from "@/app/loading"
 
 function useFetchCourse(code: string) {
   const [data, setData] = useState([] as Course[])
-  const [userData, setUserData] = useState([] as User[])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
 

@@ -11,15 +11,11 @@ import {
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { departmentList } from "@/lib/constants"
-
-import { options } from "@/app/api/auth/[...nextauth]/options"
-import { redirect } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 
 const Departments = () => {
-  const { data: session, status }: any = useSession()
   const [searchQuery, setSearchQuery] = useState("")
 
   const filteredData = departmentList.filter((department) => {
