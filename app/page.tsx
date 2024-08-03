@@ -9,17 +9,9 @@ export const dynamic = "force-dynamic"
 export default async function Home() {
   const session: any = await getServerSession(options)
 
-  // if (session?.user?.isAuthenticated && !session?.user?.isOnboarded) {
-  //   return redirect("/onboarding")
-  // }
-
-  // if (session?.user?.isAuthenticated && session?.user?.isOnboarded) {
-  //   return redirect("/dashboard")
-  // }
-
   return (
     <div>
-      <section className="hero-section container mx-auto py-24 text-center">
+      <section className="hero-section container mx-auto mb-10 text-center">
         <h1 className="mb-12 text-5xl font-bold">
           Empowering Your Academic Journey
         </h1>
@@ -33,67 +25,63 @@ export default async function Home() {
         </Button>
       </section>
 
-      {/* Detailed Features Section */}
-
-      <section className="features-section bg-black-100 py-12">
+      <section className="features-section bg-black-100 py-2">
         <div className="container mx-auto grid grid-cols-3 gap-8">
-          {/* Dynamic Feature Cards */}
-          {/* Feature 1: Course Syllabus Integration */}
           <Card className="feature-card transition duration-300 hover:shadow-lg">
-            <h2 className="feature-title mb-4 text-xl font-semibold">
+            <h2 className="feature-title mx-3 mb-4 text-xl font-semibold">
               Syllabus at a Glance
             </h2>
-            <p>
+            <p className="mx-3">
               Automatically synchronize the latest syllabus from Canvas. Stay
               updated and plan ahead with ease.
             </p>
           </Card>
-          {/* Feature 2: Real-time Communication */}
           <Card className="feature-card transition duration-300 hover:shadow-lg">
-            <h2 className="feature-title mb-4 text-xl font-semibold">
+            <h2 className="feature-title mx-3 mb-4 text-xl font-semibold">
               Connect Instantly
             </h2>
-            <p>
+            <p className="mx-3">
               Engage in real-time discussions with peers and mentors. The
               knowledge you need, shared and received live.
             </p>
           </Card>
-          {/* Feature 3: User Rating System */}
           <Card className="feature-card transition duration-300 hover:shadow-lg">
-            <h2 className="feature-title mb-4 text-xl font-semibold">
+            <h2 className="feature-title mx-3 mb-4 text-xl font-semibold">
               Peer Insights
             </h2>
-            <p>
+            <p className="mx-3">
               Benefit from collective wisdom. Rate and review courses with
               insights from those who experienced them.
             </p>
           </Card>
-          {/* Additional feature cards as necessary */}
         </div>
       </section>
 
-      <section className="about-section py-12">
+      <section className="about-section my-10">
         <div className="container mx-auto text-center">
           <h2 className="mb-4 text-3xl font-bold">Our Mission</h2>
-          <p className="mb-6 text-xl">
-            We envision a campus ecosystem where information flows freely,
-            collaboration is the norm, and academic resources are readily at
-            hand.
-          </p>
-          <p className="mb-6 text-xl">
-            Our platform is more than just a tool; it&apos;s a gateway to
-            unlocking your potential. By seamlessly integrating with Canvas, we
-            provide instant access to course syllabi, facilitate real-time
-            discussions, and offer a robust database of peer-driven course
-            ratings and reviews.
-          </p>
-          <p className="text-xl">
-            Join us on this journey. Embrace the possibilities that lay before
-            you and become a part of a vibrant community dedicated to
-            educational success. With UniGrow, your academic aspirations are
-            within reach.
-          </p>
-          <Button asChild>
+          <Card>
+            <p className="font my-3 mb-6 text-lg">
+              We envision a campus ecosystem where information flows freely,
+              collaboration is the norm, and academic resources are readily at
+              hand.
+            </p>
+            <p className="my-3 mb-6 text-lg">
+              Our platform is more than just a tool; it&apos;s a gateway to
+              unlocking your potential. By seamlessly integrating with Canvas,
+              we provide instant access to course syllabi, facilitate real-time
+              discussions, and offer a robust database of peer-driven course
+              ratings and reviews.
+            </p>
+            <p className="my-3 text-lg">
+              Join us on this journey. Embrace the possibilities that lay before
+              you and become a part of a vibrant community dedicated to
+              educational success. With UniGrow, your academic aspirations are
+              within reach.
+            </p>
+          </Card>
+
+          <Button asChild className="mt-7">
             <Link href="/aboutus">Learn More</Link>
           </Button>
         </div>
@@ -101,39 +89,37 @@ export default async function Home() {
 
       <div className="color= bg-clip-padding "></div>
 
-      {/* Testimonials Section with Carousel */}
-      <section className="testimonials-section bg-black-100 py-12">
+      <section className="testimonials-section bg-black-100 py-8">
         <div className="container mx-auto">
           <h2 className="mb-8 text-center text-3xl font-bold">
             Success Stories
           </h2>
-          {/* Testimonials Carousel */}
+
           <div className="testimonial-carousel">
-            {/* Individual Testimonials */}
-            <blockquote className="testimonial-item">
-              <p>
+            <Card className="testimonial-item">
+              <p className="mx-3 my-3">
                 &quot;The course selection process was always daunting, but
                 UniGrow&apos;s intuitive platform made it a breeze. The peer
                 reviews and detailed syllabi gave me the confidence to choose
                 the right courses for my career goals.&quot;
               </p>
-              <footer className="testimonial-author">
+              <footer className="testimonial-author mx-3">
                 — Yash Kapoor, Master&apos;s in Compute Science, Fall 2022
               </footer>
-            </blockquote>
-            {/* Additional testimonials */}
+            </Card>
+
             <br />
-            {/* Individual Testimonials */}
-            <blockquote className="testimonial-item">
-              <p>
+
+            <Card className="testimonial-item ">
+              <p className="mx-3 my-3">
                 &quot;Connecting with peers through UniGrow transformed my study
                 sessions. It was incredibly insightful to exchange ideas with
                 those who&apos;ve walked the path before.&quot;
               </p>
-              <footer className="testimonial-author">
+              <footer className="mx-3 my-3">
                 — Jane Doe, Master&apos;s in Data Science, Spring 2023
               </footer>
-            </blockquote>
+            </Card>
           </div>
         </div>
       </section>
@@ -150,12 +136,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Footer Section 
-      bg-gray-800: Sets the background color of the footer.
-      text-white: Sets the text color to white.
-      py-8: Adds vertical padding.
-      
-      */}
       <footer className="footer-section">
         <div className="container mx-auto text-center">
           <div className="footer-links mb-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
