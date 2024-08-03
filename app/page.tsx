@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div>
-      <section className="hero-section container mx-auto mb-10 text-center">
+      <section className="hero-section container mx-auto my-10 text-center">
         <h1 className="mb-12 text-5xl font-bold">
           Empowering Your Academic Journey
         </h1>
