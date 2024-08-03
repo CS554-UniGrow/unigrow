@@ -17,7 +17,7 @@ const Loading = () => {
   const randomSrc = imageSources[randomIndex]
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-opacity-50">
       <RoundImage
         width={200}
         height={200}

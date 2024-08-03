@@ -8,6 +8,11 @@ export const getCanvasToken = async (uid: string) => {
   const user = await users()
   try {
     const currentUser = await user.findOne({ _id: uid })
+    if (!currentUser.email.endsWith("@stevens.edu")) {
+      const apiKey =
+        process.env.NEXT_PUBLIC_CANVAS_TOKEN || "No Canvas Token Found"
+      return apiKey
+    }
     const apiKey = decrypt(currentUser.apiKey_hashed)
     return apiKey.trim()
   } catch (e) {

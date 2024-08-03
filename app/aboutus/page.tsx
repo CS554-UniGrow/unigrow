@@ -7,15 +7,13 @@ export default function About() {
   return (
     <main>
       {/* Page Header */}
-      <section className="page-header-section container mx-auto my-8  p-8 py-24 text-center">
+      <section className="page-header-section container mx-auto p-8 text-center">
         <h1 className="mb-6 text-5xl font-bold">About UniGrow</h1>
         <p className="mb-8 text-xl">
           Discover the vision, team, and passion behind UniGrow.
         </p>
       </section>
-
-      {/* Our Vision */}
-      <section className="our-vision-section container mx-auto my-8  p-8 text-center">
+      <section className="our-vision-section container mx-auto mt-4  p-8 text-center">
         <div className="container mx-auto">
           <h2 className="mb-4 text-3xl  font-bold">Our Vision</h2>
           <p className="mb-6 text-xl">
@@ -42,38 +40,52 @@ export default function About() {
 
       <section className="our-values-section container mx-auto my-8 p-8 text-center">
         <div className="container mx-auto">
-          <h2 className="mb-8 text-3xl font-bold">Our Values</h2>
+          <h2 className="mb-10 text-3xl font-bold">Our Values</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {/* Value: Innovation */}
-            <div className="value-card rounded-lg shadow-lg">
+            <Card className="value-card rounded-lg shadow-lg">
               <h3 className="mb-3 text-xl font-semibold">Innovation</h3>
-              <p>
+              <p className="my-3">
                 Pioneering the future of educational technology with creativity
                 and a forward-thinking mindset.
               </p>
-            </div>
+            </Card>
             {/* Value: Empowerment */}
-            <div className="value-card rounded-lg shadow-lg">
+            <Card className="rounded-lg shadow-lg">
               <h3 className="mb-3 text-xl font-semibold">Empowerment</h3>
               <p>
                 Equipping students with the tools and confidence to take charge
                 of their learning journey.
               </p>
-            </div>
+            </Card>
             {/* Value: Community */}
-            <div className="value-card rounded-lg shadow-lg">
+            <Card className="rounded-lg shadow-lg">
               <h3 className="mb-3 text-xl font-semibold">Community</h3>
               <p>
                 Cultivating a vibrant ecosystem where collaboration and shared
                 success are celebrated.
               </p>
-            </div>
+            </Card>
           </div>
         </div>
       </section>
 
+      <section className="our-story-section container mx-auto my-8 p-8 text-center">
+        <div className="container mx-auto">
+          <h2 className="mb-8 text-center text-3xl font-bold">Our Story</h2>
+          <p className="mb-6 text-xl">
+            Born from the simple need to demystify course selection, UniGrow was
+            conceived by students, for students.
+          </p>
+          <p className="mb-6 text-xl">
+            Our platform emerged from our own struggles to access genuine course
+            insights and connect with peers. It&apos;s a testament to the power
+            of shared knowledge and the spirit of collaboration.
+          </p>
+        </div>
+      </section>
+
       {/* Meet the Team */}
-      <section className="meet-the-team-section my-8  py-12">
+      <section className="meet-the-team-section my-8">
         <div className="container mx-auto p-8 text-center">
           <h2 className="mb-8 text-3xl font-bold">Meet the Team</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -132,20 +144,6 @@ export default function About() {
       </section>
 
       {/* Our Story */}
-      <section className="our-story-section container mx-auto my-8 p-8 text-center">
-        <div className="container mx-auto">
-          <h2 className="mb-8 text-center text-3xl font-bold">Our Story</h2>
-          <p className="mb-6 text-xl">
-            Born from the simple need to demystify course selection, UniGrow was
-            conceived by students, for students.
-          </p>
-          <p className="mb-6 text-xl">
-            Our platform emerged from our own struggles to access genuine course
-            insights and connect with peers. It&apos;s a testament to the power
-            of shared knowledge and the spirit of collaboration.
-          </p>
-        </div>
-      </section>
     </main>
   )
 }

@@ -16,9 +16,9 @@ const auth = getAuth(app)
 //create user with plain email and password
 export const createPlainUser = async (email: string, password: string) => {
   try {
-    if (!email.endsWith("stevens.edu")) {
-      throw "Must use a Stevens college ID only"
-    }
+    // if (!email.endsWith("stevens.edu")) {
+    //   throw "Must use a Stevens college ID only"
+    // }
     const created_user = await createUserWithEmailAndPassword(
       auth,
       email,

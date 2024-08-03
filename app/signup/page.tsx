@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import logger from "@/lib/logger"
 import { signIn } from "next-auth/react"
+import { FaGoogle } from "react-icons/fa"
 
 const Signup = ({ searchParams: { error } }: any) => {
   const handleGoogleAuthSignUp = async () => {
@@ -18,20 +19,33 @@ const Signup = ({ searchParams: { error } }: any) => {
   }
 
   return (
-    <div className="border-1 border-black/4 0 mx-auto grid max-w-lg gap-10 rounded-xl">
-      <h1 className="text-center text-4xl">Continue with Google </h1>
-      <h3
-        className={`text-center ${
-          error === "AccessDenied" && "text-xl text-red-400"
-        } `}
-      >
-        Note: Only users with <code>stevens.edu</code> can access the
-        application.
-      </h3>
-      <Button onClick={handleGoogleAuthSignUp} variant="outline" type="button">
-        Google
-      </Button>
-    </div>
+    <>
+      <div className="mx-auto mt-44 grid max-w-lg gap-10 rounded-xl border-2 border-solid">
+        <h1 className="mt-10 text-center text-4xl font-medium">
+          Sign Up with Google
+        </h1>
+        <h3
+          className={`text-center ${
+            error === "AccessDenied" && "text-xl text-red-400"
+          } `}
+        ></h3>
+        <Button
+          className="mx-3 mb-5"
+          onClick={handleGoogleAuthSignUp}
+          variant="outline"
+          type="button"
+        >
+          <FaGoogle />
+        </Button>
+      </div>
+
+      <div className="mt-10 text-center font-thin">
+        <p>
+          Currently we only support sign in's with google, please make sure you
+          have a Gmail account handy
+        </p>
+      </div>
+    </>
   )
 }
 
