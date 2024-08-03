@@ -41,7 +41,7 @@ const Signup = ({ searchParams: { error } }: any) => {
 
       <div className="mt-10 text-center font-thin">
         <p>
-          Currently we only support sign in's with google, please make sure you
+          Currently we only support sign in with google, please make sure you
           have a Gmail account handy
         </p>
       </div>
