@@ -1,12 +1,9 @@
 "use client"
 
 import Error from "@/components/Error"
-import People from "../people/page"
-import { getSessionServer } from "@/lib/hooks"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
 import loadingLogo from "@/public/loading.png"
 import { useEffect, useState } from "react"
 import Loading from "@/components/ui/loading"
@@ -17,14 +14,12 @@ import {
   NavigationMenuLink,
   NavigationMenuList
 } from "@radix-ui/react-navigation-menu"
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList
 } from "@/components/ui/command"
@@ -141,9 +136,15 @@ const Dashboard = () => {
         <div className="flex justify-center">
           <div className="max-w-md rounded-lg px-8 py-4 shadow-md">
             <h3 className="mb-2 text-center text-xl font-semibold">Major</h3>
-            <p className="text-center text-lg">
-              {departmentMapper[data?.major]}
-            </p>
+            {!data?.major ? (
+              <p className="text-center text-lg font-extralight">
+                You seem to be on a guest profile with no Major
+              </p>
+            ) : (
+              <p className="text-center text-lg">
+                {departmentMapper[data?.major]}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -170,35 +171,42 @@ const Dashboard = () => {
           </NavigationMenuList>
         </NavigationMenu>
       </section>
+
       <section className="mb-20">
         <h2 className="mb-8 text-center text-2xl font-bold">Your TO-DO List</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {todoData?.map((todo: any) => (
-            <div
-              key={todo.assignment.id}
-              className="flex flex-col rounded-lg border p-4 shadow hover:shadow-lg"
-            >
-              <h3 className="mb-2 text-xl font-semibold">
-                {todo.context_name}
-              </h3>
-              <h2 className="mb-2 text-xl font-semibold">
-                {todo.assignment.name}
-              </h2>
-
-              <div className="mb-2 text-lg">
-                Due At: {new Date(todo.assignment.due_at).toLocaleString()}
-              </div>
-              <a
-                href={todo.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto text-blue-600 hover:text-blue-800"
+        {todoData.length === 0 ? (
+          <p className="text-center text-lg font-extralight">
+            No assignments due
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {todoData?.map((todo: any) => (
+              <div
+                key={todo.assignment.id}
+                className="flex flex-col rounded-lg border p-4 shadow hover:shadow-lg"
               >
-                Go to Assignment
-              </a>
-            </div>
-          ))}
-        </div>
+                <h3 className="mb-2 text-xl font-semibold">
+                  {todo.context_name}
+                </h3>
+                <h2 className="mb-2 text-xl font-semibold">
+                  {todo.assignment.name}
+                </h2>
+
+                <div className="mb-2 text-lg">
+                  Due At: {new Date(todo.assignment.due_at).toLocaleString()}
+                </div>
+                <a
+                  href={todo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto text-blue-600 hover:text-blue-800"
+                >
+                  Go to Assignment
+                </a>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
       <section>
         <h2 className="mb-8 text-center text-2xl font-bold">
@@ -268,13 +276,11 @@ const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <div className="mb-12 text-center text-xl">
+          <div className="mb-12 text-center text-lg font-extralight">
             We couldn&apos;t find people in your major.
           </div>
         )}
       </section>
-
-      {/* Write code for "Discover people in your major" */}
     </div>
   )
 }
