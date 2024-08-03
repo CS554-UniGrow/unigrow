@@ -21,7 +21,7 @@ const Signup = ({ searchParams: { error } }: any) => {
   return (
     <>
       <div className="mx-auto mt-44 grid max-w-lg gap-10 rounded-xl border-2 border-solid">
-        <h1 className="mt-10 text-center text-4xl font-thin">
+        <h1 className="mt-10 text-center text-4xl font-medium">
           Sign Up with Google
         </h1>
         <h3
