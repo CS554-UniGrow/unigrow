@@ -47,7 +47,7 @@
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
     "firebase": "^10.7.0",
-    "lucide-react": "^0.295.0",
+    "lucide-react": "^0.469.0",
     "mongodb": "^6.3.0",
     "nanoid": "^5.0.4",
     "next": "14.0.3",
